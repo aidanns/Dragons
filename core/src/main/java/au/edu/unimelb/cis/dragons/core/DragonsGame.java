@@ -1,6 +1,9 @@
 package au.edu.unimelb.cis.dragons.core;
 
 import static playn.core.PlayN.*;
+
+import java.util.ArrayList;
+
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
@@ -41,14 +44,7 @@ public class DragonsGame extends Game.Default {
 
 	@Override
 	public void init() {
-		_screens.push(new DragonGameScreen(_screens, new ViewController() {
-
-			@Override
-			protected Element<Group> createInterface() {
-				return super.createInterface();
-			}
-			
-		}));
+		_screens.push(new DragonGameScreen(_screens, new TabController(new ArrayList<ViewController>())));
 	}
 
 	@Override

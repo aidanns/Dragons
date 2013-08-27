@@ -57,14 +57,16 @@ public class DragonGameScreen extends UIScreen {
 
 	@Override
 	public void wasHidden() {
-		super.wasHidden();
 		_viewController.wasHidden();
+		super.wasHidden();
 	}
 
 	@Override
 	public void wasRemoved() {
-		super.wasRemoved();
 		_viewController.wasRemoved();
+		iface.destroyRoot(_root);
+		while (layer.size() > 0) layer.get(0).destroy();
+		super.wasRemoved();
 	}
 	
 }

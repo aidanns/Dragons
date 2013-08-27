@@ -1,16 +1,15 @@
 package au.edu.unimelb.cis.dragons.core;
 
-import tripleplay.ui.Element;
 import tripleplay.ui.Group;
 import tripleplay.ui.layout.FlowLayout;
 
 public class ViewController {
 	
 	private DragonGameScreen _parentScreen;
-	private Element<Group> _view;
+	private Group _view;
 
 	/** Return the view that this controller is managing. */
-	public final Element<Group> view() {
+	public final Group view() {
 		if (_view == null) {
 			_view = createInterface();
 		}
@@ -30,14 +29,17 @@ public class ViewController {
 	public void wasHidden() {}
 
 	/** Called when the parent screen is removed from the stack. */
-	public void wasRemoved() {}
+	public void wasRemoved() {
+		_view.destroyAll();
+		_view = null;
+	}
 	
 	public final void setParentScreen(DragonGameScreen parentScreen) {
 		_parentScreen = parentScreen;
 	}
 	
 	/** Override this method to return the interface for your view. */
-	protected Element<Group> createInterface() {
+	protected Group createInterface() {
 		return new Group(new FlowLayout());
 	}
 
