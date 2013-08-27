@@ -117,6 +117,7 @@
           <webApp>
             ${project.basedir}/target/${project.artifactId}-${project.version}
           </webApp>
+          <scanIntervalSeconds>5</scanIntervalSeconds>
         </configuration>
         <executions>
           <execution>
