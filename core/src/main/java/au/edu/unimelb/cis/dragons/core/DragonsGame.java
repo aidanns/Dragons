@@ -3,6 +3,7 @@ package au.edu.unimelb.cis.dragons.core;
 import static playn.core.PlayN.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import playn.core.Game;
 import playn.core.Image;
@@ -44,7 +45,14 @@ public class DragonsGame extends Game.Default {
 
 	@Override
 	public void init() {
-		_screens.push(new DragonGameScreen(_screens, new TabController(new ArrayList<ViewController>())));
+		
+		List<ViewController> controllers = new ArrayList<ViewController>();
+		controllers.add(StubViewController.makeBlueViewController());
+		controllers.add(StubViewController.makeRedViewController());
+		controllers.add(StubViewController.makeGreenViewController());
+		
+		_screens.push(new DragonGameScreen(_screens, new TabController(
+				controllers)));
 	}
 
 	@Override
