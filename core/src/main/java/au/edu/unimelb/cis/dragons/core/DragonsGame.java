@@ -5,6 +5,7 @@ import static playn.core.PlayN.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import playn.core.AssetWatcher;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
@@ -14,6 +15,7 @@ import playn.core.util.Clock;
 import tripleplay.game.ScreenStack;
 import tripleplay.ui.Element;
 import tripleplay.ui.Group;
+import tripleplay.util.Timer;
 
 /**
  * Root of the game, loads up the screen stack and delegates all work to it.
@@ -21,6 +23,9 @@ import tripleplay.ui.Group;
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class DragonsGame extends Game.Default {
+	
+	// Username for the current user.
+	private String _currentUserName;
 	
 	// PersistenceClient is used to store data on the server.
 	private final PersistenceClient _persistenceClient;
@@ -32,7 +37,10 @@ public class DragonsGame extends Game.Default {
 	private final GameState _gameState = new GameState();
 
 	// 50ms between each update.
-	public static final int UPDATE_RATE = 50;
+	private static final int UPDATE_RATE = 50;
+	
+	// Loading screen must be displayed for at least 4 seconds.
+	private static final int MINIMUM_LOADING_SCREEN_TIME = 2000;
 
 	// Screen that manages a stack of other screens being presented.
 	private final ScreenStack _screens = new ScreenStack() {
@@ -47,7 +55,11 @@ public class DragonsGame extends Game.Default {
 		}
 	};
 	
+	// Main game clock.
 	private final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
+	
+	// Time that can be used to schedule actions.
+	private final Timer _timer = new Timer();
 	
 	public DragonsGame(PersistenceClient persistenceClient, Platform platform) {
 		super(UPDATE_RATE);
@@ -57,21 +69,75 @@ public class DragonsGame extends Game.Default {
 
 	@Override
 	public void init() {
-		
-		List<ViewController> controllers = new ArrayList<ViewController>();
-		controllers.add(StubViewController.makeBlueViewController());
-		controllers.add(StubViewController.makeRedViewController());
-		controllers.add(StubViewController.makeGreenViewController());
-		
-		_screens.push(new DragonGameScreen(_screens, new TopBarViewController(
-				StubViewController.makeBlackViewController(),
-				new TabController(controllers))));
+		// Display the default loading screen.
+		_screens.push(new LoadingScreen(_screens));
+		populateGameState();
+		loadResourcesThenDisplayGame();
 	}
-
+	
+	/*
+	 * Populate the game state from the store.
+	 */
+	private void populateGameState() {
+		_persistenceClient.populate(_gameState);
+		_persistenceClient.getUserName(
+			new PersistenceClient.Callback<String>() {
+				@Override
+				public void onSuccess(String result) {
+					if (result != null) {
+						_gameState.setCurrentUserName(result);
+					}
+				}
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO aidanns: Show an error message to the user.
+					log().error(caught.getMessage());
+				}
+			});
+	}
+	
+	/*
+	 * When the resources have loaded and MINIMUM_LOADING_SCREEN_TIME has past,
+	 * the game is displayed.
+	 */
+	private void loadResourcesThenDisplayGame() {
+		AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
+			
+			@Override
+			public void error(Throwable e) {
+				log().error(e.getMessage());
+				// TODO aidanns: Show an error message to the user.
+			}
+			
+			@Override
+			public void done() {
+				// Display the main game UI.
+				int timeToWait = MINIMUM_LOADING_SCREEN_TIME - (int) _clock.time();
+				_timer.after(timeToWait >= 0 ? timeToWait : 0, new Runnable() {
+					@Override
+					public void run() {
+						List<ViewController> controllers = new ArrayList<ViewController>();
+						controllers.add(StubViewController.makeBlueViewController());
+						controllers.add(StubViewController.makeRedViewController());
+						controllers.add(StubViewController.makeGreenViewController());
+						
+						_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
+								StubViewController.makeBlackViewController(),
+								new TabController(controllers))));
+					}
+				});
+			}
+		});
+		
+		assetWatcher.start();
+	}
+	
+	
 	@Override
 	public void update(int delta) {
 		_clock.update(delta);
 		_screens.update(delta);
+		_timer.update();
 	}
 
 	@Override
@@ -79,4 +145,5 @@ public class DragonsGame extends Game.Default {
 		_clock.paint(alpha);
 		_screens.paint(_clock);
 	}
+
 }

@@ -55,6 +55,7 @@ public class MuglePersistenceClient implements PersistenceClient {
                             + badge.displayName()
                             + " as achieved on the server:"
                             + caught.getMessage());
+                	// TODO aidanns: Feed this back to the game to show a proper error message.
                 	Window.alert(CONNECTION_ERROR_USER_MESSAGE);
                 }
             });
