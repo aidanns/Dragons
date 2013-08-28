@@ -14,6 +14,6 @@ public class DragonsGameHtml extends HtmlGame {
     // use config to customize the HTML platform, if needed
     HtmlPlatform platform = HtmlPlatform.register(config);
     platform.assets().setPathPrefix("dragons/");
-    PlayN.run(new DragonsGame());
+    PlayN.run(new DragonsGame(new MuglePersistenceClient(), platform));
   }
 }

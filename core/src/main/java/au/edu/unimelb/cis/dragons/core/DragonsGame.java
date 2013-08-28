@@ -8,6 +8,7 @@ import java.util.List;
 import playn.core.Game;
 import playn.core.Image;
 import playn.core.ImageLayer;
+import playn.core.Platform;
 import playn.core.PlayN;
 import playn.core.util.Clock;
 import tripleplay.game.ScreenStack;
@@ -20,6 +21,15 @@ import tripleplay.ui.Group;
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class DragonsGame extends Game.Default {
+	
+	// PersistenceClient is used to store data on the server.
+	private final PersistenceClient _persistenceClient;
+	
+	// Allows for platform specific interactions.
+	private final Platform _platform;
+	
+	// GameState is used to store the current state of the game for this user.
+	private final GameState _gameState = new GameState();
 
 	// 50ms between each update.
 	public static final int UPDATE_RATE = 50;
@@ -39,8 +49,10 @@ public class DragonsGame extends Game.Default {
 	
 	private final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
 	
-	public DragonsGame() {
+	public DragonsGame(PersistenceClient persistenceClient, Platform platform) {
 		super(UPDATE_RATE);
+		_persistenceClient = persistenceClient;
+		_platform = platform;
 	}
 
 	@Override

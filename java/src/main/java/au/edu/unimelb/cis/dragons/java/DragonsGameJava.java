@@ -11,6 +11,6 @@ public class DragonsGameJava {
     JavaPlatform.Config config = new JavaPlatform.Config();
     // use config to customize the Java platform, if needed
     JavaPlatform.register(config);
-    PlayN.run(new DragonsGame());
+    PlayN.run(new DragonsGame(new StubLocalPersistenceClient(), JavaPlatform.register()));
   }
 }

@@ -1,6 +1,7 @@
 <module rename-to='dragons'>
   <inherits name='playn.PlayN'/>
   <inherits name="tripleplay.TriplePlay"/>
+  <inherits name="au.edu.unimelb.csse.mugle.Mugle"/>
   <inherits name='DragonsGameAssets'/>
 
   <source path='core'/>
