@@ -41,8 +41,11 @@ public class ViewController {
 	 * Set the screen that this view is going to be displayed on.
 	 * @param parentScreen The screen that this view will be displayed on.
 	 */
-	public final void setParentScreen(DragonGameScreen parentScreen) {
+	public void setParentScreen(DragonGameScreen parentScreen) {
 		_parentScreen = parentScreen;
+		for (final ViewController controller : _subViewControllers) {
+			controller.setParentScreen(parentScreen);
+		}
 	}
 	
 	/**

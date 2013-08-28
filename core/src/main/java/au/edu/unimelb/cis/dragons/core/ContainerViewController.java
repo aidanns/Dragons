@@ -54,4 +54,11 @@ public class ContainerViewController extends ViewController {
 		}
 	}
 
+	@Override
+	public void setParentScreen(DragonGameScreen parentScreen) {
+		for (final ViewController controller : _childViewControllers) {
+			controller.setParentScreen(parentScreen);
+		}
+		super.setParentScreen(parentScreen);
+	}
 }

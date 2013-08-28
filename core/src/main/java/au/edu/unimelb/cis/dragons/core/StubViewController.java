@@ -28,6 +28,11 @@ public class StubViewController extends ViewController {
 			"Green View");
 	}
 	
+	public static ViewController makeBlackViewController() {
+		return makeViewControllerWithBackgroundColor(0xFF000000,
+			"Black View");
+	}
+	
 	private static ViewController makeViewControllerWithBackgroundColor(
 		final int color, final String title) {
 		return new ViewController() {

@@ -103,10 +103,19 @@ public class TabController extends ContainerViewController {
 			if (currentlyOnScreen()) {
 				oldViewController.wasHidden();
 				_currentViewController.wasShown();
-			}
-			
+			}	
 		}
-		
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see au.edu.unimelb.cis.dragons.core.ViewController#title()
+	 */
+	@Override
+	public String title() {
+		return _currentViewController.title();
+	}
+	
+	
 
 }

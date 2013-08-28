@@ -51,8 +51,9 @@ public class DragonsGame extends Game.Default {
 		controllers.add(StubViewController.makeRedViewController());
 		controllers.add(StubViewController.makeGreenViewController());
 		
-		_screens.push(new DragonGameScreen(_screens, new TabController(
-				controllers)));
+		_screens.push(new DragonGameScreen(_screens, new TopBarViewController(
+				StubViewController.makeBlackViewController(),
+				new TabController(controllers))));
 	}
 
 	@Override
