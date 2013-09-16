@@ -31,7 +31,7 @@ public class DragonsGame extends Game.Default {
 	private final PersistenceClient _persistenceClient;
 	
 	// Allows for platform specific interactions.
-	private final Platform _platform;
+	private final CustomPlatform _platform;
 	
 	// GameState is used to store the current state of the game for this user.
 	private final GameState _gameState = new GameState();
@@ -61,7 +61,7 @@ public class DragonsGame extends Game.Default {
 	// Time that can be used to schedule actions.
 	private final Timer _timer = new Timer();
 	
-	public DragonsGame(PersistenceClient persistenceClient, Platform platform) {
+	public DragonsGame(PersistenceClient persistenceClient, CustomPlatform platform) {
 		super(UPDATE_RATE);
 		_persistenceClient = persistenceClient;
 		_platform = platform;
