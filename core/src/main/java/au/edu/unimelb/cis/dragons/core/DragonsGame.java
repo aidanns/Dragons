@@ -75,7 +75,7 @@ public class DragonsGame extends Game.Default {
 
 			@Override
 			public void handleResize(int newWidth, int newHeight) {
-				// TODO: Does this cause a leak?
+				// TODO: aidanns: Does this cause a leak?
 				_screens.top().wasAdded();
 			}
 			
