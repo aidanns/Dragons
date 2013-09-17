@@ -5,16 +5,12 @@ import static playn.core.PlayN.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.edu.unimelb.cis.dragons.core.CustomGraphics.ResizeHandler;
 import playn.core.AssetWatcher;
 import playn.core.Game;
-import playn.core.Image;
-import playn.core.ImageLayer;
-import playn.core.Platform;
 import playn.core.PlayN;
 import playn.core.util.Clock;
 import tripleplay.game.ScreenStack;
-import tripleplay.ui.Element;
-import tripleplay.ui.Group;
 import tripleplay.util.Timer;
 
 /**
@@ -25,6 +21,7 @@ import tripleplay.util.Timer;
 public class DragonsGame extends Game.Default {
 	
 	// Username for the current user.
+	@SuppressWarnings("unused")
 	private String _currentUserName;
 	
 	// PersistenceClient is used to store data on the server.
@@ -73,6 +70,16 @@ public class DragonsGame extends Game.Default {
 		_screens.push(new LoadingScreen(_screens));
 		populateGameState();
 		loadResourcesThenDisplayGame();
+		
+		_platform.graphics().addResizeHandler(new ResizeHandler() {
+
+			@Override
+			public void handleResize(int newWidth, int newHeight) {
+				// TODO: Does this cause a leak?
+				_screens.top().wasAdded();
+			}
+			
+		});
 	}
 	
 	/*
@@ -91,7 +98,6 @@ public class DragonsGame extends Game.Default {
 				@Override
 				public void onFailure(Throwable caught) {
 					// TODO aidanns: Show an error message to the user.
-					log().error(caught.getMessage());
 				}
 			});
 	}

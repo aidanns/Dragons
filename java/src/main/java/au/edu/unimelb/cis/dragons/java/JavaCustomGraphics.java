@@ -1,13 +1,10 @@
-package au.edu.unimelb.cis.dragons.html;
+package au.edu.unimelb.cis.dragons.java;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import au.edu.unimelb.cis.dragons.core.CustomGraphics;
 import playn.core.CanvasImage;
 import playn.core.Font;
 import playn.core.Font.Style;
 import playn.core.Gradient;
+import playn.core.Graphics;
 import playn.core.GroupLayer;
 import playn.core.GroupLayer.Clipped;
 import playn.core.Image;
@@ -20,42 +17,29 @@ import playn.core.TextFormat;
 import playn.core.TextLayout;
 import playn.core.gl.GL20;
 import playn.core.gl.GLContext;
-import playn.html.HtmlGraphics;
+import au.edu.unimelb.cis.dragons.core.CustomGraphics;
 
-/**
- * Implementation of CustomGraphics for the HTML platform.
- * 
- * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
- */
-public class HtmlCustomGraphics implements CustomGraphics {
+public class JavaCustomGraphics implements CustomGraphics {
 	
-	// The underlying graphics that we forward all non-handler related messages
-	// to.
-	private HtmlGraphics _delegateGraphics;
+	private Graphics _delegateGraphics;
 	
-	// The resize handlers that we've registered.
-	private Set<ResizeHandler> _resizeHandlers = new HashSet<ResizeHandler>();
-
-	public HtmlCustomGraphics(HtmlGraphics g) {
-		_delegateGraphics = g;
+	public JavaCustomGraphics(Graphics graphics) {
+		_delegateGraphics = graphics;
 	}
 
 	@Override
 	public void removeResizeHandler(ResizeHandler handler) {
-		_resizeHandlers.remove(handler);
+		return;
 	}
 	
 	@Override
 	public void setSize(int width, int height) {
-		_delegateGraphics.setSize(width, height);
-		for (ResizeHandler h : _resizeHandlers) {
-			h.handleResize(width, height);
-		}
+		return;
 	}
 
 	@Override
 	public void addResizeHandler(ResizeHandler handler) {
-		_resizeHandlers.add(handler);
+		return;
 	}
 
 	@Override

@@ -24,13 +24,16 @@ The Dragon Game. An educational game designed to run on the MUGLE platform to te
 
     cd dragons
 
-To run the HTML (GWT) version
+To run the HTML (GWT) version (Jetty will automatically reload new .war files)
 
 	mvn -Phtml integration-test
 
 To run the Java version
 
 	mvn test -Pjava
+
+To clean and build a new HTML version (once Jetty is already running)
+    cd core; mvn clean; cd ..; mvn -Phtml clean package
 
 ### Eclipse
 

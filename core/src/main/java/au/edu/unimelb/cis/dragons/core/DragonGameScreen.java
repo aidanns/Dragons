@@ -6,7 +6,6 @@ import tripleplay.ui.Background;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
 import tripleplay.ui.Style;
-import tripleplay.ui.Stylesheet;
 import tripleplay.ui.layout.AxisLayout;
 
 /**
@@ -23,6 +22,7 @@ public class DragonGameScreen extends UIScreen {
 	private ViewController _viewController;
 	
 	/** The stack that this screen is on. */
+	@SuppressWarnings("unused")
 	private ScreenStack _stack;
 	
 	/**
@@ -63,9 +63,9 @@ public class DragonGameScreen extends UIScreen {
 
 	@Override
 	public void wasRemoved() {
-		_viewController.wasRemoved();
+//		_viewController.wasRemoved();
 		iface.destroyRoot(_root);
-		while (layer.size() > 0) layer.get(0).destroy();
+		_root = null;
 		super.wasRemoved();
 	}
 	

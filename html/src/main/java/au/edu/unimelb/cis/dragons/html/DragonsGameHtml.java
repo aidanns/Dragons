@@ -29,7 +29,7 @@ public class DragonsGameHtml extends HtmlGame {
 		HtmlPlatform.Config config = new HtmlPlatform.Config();
 		final HtmlPlatform platform = HtmlPlatform.register(config);
 		platform.assets().setPathPrefix("dragons/");
-		CustomHtmlPlatform customPlatform = new CustomHtmlPlatform(platform);
+		final HtmlCustomPlatform customPlatform = new HtmlCustomPlatform(platform);
 
 		// The CSS style node for the playn root node.
 		final Style rootStyle = DOM.getElementById(PLAYN_ROOT_ID).getStyle();
@@ -66,7 +66,7 @@ public class DragonsGameHtml extends HtmlGame {
 			
 				// This updates the size of the canvas that actually holds the
 				// game and the div that contains that canvas.
-				platform.graphics().setSize(gameWidth, gameHeight);
+				customPlatform.graphics().setSize(gameWidth, gameHeight);
 				
 				// Adjust the size of the top margin so that the game window is
 				// centered.

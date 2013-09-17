@@ -22,7 +22,7 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 	 */
 	@Override
 	public void persist(GameState state) {
-
+		return;
 	}
 
 	/*
@@ -31,7 +31,7 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 	 */
 	@Override
 	public void populate(GameState state) {
-
+		return;
 	}
 
 	/*
@@ -42,6 +42,7 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 	public void achieveBadge(Badge badge) {
 		_achievedBadges.add(badge.name());
 		badge.setAchieved();
+		return;
 	}
 
 	/*
@@ -51,6 +52,7 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 	@Override
 	public void getUserName(Callback<String> callback) {
 		callback.onSuccess("Local Test User");
+		return;
 	}
 
 }

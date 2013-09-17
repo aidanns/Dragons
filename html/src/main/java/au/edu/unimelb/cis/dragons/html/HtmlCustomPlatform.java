@@ -17,8 +17,9 @@ import playn.core.RegularExpression;
 import playn.core.Storage;
 import playn.core.Touch;
 import playn.core.UIOverlay;
+import playn.html.HtmlPlatform;
 
-public class CustomHtmlPlatform implements CustomPlatform {
+public class HtmlCustomPlatform implements CustomPlatform {
 	
 	// The custom graphics object that we drop-in.
 	private HtmlCustomGraphics _customGraphics;
@@ -32,7 +33,7 @@ public class CustomHtmlPlatform implements CustomPlatform {
 	 * 
 	 * @param p The platform that we're wrapping.
 	 */
-	public CustomHtmlPlatform(Platform p) {
+	public HtmlCustomPlatform(HtmlPlatform p) {
 		_underlyingPlatform = p;
 		_customGraphics = new HtmlCustomGraphics(p.graphics());
 	}

@@ -20,12 +20,19 @@ public interface CustomGraphics extends Graphics {
 		public abstract void handleResize(int newWidth, int newHeight);
 		
 	}
+	
+	/**
+	 * Set the size of the graphics window, if possible.
+	 * @param width The new width, in pixels.
+	 * @param height The new height, in pixels.
+	 */
+	public void setSize(int width, int height);
 
 	/**
 	 * Add a new resize handler.
 	 * @param handler The handler to add.
 	 */
-	public void registerResizeHandler(ResizeHandler handler);
+	public void addResizeHandler(ResizeHandler handler);
 	
 	/**
 	 * Remove a resize handler.
