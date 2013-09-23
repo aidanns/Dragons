@@ -9,6 +9,7 @@ import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.SizableGroup;
 import tripleplay.ui.Style;
+import tripleplay.ui.Styles;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.BorderLayout;
 
@@ -50,12 +51,12 @@ public class TabController extends ContainerViewController {
 	@Override
 	protected Group createInterface() {
 		
-		Group parent = new Group(new BorderLayout(0),
-			Style.BACKGROUND.is(Background.solid(0xFF000000)));
+		Group parent = new Group(new BorderLayout(0));
+		parent.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF000000))));
 		parent.setConstraint(AxisLayout.stretched());
 		
 		// Main content window.
-		_contentView = new SizableGroup(AxisLayout.vertical().offStretch());
+		_contentView = new SizableGroup(AxisLayout.vertical().offStretch().stretchByDefault());
 		_contentView.setConstraint(BorderLayout.CENTER);
 		_contentView.setStyles(
 	    	Style.BACKGROUND.is(Background.solid(0xFFFFFFFF)));

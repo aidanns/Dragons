@@ -4,6 +4,7 @@ import tripleplay.ui.Background;
 import tripleplay.ui.Group;
 import tripleplay.ui.SizableGroup;
 import tripleplay.ui.Style;
+import tripleplay.ui.Styles;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.BorderLayout;
 
@@ -47,25 +48,23 @@ public class TopBarViewController extends ViewController {
 	 */
 	@Override
 	protected Group createInterface() {
-		Group parent = new Group(new BorderLayout(0),
-			Style.BACKGROUND.is(Background.solid(0xFF00FF00)));
+		SizableGroup parent = new SizableGroup(new BorderLayout(0));
+		parent.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF00FF00))));
 		parent.setConstraint(AxisLayout.stretched());
 		
 		// Main content window.
-		Group contentView = new Group(AxisLayout.vertical().offStretch());
+		Group contentView = new Group(AxisLayout.vertical().offStretch().stretchByDefault());
 		contentView.add(_contentAreaViewController.view().setConstraint(
 			AxisLayout.stretched()));
 		parent.add(contentView.setConstraint(BorderLayout.CENTER));
 		
 		// Top Bar.
-		SizableGroup topBarView = new SizableGroup(AxisLayout.horizontal(), 
+		SizableGroup topBarView = new SizableGroup(AxisLayout.horizontal().offStretch().stretchByDefault(), 
 			parentScreen().width(), TOP_BAR_HEIGHT);
 		topBarView.add(_topBarViewController.view().setConstraint(
 			AxisLayout.stretched()));
 		parent.add(topBarView.setConstraint(BorderLayout.NORTH));
 
-		
 		return parent;
 	}
-	
 }
