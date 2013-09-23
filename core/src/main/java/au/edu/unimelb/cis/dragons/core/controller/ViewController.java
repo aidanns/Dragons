@@ -1,8 +1,9 @@
-package au.edu.unimelb.cis.dragons.core;
+package au.edu.unimelb.cis.dragons.core.controller;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
 import tripleplay.ui.Group;
 import tripleplay.ui.layout.FlowLayout;
 

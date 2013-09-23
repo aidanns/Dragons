@@ -1,7 +1,9 @@
-package au.edu.unimelb.cis.dragons.core;
+package au.edu.unimelb.cis.dragons.core.controller;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
 
 /**
  * A ViewController that has the ability to display other ViewControllers.

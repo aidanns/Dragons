@@ -1,4 +1,4 @@
-package au.edu.unimelb.cis.dragons.core;
+package au.edu.unimelb.cis.dragons.core.controller;
 
 import java.util.ArrayList;
 import java.util.List;

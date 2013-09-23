@@ -1,5 +1,7 @@
-package au.edu.unimelb.cis.dragons.core;
+package au.edu.unimelb.cis.dragons.core.controller;
 
+import au.edu.unimelb.cis.dragons.core.GameState;
+import au.edu.unimelb.cis.dragons.core.GameState.Key;
 import react.ValueView;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;

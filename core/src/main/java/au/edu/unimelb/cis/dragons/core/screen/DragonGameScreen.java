@@ -1,5 +1,6 @@
-package au.edu.unimelb.cis.dragons.core;
+package au.edu.unimelb.cis.dragons.core.screen;
 
+import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 import tripleplay.ui.Background;

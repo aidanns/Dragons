@@ -1,4 +1,4 @@
-package au.edu.unimelb.cis.dragons.core;
+package au.edu.unimelb.cis.dragons.core.controller;
 
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;

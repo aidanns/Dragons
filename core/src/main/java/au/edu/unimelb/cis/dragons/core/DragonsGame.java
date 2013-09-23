@@ -6,6 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.unimelb.cis.dragons.core.CustomGraphics.ResizeHandler;
+import au.edu.unimelb.cis.dragons.core.controller.FarmViewController;
+import au.edu.unimelb.cis.dragons.core.controller.InfoBarViewController;
+import au.edu.unimelb.cis.dragons.core.controller.LeaderboardViewController;
+import au.edu.unimelb.cis.dragons.core.controller.LoreViewController;
+import au.edu.unimelb.cis.dragons.core.controller.TabController;
+import au.edu.unimelb.cis.dragons.core.controller.TopBarViewController;
+import au.edu.unimelb.cis.dragons.core.controller.ViewController;
+import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
+import au.edu.unimelb.cis.dragons.core.screen.LoadingScreen;
 import playn.core.AssetWatcher;
 import playn.core.Game;
 import playn.core.PlayN;
