@@ -144,7 +144,8 @@ public class ViewController {
 	}
 	
 	/** 
-	 * Create the view for this ViewController and return it.
+	 * Create the view for this ViewController and return it, ready to
+	 * be added to another view, or a screen.
 	 * Override this method to return the interface for your view.
 	 * @return Group The view for this ViewController.
 	 */

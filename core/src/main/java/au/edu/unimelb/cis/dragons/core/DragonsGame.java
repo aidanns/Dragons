@@ -75,6 +75,7 @@ public class DragonsGame extends Game.Default {
 
 			@Override
 			public void handleResize(int newWidth, int newHeight) {
+				// Re-create the UI whenever the size changes.
 				// TODO: aidanns: Does this cause a leak?
 				_screens.top().wasAdded();
 			}
@@ -123,9 +124,9 @@ public class DragonsGame extends Game.Default {
 					@Override
 					public void run() {
 						List<ViewController> controllers = new ArrayList<ViewController>();
-						controllers.add(StubViewController.makeBlueViewController());
-						controllers.add(StubViewController.makeRedViewController());
-						controllers.add(StubViewController.makeGreenViewController());
+						controllers.add(new LoreViewController());
+						controllers.add(new FarmViewController());
+						controllers.add(new LeaderboardViewController());
 						
 						_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
 								StubViewController.makeBlackViewController(),
