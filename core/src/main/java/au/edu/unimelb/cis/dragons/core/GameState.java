@@ -32,9 +32,13 @@ public class GameState {
 		}
 	}
 	
-	private HashMap<Key, Value<?>> _values = new HashMap<Key, Value<?>>();
+	/** Whether the game state has been populated. */
+	private boolean _hasBeenPopulated = false;
 	
-	public Value<?> valueForKey(Key key) {
+	/** All the variables that make up the game state. */
+	private HashMap<Key, Value<String>> _values = new HashMap<Key, Value<String>>();
+	
+	public Value<String> valueForKey(Key key) {
 		return _values.get(key);
 	}
 	
@@ -46,37 +50,21 @@ public class GameState {
 		return key.longDescription();
 	}
 	
-	public void addValueForKey(Value<?> value, Key key) {
+	public void addValueForKey(Value<String> value, Key key) {
 		_values.put(key, value);
 	}
 	
-	// Username for the current user. Not persisted.
-	private String _currentUserName;
-	
-	// Whether the current user name has been set.
-	private boolean _currentUserNameHasBeenSet = false;
-	
-	/**
-	 * @return The name of the current user.
-	 */
-	public String currentUserName() {
-		return _currentUserName;
+	/** Marks the game state as populated and ready for use. */
+	public void markPopulated() {
+		_hasBeenPopulated = true;
 	}
 	
-	/**
-	 * Set the current user name.
-	 * @param userName The current user name.
+	/** 
+	 * Allows clients to check if the game state has been populated and is 
+	 * ready to receive calls to get values.
+	 * @return Whether or not the state has been populated.
 	 */
-	public void setCurrentUserName(final String userName) {
-		_currentUserName = userName;
-		_currentUserNameHasBeenSet = true;
+	public boolean hasBeenPopulated() {
+		return _hasBeenPopulated;
 	}
-	
-	/**
-	 * @return Whether the current user name has been set.
-	 */
-	public boolean currentUserNameHasBeenSet() {
-		return _currentUserNameHasBeenSet;
-	}
-
 }

@@ -102,7 +102,7 @@ public class DragonsGame extends Game.Default {
 				@Override
 				public void onSuccess(String result) {
 					if (result != null) {
-						_gameState.setCurrentUserName(result);
+						_gameState.valueForKey(GameState.Key.Username).update(result);
 					}
 				}
 				@Override
@@ -129,19 +129,26 @@ public class DragonsGame extends Game.Default {
 			public void done() {
 				// Display the main game UI.
 				int timeToWait = MINIMUM_LOADING_SCREEN_TIME - (int) _clock.time();
-				_timer.after(timeToWait >= 0 ? timeToWait : 0, new Runnable() {
+				final Runnable presentGameScreen = new Runnable() {
 					@Override
 					public void run() {
-						List<ViewController> controllers = new ArrayList<ViewController>();
-						controllers.add(new LoreViewController());
-						controllers.add(new FarmViewController());
-						controllers.add(new LeaderboardViewController());
-						
-						_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
-								new InfoBarViewController(),
-								new TabController(controllers))));
+						// If the game state hasn't yet been populated, then
+						// try again later.
+						if (!_gameState.hasBeenPopulated()) {
+							_timer.after(250, this);
+						} else {
+							List<ViewController> controllers = new ArrayList<ViewController>();
+							controllers.add(new LoreViewController());
+							controllers.add(new FarmViewController());
+							controllers.add(new LeaderboardViewController());
+							
+							_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
+									new InfoBarViewController(_gameState),
+									new TabController(controllers))));
+						}
 					}
-				});
+				};
+				_timer.after(timeToWait >= 0 ? timeToWait : 0, presentGameScreen);
 			}
 		});
 		

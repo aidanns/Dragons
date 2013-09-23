@@ -3,6 +3,7 @@ package au.edu.unimelb.cis.dragons.java;
 import java.util.ArrayList;
 import java.util.List;
 
+import react.Value;
 import au.edu.unimelb.cis.dragons.core.Badge;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.PersistenceClient;
@@ -31,6 +32,9 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 	 */
 	@Override
 	public void populate(GameState state) {
+		state.addValueForKey(Value.create("0"), GameState.Key.CurrentGold);
+		state.addValueForKey(Value.create(""), GameState.Key.Username);
+		state.markPopulated();
 		return;
 	}
 
