@@ -1,10 +1,13 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
+import playn.core.Font;
+import playn.core.PlayN;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import react.ValueView;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
+import tripleplay.ui.Style;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
 
@@ -15,6 +18,9 @@ import tripleplay.ui.layout.FlowLayout;
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class TopBarEntryViewController extends ViewController {
+	
+	private static String FONT_NAME = "Times New Roman";
+	private static int FONT_SIZE = 20;
 	
 	private GameState _gameState;
 	private GameState.Key _valueKey;
@@ -42,12 +48,11 @@ public class TopBarEntryViewController extends ViewController {
 	protected Group createInterface() {
 		SizableGroup group = new SizableGroup(new FlowLayout());
 		group.setConstraint(AxisLayout.fixed());
-		_titleLabel = 
-				new Label(_gameState.shortDescriptionForKey(_valueKey) + ":");
+		_titleLabel = new Label(_gameState.shortDescriptionForKey(_valueKey) + ":");
+		_titleLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(FONT_NAME, Font.Style.BOLD, FONT_SIZE)));
 		group.add(_titleLabel);
-		_valueLabel =
-				new Label(_gameState.valueForKey(_valueKey).get().toString());
-		
+		_valueLabel = new Label(_gameState.valueForKey(_valueKey).get().toString());
+		_valueLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(FONT_NAME, Font.Style.PLAIN, FONT_SIZE)));
 		_gameState.valueForKey(_valueKey).connect(new ValueView.Listener<Object>() {
 			@Override
 			public void onChange(Object value, Object oldValue) {
