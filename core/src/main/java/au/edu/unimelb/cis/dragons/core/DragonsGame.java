@@ -37,7 +37,7 @@ public class DragonsGame extends Game.Default {
 	private static final int UPDATE_RATE = 50;
 	
 	// Loading screen must be displayed for at least 4 seconds.
-	private static final int MINIMUM_LOADING_SCREEN_TIME = 2000;
+	private static final int MINIMUM_LOADING_SCREEN_TIME = 800;
 
 	// Screen that manages a stack of other screens being presented.
 	private final ScreenStack _screens = new ScreenStack() {
@@ -129,7 +129,7 @@ public class DragonsGame extends Game.Default {
 						controllers.add(new LeaderboardViewController());
 						
 						_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
-								StubViewController.makeBlackViewController(),
+								new InfoBarViewController(),
 								new TabController(controllers))));
 					}
 				});

@@ -48,7 +48,7 @@ public class TopBarViewController extends ViewController {
 	@Override
 	protected Group createInterface() {
 		Group parent = new Group(new BorderLayout(0),
-			Style.BACKGROUND.is(Background.solid(0xFF000000)));
+			Style.BACKGROUND.is(Background.solid(0xFF00FF00)));
 		parent.setConstraint(AxisLayout.stretched());
 		
 		// Main content window.
