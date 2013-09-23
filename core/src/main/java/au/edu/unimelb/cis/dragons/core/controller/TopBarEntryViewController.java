@@ -54,6 +54,7 @@ public class TopBarEntryViewController extends ViewController {
 				_valueLabel.text.update(value.toString());
 			}
 		});
+		group.add(_valueLabel);
 		return group;
 	}
 
