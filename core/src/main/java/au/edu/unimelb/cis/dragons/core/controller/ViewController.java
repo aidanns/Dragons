@@ -5,6 +5,8 @@ import java.util.Set;
 
 import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
 import tripleplay.ui.Group;
+import tripleplay.ui.SizableGroup;
+import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
 
 /**
@@ -15,6 +17,9 @@ public class ViewController {
 	
 	// The screen that this ViewController will be presented on.
 	private DragonGameScreen _parentScreen;
+	
+	// The view that this ViewController will be presented as a part of.
+	private ViewController _parentViewController;
 	
 	// The view that this ViewController is managing.
 	private Group _view;
@@ -55,6 +60,7 @@ public class ViewController {
 	 */
 	protected final void addSubViewController(ViewController child) {
 		_subViewControllers.add(child);
+		child.setParentViewController(this);
 	}
 	
 	/**
@@ -62,7 +68,10 @@ public class ViewController {
 	 * @param child The ViewController to remove.
 	 */
 	protected final void removeSubViewController(ViewController child) {
-		_subViewControllers.remove(child);
+		if (child != null) {
+			_subViewControllers.remove(child);
+			child.setParentViewController(null);
+		}
 	}
 	
 	/**
@@ -83,7 +92,7 @@ public class ViewController {
 	
 	/**
 	 * Returns the screen that this view will be displayed on.
-	 * @return The screen that this view will be dispalyed on.
+	 * @return The screen that this view will be displayed on.
 	 */
 	protected final DragonGameScreen parentScreen() {
 		return _parentScreen;
@@ -152,6 +161,22 @@ public class ViewController {
 	 */
 	protected Group createInterface() {
 		return new Group(new FlowLayout());
+	}
+	
+	/**
+	 * Set the parent ViewController for this view.
+	 * @param parent The parent of this ViewController.
+	 */
+	public void setParentViewController(ViewController parent) {
+		_parentViewController = parent;
+	}
+	
+	/**
+	 * Get the parent ViewController for this view.
+	 * @return The parent ViewController.
+	 */
+	protected ViewController parentViewController() {
+		return _parentViewController;
 	}
 
 }
