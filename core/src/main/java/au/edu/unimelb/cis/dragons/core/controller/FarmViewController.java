@@ -1,6 +1,10 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
+import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
+import react.Value;
+import react.ValueView.Listener;
 import tripleplay.ui.Background;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
@@ -19,8 +23,12 @@ public class FarmViewController extends ContainerViewController {
 	
 	/**
 	 * Represents an individual pen within the farm view.
+	 * Logic is managed by the FarmViewController, this only manages updating the view on demand.
 	 */
 	private class PenViewController extends ViewController {
+		
+		// Label being displayed in this view.
+		private Label _label;
 		
 		@Override
 		public String title() {
@@ -33,9 +41,17 @@ public class FarmViewController extends ContainerViewController {
 			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF0000FF))));
 			group.setConstraint(AxisLayout.stretched());
 			
-			Label l = new Label("Pen");
-			group.add(l);
+			_label= new Label();
+			group.add(_label);
 			return group;
+		}
+		
+		/**
+		 * Update the text in the label displayed by this pen.
+		 * @param labelText The new label text.
+		 */
+		public void updateLabel(String labelText) {
+			_label.text.update(labelText);
 		}
 	}
 	
@@ -44,6 +60,13 @@ public class FarmViewController extends ContainerViewController {
 	
 	private int ROW_GAP = 5;
 	private int COL_GAP = 5;
+	
+	// The model that is backing this view.
+	private Farm _farm;
+	
+	public FarmViewController(Farm farm) {
+		_farm = farm;
+	}
 
 	@Override
 	public String title() {
@@ -52,16 +75,30 @@ public class FarmViewController extends ContainerViewController {
 	
 	@Override
 	protected  Group createInterface() {
-
 		SizableGroup _pens = new SizableGroup(new ExpandingRowsTableLayout(TableLayout.COL.stretch().free(1).copy(NUM_COLUMNS)).gaps(ROW_GAP, COL_GAP).fillHeight());
 		_pens.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF000000))));
 		
-		for (int i = 0; i < NUM_COLUMNS * NUM_ROWS; i++) {
-			ViewController child = new PenViewController();
-			addSubViewController(child);
-			child.view().setConstraint(AxisLayout.stretched());
-			_pens.add(child.view());
+		// Create a controller for every pen and add it to this view as a sub view controller.
+		for (int i = 0; i < NUM_ROWS; i++) {
+			for (int j = 0; j < NUM_COLUMNS; j++) {
+				final PenViewController child = new PenViewController();
+				addSubViewController(child);
+				child.view().setConstraint(AxisLayout.stretched());
+				
+				// The pen label should always read the current state of that pen.
+				Value<PenState> penState = _farm.stateForPen(i, j);
+				child.updateLabel(penState.get().toString());
+				penState.connect(new Listener<PenState>() {
+					@Override
+					public void onChange(PenState value, PenState oldValue) {
+						child.updateLabel(value.toString());
+					}
+				});
+				
+				_pens.add(child.view());
+			}
 		}
+		
 		return _pens;
 	}
 

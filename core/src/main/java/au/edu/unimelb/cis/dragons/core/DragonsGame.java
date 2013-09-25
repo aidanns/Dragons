@@ -13,6 +13,7 @@ import au.edu.unimelb.cis.dragons.core.controller.LoreViewController;
 import au.edu.unimelb.cis.dragons.core.controller.TabController;
 import au.edu.unimelb.cis.dragons.core.controller.TopBarViewController;
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
+import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
 import au.edu.unimelb.cis.dragons.core.screen.LoadingScreen;
 import playn.core.AssetWatcher;
@@ -139,7 +140,7 @@ public class DragonsGame extends Game.Default {
 						} else {
 							List<ViewController> controllers = new ArrayList<ViewController>();
 							controllers.add(new LoreViewController());
-							controllers.add(new FarmViewController());
+							controllers.add(new FarmViewController(new Farm(_gameState)));
 							controllers.add(new LeaderboardViewController());
 							
 							_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
