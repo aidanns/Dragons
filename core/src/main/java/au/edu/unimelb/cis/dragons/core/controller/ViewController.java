@@ -5,8 +5,6 @@ import java.util.Set;
 
 import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
 import tripleplay.ui.Group;
-import tripleplay.ui.SizableGroup;
-import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
 
 /**
