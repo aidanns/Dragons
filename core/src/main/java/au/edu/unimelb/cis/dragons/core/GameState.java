@@ -28,7 +28,17 @@ public class GameState {
 		PenOneZeroState("pen_1_0_state"),
 		PenOneOneState("pen_1_1_state"),
 		PenOneTwoState("pen_1_2_state"),
-		PenOneThreeState("pen_1_3_state");
+		PenOneThreeState("pen_1_3_state"),
+		
+		// The current state of the dragons.
+		DragonOneState("dragon_1_state"),
+		DragonTwoState("dragon_2_state"),
+		DragonThreeState("dragon_3_state"),
+		DragonFourState("dragon_4_state"),
+		DragonFiveState("dragon_5_state"),
+		DragonSixState("dragon_6_state"),
+		DragonSevenState("dragon_7_state"),
+		DraongEightState("dragon_8_state");
 		
 		private String _dataStoreKey;
 		private String _shortDescription;
@@ -87,6 +97,15 @@ public class GameState {
 		 */
 		public static Key penStateKeyAtIndex(Integer row, Integer column) {
 			return dataStoreKeyToKey.get(String.format("pen_%d_%d_state", row, column));
+		}
+
+		/**
+		 * Get the Key for the state for a dragon with a certain id.
+		 * @param id The id of the dragon.
+		 * @return The state for that dragon.
+		 */
+		public static Key dragonStateKeyForId(Integer id) {
+			return dataStoreKeyToKey.get(String.format("dragon_%d_state", id));
 		}
 	}
 	
