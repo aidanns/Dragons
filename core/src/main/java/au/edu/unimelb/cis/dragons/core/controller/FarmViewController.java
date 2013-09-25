@@ -37,11 +37,10 @@ public class FarmViewController extends ContainerViewController {
 			group.add(l);
 			return group;
 		}
-		
 	}
 	
-	private int NUM_COLUMNS = 6;
-	private int NUM_ROWS = 3;
+	private int NUM_COLUMNS = 4;
+	private int NUM_ROWS = 2;
 	
 	private int ROW_GAP = 5;
 	private int COL_GAP = 5;
