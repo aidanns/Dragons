@@ -142,6 +142,7 @@ public class DragonsGame extends Game.Default {
 							controllers.add(new LoreViewController());
 							controllers.add(new FarmViewController(new Farm(_gameState)));
 							controllers.add(new LeaderboardViewController());
+							controllers.add(new DebuggingViewController(_gameState));
 							
 							_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
 									new InfoBarViewController(_gameState),
