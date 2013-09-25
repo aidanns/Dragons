@@ -10,6 +10,10 @@ import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 
+/**
+ * View for doing debugging manipulations to the game state.
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class DebuggingViewController extends ViewController {
 
 	private GameState _gameState;
