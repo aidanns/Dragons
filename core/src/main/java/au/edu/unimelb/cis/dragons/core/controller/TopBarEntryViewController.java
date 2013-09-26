@@ -2,8 +2,6 @@ package au.edu.unimelb.cis.dragons.core.controller;
 
 import playn.core.Font;
 import playn.core.PlayN;
-import au.edu.unimelb.cis.dragons.core.GameState;
-import react.ValueView;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
@@ -22,45 +20,41 @@ public class TopBarEntryViewController extends ViewController {
 	private static String FONT_NAME = "Times New Roman";
 	private static int FONT_SIZE = 20;
 	
-	private GameState _gameState;
-	private GameState.Key _valueKey;
-	
 	private Label _titleLabel;
 	private Label _valueLabel;
 	
 	/**
 	 * Create a new entry based on the value stored under the @param valueKey
 	 * parameter in the game state.
-	 * @param gameState The game state object to pull data from.
-	 * @param valueKey The key of the value that will be displayed.
+	 * @param title The title for this entry.
 	 */
-	public TopBarEntryViewController(GameState gameState, GameState.Key valueKey) {
-		_gameState = gameState;
-		_valueKey = valueKey;
+	public TopBarEntryViewController(String title) {
+		_titleLabel = new Label(String.format("%s:", title));
+		_valueLabel = new Label();
 	}
 
 	@Override
 	public String title() {
-		return _gameState.shortDescriptionForKey(_valueKey);
+		return _titleLabel.text.get();
 	}
 
 	@Override
 	protected Group createInterface() {
 		SizableGroup group = new SizableGroup(new FlowLayout());
 		group.setConstraint(AxisLayout.fixed());
-		_titleLabel = new Label(_gameState.shortDescriptionForKey(_valueKey) + ":");
 		_titleLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(FONT_NAME, Font.Style.BOLD, FONT_SIZE)));
 		group.add(_titleLabel);
-		_valueLabel = new Label(_gameState.valueForKey(_valueKey).get().toString());
 		_valueLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(FONT_NAME, Font.Style.PLAIN, FONT_SIZE)));
-		_gameState.valueForKey(_valueKey).connect(new ValueView.Listener<Object>() {
-			@Override
-			public void onChange(Object value, Object oldValue) {
-				_valueLabel.text.update(value.toString());
-			}
-		});
 		group.add(_valueLabel);
 		return group;
+	}
+	
+	/**
+	 * Get the label for the vlaue in this view.
+	 * @return The label.
+	 */
+	public Label valueLabel() {
+		return _valueLabel;
 	}
 
 }

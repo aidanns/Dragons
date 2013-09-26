@@ -7,6 +7,11 @@ import react.Value;
 import react.ValueView.Listener;
 import au.edu.unimelb.cis.dragons.core.GameState;
 
+/**
+ * Represents an individual dragon within the game.
+ * Wraps the GameState to provide mediated access to it from the controllers.
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class Dragon {
 	
 	/**

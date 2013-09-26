@@ -5,11 +5,11 @@ import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
-import au.edu.unimelb.cis.dragons.core.GameState.Key;
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Wallet;
 
 /**
  * View for doing debugging manipulations to the game state.
@@ -19,10 +19,12 @@ public class DebuggingViewController extends ViewController {
 
 	private GameState _gameState;
 	private Farm _farm;
+	private Wallet _wallet;
 	
 	public DebuggingViewController(GameState gameState) {
 		_gameState = gameState;
-		_farm = new Farm(_gameState);
+		_farm = new Farm(gameState);
+		_wallet = new Wallet(gameState);
 	}
 	
 	@Override
@@ -46,14 +48,22 @@ public class DebuggingViewController extends ViewController {
 		group.add(openPensButton);
 		
 		// Button to set user's gold to 100
-		Button goldButton = new Button("Give Gold");
+		Button goldButton = new Button("Add 100 Gold");
 		goldButton.onClick(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				_gameState.valueForKey(Key.CurrentGold).update(Integer.toString(100));
+				_wallet.addGold(100);
 			}
 		});
 		group.add(goldButton);
+		
+		// Button to remove 100 gold from the user.
+		group.add(new Button("Remove 100 Gold").onClick(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				_wallet.subtractGold(100);
+			}
+		}));
 		
 		// Button to add a dragon to pen two and make it full.
 		group.add(new Button("Add Dragon").onClick(new UnitSlot() {

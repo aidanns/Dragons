@@ -14,6 +14,8 @@ import au.edu.unimelb.cis.dragons.core.controller.TabController;
 import au.edu.unimelb.cis.dragons.core.controller.TopBarViewController;
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.User;
+import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
 import au.edu.unimelb.cis.dragons.core.screen.LoadingScreen;
 import playn.core.AssetWatcher;
@@ -145,7 +147,7 @@ public class DragonsGame extends Game.Default {
 							controllers.add(new DebuggingViewController(_gameState));
 							
 							_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
-									new InfoBarViewController(_gameState),
+									new InfoBarViewController(new User(_gameState), new Wallet(_gameState)),
 									new TabController(controllers))));
 						}
 					}
