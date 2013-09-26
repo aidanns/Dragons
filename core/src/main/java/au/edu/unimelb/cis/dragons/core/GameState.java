@@ -30,15 +30,25 @@ public class GameState {
 		PenOneTwoState("pen_1_2_state"),
 		PenOneThreeState("pen_1_3_state"),
 		
+		// The current dragon in each pen.
+		PenZeroZeroDragon("pen_0_0_dragon"),
+		PenZeroOneDragon("pen_0_1_dragon"),
+		PenZeroTwoDragon("pen_0_2_dragon"),
+		PenZeroThreeDragon("pen_0_3_dragon"),
+		PenOneZeroDragon("pen_1_0_dragon"),
+		PenOneOneDragon("pen_1_1_dragon"),
+		PenOneTwoDragon("pen_1_2_dragon"),
+		PenOneThreeDragon("pen_1_3_dragon"),
+		
 		// The current state of the dragons.
+		DragonZeroState("dragon_0_state"),
 		DragonOneState("dragon_1_state"),
 		DragonTwoState("dragon_2_state"),
 		DragonThreeState("dragon_3_state"),
 		DragonFourState("dragon_4_state"),
 		DragonFiveState("dragon_5_state"),
 		DragonSixState("dragon_6_state"),
-		DragonSevenState("dragon_7_state"),
-		DraongEightState("dragon_8_state");
+		DragonSevenState("dragon_7_state");
 		
 		private String _dataStoreKey;
 		private String _shortDescription;
@@ -57,9 +67,17 @@ public class GameState {
 		
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 2; j++) {
-					dataStoreKeyToShortDescription.put(String.format("pen_%d_%d_state", i, j), String.format("Pen [%d, %d] State", i, j));
-					dataStoreKeyToLongDescription.put(String.format("pen_%d_%d_state", i, j), String.format("The current stat of pen [%d, %d].", i, j));
+					dataStoreKeyToShortDescription.put(String.format("pen_%d_%d_state", i, j), String.format("Pen (%d, %d) State", i, j));
+					dataStoreKeyToLongDescription.put(String.format("pen_%d_%d_state", i, j), String.format("The current state of pen (%d, %d).", i, j));
+					
+					dataStoreKeyToShortDescription.put(String.format("pen_%d_%d_dragon",  i, j), String.format("Pen (%d, %d) Dragon", i, j));
+					dataStoreKeyToLongDescription.put(String.format("pen_%d_%d_dragon", i, j), String.format("The current dragon in pen (%d, %d).", i, j));
 				}
+			}
+			
+			for (int i = 0; i < 8; i++) {
+				dataStoreKeyToShortDescription.put(String.format("dragon_%d_state", i), String.format("Dragon %d's state", i));
+				dataStoreKeyToLongDescription.put(String.format("dragon_%d_state", i), String.format("The current state of dragon %d", i));
 			}
 			
 			for (Key key : Key.values()) {
@@ -115,6 +133,10 @@ public class GameState {
 		 */
 		public static Key dragonNameForId(Integer id) {
 			return dataStoreKeyToKey.get(String.format("dragon_%d_name", id));
+		}
+
+		public static Key penDragonIdKeyAtIndex(Integer row, Integer column) {
+			return dataStoreKeyToKey.get(String.format("pen_%d_%d_dragon", row, column));
 		}
 	}
 	

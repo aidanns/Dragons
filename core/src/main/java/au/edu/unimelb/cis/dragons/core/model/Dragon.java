@@ -75,6 +75,14 @@ public class Dragon {
 	}
 	
 	/**
+	 * Get the Id for this dragon.
+	 * @return The dragons Id.
+	 */
+	public Integer id() {
+		return _id;
+	}
+	
+	/**
 	 * Get the state of the dragon.
 	 * @return The dragon's state.
 	 */

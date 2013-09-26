@@ -102,4 +102,41 @@ public class Farm {
 		
 		return penStateValue;
 	}
+	
+	/**
+	 * Get the Dragon for the pen at a certain index.
+	 * @param row The row index.
+	 * @param column The column index.
+	 * @return The Dragon.
+	 */
+	public Value<Dragon> dragonForPen(Integer row, Integer column) {
+		final Value<String> stringValue = _gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column));
+		final Value<Dragon> dragonValue = Value.create(null);
+		if (!stringValue.get().equals("")) {
+			dragonValue.update(new Dragon(_gameState, Integer.valueOf(stringValue.get())));
+		}
+		
+		stringValue.connect(new Listener<String>() {
+			@Override
+			public void onChange(String value, String oldValue) {
+				if (value.equals("")) {
+					dragonValue.update(null);
+				} else {
+					dragonValue.update(new Dragon(_gameState, Integer.valueOf(value)));
+				}
+			}
+		});
+		dragonValue.connect(new Listener<Dragon>() {
+			@Override
+			public void onChange(Dragon value, Dragon oldValue) {
+				if (value == null) {
+					stringValue.update("");
+				} else {
+					stringValue.update(Integer.toString(value.id()));
+				}
+			}
+		});
+		
+		return dragonValue;
+	}
 }
