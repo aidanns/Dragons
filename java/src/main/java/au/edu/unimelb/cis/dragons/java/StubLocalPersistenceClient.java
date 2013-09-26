@@ -36,14 +36,11 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 		state.addValueForKey(Value.create(""), GameState.Key.Username);
 		
 		// Pen states
-		state.addValueForKey(Value.create("locked"), GameState.Key.penStateKeyAtIndex(0, 0));
-		state.addValueForKey(Value.create("empty"), GameState.Key.penStateKeyAtIndex(0, 1));
-		state.addValueForKey(Value.create("empty"), GameState.Key.penStateKeyAtIndex(0, 2));
-		state.addValueForKey(Value.create("locked"), GameState.Key.penStateKeyAtIndex(0, 3));
-		state.addValueForKey(Value.create("locked"), GameState.Key.penStateKeyAtIndex(1, 0));
-		state.addValueForKey(Value.create("empty"), GameState.Key.penStateKeyAtIndex(1, 1));
-		state.addValueForKey(Value.create("empty"), GameState.Key.penStateKeyAtIndex(1, 2));
-		state.addValueForKey(Value.create("locked"), GameState.Key.penStateKeyAtIndex(1, 3));
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 2; j++) {
+				state.addValueForKey(Value.create(i == 1 || i == 2 ? "empty" : "locked"), GameState.Key.penStateKeyAtIndex(j, i));
+			}
+		}
 		
 		// Pen contents
 		for (int i = 0; i < 4; i++) {
