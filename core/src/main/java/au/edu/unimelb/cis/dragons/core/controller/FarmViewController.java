@@ -54,11 +54,8 @@ public class FarmViewController extends ContainerViewController {
 			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF0000FF))));
 			group.setConstraint(AxisLayout.stretched());
 
-			group.add(new Label("Pen State:"));
 			group.add(_penStateLabel);
-			group.add(new Label("Dragon Name:"));
 			group.add(_dragonNameLabel);
-			group.add(new Label("Dragon State:"));
 			group.add(_dragonStateLabel);
 			
 			return group;
@@ -86,6 +83,23 @@ public class FarmViewController extends ContainerViewController {
 		 */
 		public Label dragonStateLabel() {
 			return _dragonStateLabel;
+		}
+		
+		/**
+		 * Set whether the dragon related labels should be visible.
+		 * @param visible Whether the labels should be visible.
+		 */
+		public void setDragonLabelsVisible(boolean visible) {
+			_dragonNameLabel.setVisible(visible);
+			_dragonStateLabel.setVisible(visible);
+		}
+		
+		/**
+		 * Set whether the pen state label should be visible.
+		 * @param visible Whether the label should be visible.
+		 */
+		public void setPenStateLabelVisible(boolean visible) {
+			_penStateLabel.setVisible(visible);
 		}
 	}
 	
@@ -156,10 +170,15 @@ public class FarmViewController extends ContainerViewController {
 							oldValue.name().disconnect(child.dragonNameLabel().text.slot());
 							oldValue.state().disconnect(dragonStateChangeListener);
 						}
+						
 						if (value != null) {
 							value.name().connectNotify(child.dragonNameLabel().text.slot());
 							value.state().connectNotify(dragonStateChangeListener);
 						}
+						
+						// If the dragon is there, show it's labels and hide the pen label.
+						child.setDragonLabelsVisible(value != null);
+						child.setPenStateLabelVisible(value == null);
 					}
 				});
 				
