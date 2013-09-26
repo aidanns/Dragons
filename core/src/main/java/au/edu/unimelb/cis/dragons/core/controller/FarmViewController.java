@@ -2,6 +2,7 @@ package au.edu.unimelb.cis.dragons.core.controller;
 
 import playn.core.Pointer;
 import playn.core.Pointer.Event;
+import au.edu.unimelb.cis.dragons.core.Alert;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
 import au.edu.unimelb.cis.dragons.core.HittableGroup;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
@@ -191,7 +192,7 @@ public class FarmViewController extends ContainerViewController {
 								_farm.openAndClearPen(currentRow, currentColumn);
 								_wallet.subtractGold(50);
 							} else {
-								// TODO: Show a message saying that you need 50 gold to buy the pen.
+								new Alert("Unlocking a pen costs 50 gold. You do not have enough.").displayOnScreen(parentScreen());;
 							}
 						}
 					}

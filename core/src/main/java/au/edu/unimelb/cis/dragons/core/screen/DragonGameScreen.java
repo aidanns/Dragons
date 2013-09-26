@@ -98,6 +98,13 @@ public class DragonGameScreen extends UIScreen {
 			_modalChild.wasRemoved();
 			_modalChild = null;
 		}
-		
+	}
+	
+	/**
+	 * Return the current modal child of this screen, or null.
+	 * @return The ViewController being presented modally, or null if none is.
+	 */
+	public ViewController modalChild() {
+		return _modalChild;
 	}
 }
