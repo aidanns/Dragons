@@ -3,8 +3,8 @@ package au.edu.unimelb.cis.dragons.core.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import react.Value;
-import react.ValueView.Listener;
+import react.Function;
+import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
 
 /**
@@ -29,7 +29,7 @@ public class Farm {
 		Full("full");
 		
 		// Map from the state name back to the state, to make it easy to pass
-		// back the correct PenState object after retrievnig it's name from the
+		// back the correct PenState object after retrieving it's name from the
 		// GameState.
 		private static Map<String, PenState> stateNameToPenState = new HashMap<String, PenState>();
 		
@@ -82,25 +82,33 @@ public class Farm {
 	 * @param column The column index.
 	 * @return The PenState.
 	 */
-	public Value<PenState> stateForPen(Integer row, Integer column) {
-		final Value<String> stringValue = _gameState.valueForKey(GameState.Key.penStateKeyAtIndex(row, column));
-		final Value<PenState> penStateValue = Value.create(PenState.penStateForStateName(stringValue.get()));
-		
-		stringValue.connect(new Listener<String>() {
+	public ValueView<PenState> stateForPen(Integer row, Integer column) {
+		return _gameState.valueForKey(GameState.Key.penStateKeyAtIndex(row, column)).map(new Function<String, PenState>() {
 			@Override
-			public void onChange(String value, String oldValue) {
-				penStateValue.update(PenState.penStateForStateName(value));
+			public PenState apply(String input) {
+				return PenState.penStateForStateName(input);
 			}
 		});
-		
-		penStateValue.connect(new Listener<PenState>() {
-			@Override
-			public void onChange(PenState value, PenState oldValue) {
-				stringValue.update(value._stateName);
-			}
-		});
-		
-		return penStateValue;
+	}
+	
+	/**
+	 * Set a given pen to be close, removing any dragon that was previous in it.
+	 * @param row The row of the pen.
+	 * @param column The column of the pen.
+	 */
+	public void lockPen(Integer row, Integer column) {
+		_gameState.valueForKey(GameState.Key.penStateKeyAtIndex(row, column)).update(PenState.Locked.toString());
+		_gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).update("");
+	}
+	
+	/**
+	 * Set a given pen to be open, removing any dragon that was previously in it.
+	 * @param row The row of the pen.
+	 * @param column The column of the pen.
+	 */
+	public void openAndClearPen(Integer row, Integer column) {
+		_gameState.valueForKey(GameState.Key.penStateKeyAtIndex(row, column)).update(PenState.Empty.toString());
+		_gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).update("");
 	}
 	
 	/**
@@ -109,34 +117,24 @@ public class Farm {
 	 * @param column The column index.
 	 * @return The Dragon.
 	 */
-	public Value<Dragon> dragonForPen(Integer row, Integer column) {
-		final Value<String> stringValue = _gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column));
-		final Value<Dragon> dragonValue = Value.create(null);
-		if (!stringValue.get().equals("")) {
-			dragonValue.update(new Dragon(_gameState, Integer.valueOf(stringValue.get())));
-		}
-		
-		stringValue.connect(new Listener<String>() {
+	public ValueView<Dragon> dragonForPen(Integer row, Integer column) {
+		return _gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).map(new Function<String, Dragon>() {
 			@Override
-			public void onChange(String value, String oldValue) {
-				if (value.equals("")) {
-					dragonValue.update(null);
-				} else {
-					dragonValue.update(new Dragon(_gameState, Integer.valueOf(value)));
-				}
+			public Dragon apply(String input) {
+				if (input.equals("")) { return null; }
+				else { return new Dragon(_gameState, Integer.valueOf(input)); }
 			}
 		});
-		dragonValue.connect(new Listener<Dragon>() {
-			@Override
-			public void onChange(Dragon value, Dragon oldValue) {
-				if (value == null) {
-					stringValue.update("");
-				} else {
-					stringValue.update(Integer.toString(value.id()));
-				}
-			}
-		});
-		
-		return dragonValue;
+	}
+	
+	/**
+	 * Set the Dragon that inhabits a certain pen, opening it if needed.
+	 * @param dragon The dragon that should be in the pen.
+	 * @param row The row of the pen.
+	 * @param column The column of the pen.
+	 */
+	public void setDragonForPen(Dragon dragon, Integer row, Integer column) {
+		_gameState.valueForKey(GameState.Key.penStateKeyAtIndex(row, column)).update(PenState.Full.toString());
+		_gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).update(dragon.id().toString());
 	}
 }

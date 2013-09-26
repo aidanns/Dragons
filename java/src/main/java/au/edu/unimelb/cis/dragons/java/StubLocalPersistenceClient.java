@@ -45,6 +45,13 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 		state.addValueForKey(Value.create("empty"), GameState.Key.penStateKeyAtIndex(1, 2));
 		state.addValueForKey(Value.create("locked"), GameState.Key.penStateKeyAtIndex(1, 3));
 		
+		// Pen contents
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 2; j++) {
+				state.addValueForKey(Value.create(""), GameState.Key.penDragonIdKeyAtIndex(j, i));
+			}
+		}
+		
 		// Dragons
 		for (int i = 0; i < 8; i++) {
 			state.addValueForKey(Value.create(""), GameState.Key.dragonStateKeyForId(i));

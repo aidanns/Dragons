@@ -1,9 +1,11 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
+import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
-import react.Value;
+import react.Function;
+import react.ValueView;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
 import tripleplay.ui.Group;
@@ -27,8 +29,11 @@ public class FarmViewController extends ContainerViewController {
 	 */
 	private class PenViewController extends ViewController {
 		
-		// Label being displayed in this view.
-		private Label _label;
+		// Label displaying the pen state.
+		private Label _penStateLabel = new Label();
+		
+		// Label displaying the name of the dragon in the pen.
+		private Label _dragonNameLabel = new Label();
 		
 		@Override
 		public String title() {
@@ -40,18 +45,29 @@ public class FarmViewController extends ContainerViewController {
 			SizableGroup group = new SizableGroup(new FlowLayout());
 			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF0000FF))));
 			group.setConstraint(AxisLayout.stretched());
+
+			group.add(new Label("Pen State:"));
+			group.add(_penStateLabel);
+			group.add(new Label("Dragon Name:"));
+			group.add(_dragonNameLabel);
 			
-			_label= new Label();
-			group.add(_label);
 			return group;
 		}
 		
 		/**
-		 * Update the text in the label displayed by this pen.
-		 * @param labelText The new label text.
+		 * Get the label that displays the state of the pen.
+		 * @return The label.
 		 */
-		public void updateLabel(String labelText) {
-			_label.text.update(labelText);
+		public Label penStateLabel() {
+			return _penStateLabel;
+		}
+		
+		/**
+		 * Get the label that displays the dragon's name.
+		 * @return The label.
+		 */
+		public Label dragonNameLabel() {
+			return _dragonNameLabel;
 		}
 	}
 	
@@ -86,12 +102,24 @@ public class FarmViewController extends ContainerViewController {
 				child.view().setConstraint(AxisLayout.stretched());
 				
 				// The pen label should always read the current state of that pen.
-				Value<PenState> penState = _farm.stateForPen(i, j);
-				child.updateLabel(penState.get().toString());
-				penState.connect(new Listener<PenState>() {
+				_farm.stateForPen(i, j).map(new Function<PenState, String>() {
 					@Override
-					public void onChange(PenState value, PenState oldValue) {
-						child.updateLabel(value.toString());
+					public String apply(PenState input) {
+						return input.toString();
+					}
+				}).connectNotify(child.penStateLabel().text.slot());
+
+				// The dragons name should be updated if either the dragon, or it's name changes.
+				ValueView<Dragon> dragon = _farm.dragonForPen(i, j); 
+				dragon.connectNotify(new Listener<Dragon>() {
+					@Override
+					public void onChange(Dragon value, Dragon oldValue) {
+						if (oldValue != null) {
+							oldValue.name().disconnect(child.dragonNameLabel().text.slot());
+						}
+						if (value != null) {
+							value.name().connectNotify(child.dragonNameLabel().text.slot());
+						}
 					}
 				});
 				

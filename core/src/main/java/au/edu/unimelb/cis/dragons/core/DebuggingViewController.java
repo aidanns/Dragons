@@ -7,8 +7,9 @@ import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
 import au.edu.unimelb.cis.dragons.core.GameState.Key;
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
+import au.edu.unimelb.cis.dragons.core.model.Dragon;
+import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
-import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 
 /**
  * View for doing debugging manipulations to the game state.
@@ -39,22 +40,12 @@ public class DebuggingViewController extends ViewController {
 		openPensButton.onClick(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				_farm.stateForPen(0, 0).update(PenState.Empty);
+				_farm.openAndClearPen(0, 0);
 			}
 		});
 		group.add(openPensButton);
 		
-		// Button to populate pen at (0, 1)
-		Button populatePenButton = new Button("Populate Pen");
-		populatePenButton.onClick(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				_farm.stateForPen(0, 1).update(PenState.Full);
-			}
-		});
-		group.add(populatePenButton);
-		
-		// Button to set useres gold to 100
+		// Button to set user's gold to 100
 		Button goldButton = new Button("Give Gold");
 		goldButton.onClick(new UnitSlot() {
 			@Override
@@ -63,6 +54,17 @@ public class DebuggingViewController extends ViewController {
 			}
 		});
 		group.add(goldButton);
+		
+		// Button to add a dragon to pen two and make it full.
+		group.add(new Button("Add Dragon").onClick(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				Dragon flameyTheDragon = new Dragon(_gameState, 0);
+				flameyTheDragon.name().update("Flamey");
+				flameyTheDragon.state().update(DragonState.Available);
+				_farm.setDragonForPen(flameyTheDragon, 0, 2);
+			}
+		}));
 		
 		return group;
 	}
