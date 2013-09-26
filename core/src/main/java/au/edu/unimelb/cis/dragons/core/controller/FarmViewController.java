@@ -1,9 +1,13 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
+import playn.core.Pointer;
+import playn.core.Pointer.Event;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
+import au.edu.unimelb.cis.dragons.core.HittableGroup;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
+import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import react.Function;
 import react.ValueView;
 import react.ValueView.Listener;
@@ -41,8 +45,8 @@ public class FarmViewController extends ContainerViewController {
 		}
 		
 		@Override
-		protected Group createInterface() {
-			SizableGroup group = new SizableGroup(new FlowLayout());
+		protected HittableGroup createInterface() {
+			HittableGroup group = new HittableGroup(new FlowLayout());
 			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF0000FF))));
 			group.setConstraint(AxisLayout.stretched());
 
@@ -77,11 +81,20 @@ public class FarmViewController extends ContainerViewController {
 	private int ROW_GAP = 5;
 	private int COL_GAP = 5;
 	
-	// The model that is backing this view.
+	// The farm that is backing this view.
 	private Farm _farm;
 	
-	public FarmViewController(Farm farm) {
+	// The wallet that is backing the view.
+	private Wallet _wallet;
+	
+	/**
+	 * Create a new FarmViewController.
+	 * @param farm The farm that backs this view.
+	 * @param wallet The wallet that backs this view.
+	 */
+	public FarmViewController(Farm farm, Wallet wallet) {
 		_farm = farm;
+		_wallet = wallet;
 	}
 
 	@Override
@@ -97,6 +110,10 @@ public class FarmViewController extends ContainerViewController {
 		// Create a controller for every pen and add it to this view as a sub view controller.
 		for (int i = 0; i < NUM_ROWS; i++) {
 			for (int j = 0; j < NUM_COLUMNS; j++) {
+				
+				final int currentRow = i;
+				final int currentColumn = j;
+				
 				final PenViewController child = new PenViewController();
 				addSubViewController(child);
 				child.view().setConstraint(AxisLayout.stretched());
@@ -119,6 +136,21 @@ public class FarmViewController extends ContainerViewController {
 						}
 						if (value != null) {
 							value.name().connectNotify(child.dragonNameLabel().text.slot());
+						}
+					}
+				});
+				
+				// Add a listener for click events on the pen to allow purchasing.
+				child.view().layer.addListener(new Pointer.Adapter() {
+					@Override
+					public void onPointerEnd(Event event) {
+						if (_farm.stateForPen(currentRow, currentColumn).get() == PenState.Locked) {
+							if (_wallet.gold().get() >= 50) {
+								_farm.openAndClearPen(currentRow, currentColumn);
+								_wallet.subtractGold(50);
+							} else {
+								// TODO: Show a message saying that you need 50 gold to buy the pen.
+							}
 						}
 					}
 				});

@@ -142,7 +142,7 @@ public class DragonsGame extends Game.Default {
 						} else {
 							List<ViewController> controllers = new ArrayList<ViewController>();
 							controllers.add(new LoreViewController());
-							controllers.add(new FarmViewController(new Farm(_gameState)));
+							controllers.add(new FarmViewController(new Farm(_gameState), new Wallet(_gameState)));
 							controllers.add(new LeaderboardViewController());
 							controllers.add(new DebuggingViewController(_gameState));
 							
