@@ -3,8 +3,8 @@ package au.edu.unimelb.cis.dragons.core.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import react.Value;
-import react.ValueView.Listener;
+import react.Function;
+import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
 
 /**
@@ -70,6 +70,21 @@ public class Dragon {
 	private Integer _id;
 	
 	/**
+	 * Create a new dragon with a given name in the GameState with a state of available.
+	 * WARNING: This will clobber any previous dragon with the same id in the GameState.
+	 * @param gameState The GameState to create the dragon in.
+	 * @param id The id of the dragon.
+	 * @param name The name of the dragon to create.
+	 * @return
+	 */
+	public static Dragon create(GameState gameState, Integer id, String name) {
+		gameState.valueForKey(GameState.Key.dragonNameForId(id)).update(name);
+		Dragon dragon = new Dragon(gameState, id);
+		dragon.makeAvailable();
+		return dragon;
+	}
+	
+	/**
 	 * Create a new dragon, backed by a particular GameState.
 	 * @param gameState The game state to store this dragon in.
 	 * @param id The id to store this dragon at.
@@ -91,32 +106,41 @@ public class Dragon {
 	 * Get the state of the dragon.
 	 * @return The dragon's state.
 	 */
-	public Value<DragonState> state() {
-		final Value<String> stringValue = _gameState.valueForKey(GameState.Key.dragonStateKeyForId(_id));
-		final Value<DragonState> dragonStateValue = Value.create(DragonState.dragonStateForStateName(stringValue.get()));
-		
-		stringValue.connect(new Listener<String>() {
+	public ValueView<DragonState> state() {
+		return _gameState.valueForKey(GameState.Key.dragonStateKeyForId(_id)).map(new Function<String, DragonState>() {
 			@Override
-			public void onChange(String value, String oldValue) {
-				dragonStateValue.update(DragonState.dragonStateForStateName(value));
+			public DragonState apply(String input) {
+				return DragonState.dragonStateForStateName(input);
 			}
 		});
-		
-		dragonStateValue.connect(new Listener<DragonState>() {
-			@Override
-			public void onChange(DragonState value, DragonState oldValue) {
-				stringValue.update(value.toString());
-			}
-		});
-		
-		return dragonStateValue;
+	}
+	
+	/**
+	 * Mark the dragon as available in the farm.
+	 */
+	public void makeAvailable() {
+		_gameState.valueForKey(GameState.Key.dragonStateKeyForId(_id)).update(DragonState.Available.toString());
+	}
+	
+	/**
+	 * Mark the dragon as off racing.
+	 */
+	public void sendToRace() {
+		_gameState.valueForKey(GameState.Key.dragonStateKeyForId(_id)).update(DragonState.Racing.toString());
+	}
+	
+	/**
+	 * Mark the dragon as off breeding.
+	 */
+	public void sendToBreed() {
+		_gameState.valueForKey(GameState.Key.dragonStateKeyForId(_id)).update(DragonState.Breeding.toString());
 	}
 	
 	/**
 	 * Get the name of the dragon.
 	 * @return The dragon's name.
 	 */
-	public Value<String> name() {
+	public ValueView<String> name() {
 		return _gameState.valueForKey(GameState.Key.dragonNameForId(_id));
 	}
 

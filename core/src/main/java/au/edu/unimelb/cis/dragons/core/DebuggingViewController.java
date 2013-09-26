@@ -7,7 +7,6 @@ import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
-import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 
@@ -65,9 +64,7 @@ public class DebuggingViewController extends ViewController {
 			}
 		}));
 		
-		final Dragon flameyTheDragon = new Dragon(_gameState, 0);
-		flameyTheDragon.name().update("Flamey");
-		flameyTheDragon.state().update(DragonState.Available);
+		final Dragon flameyTheDragon = Dragon.create(_gameState, Integer.valueOf(0), "Flamey");
 		
 		// Button to add a dragon to pen two and make it full.
 		group.add(new Button("Add Flamey to the Farm").onClick(new UnitSlot() {
@@ -81,7 +78,15 @@ public class DebuggingViewController extends ViewController {
 		group.add(new Button("Send Flamey to Race").onClick(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				flameyTheDragon.state().update(DragonState.Racing);
+				flameyTheDragon.sendToRace();;
+			}
+		}));
+		
+		// Button to send flamey to breed.
+		group.add(new Button("Send Flamey to Breed").onClick(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				flameyTheDragon.sendToBreed();
 			}
 		}));
 		
@@ -89,7 +94,7 @@ public class DebuggingViewController extends ViewController {
 		group.add(new Button("Make Flamey Available").onClick(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				flameyTheDragon.state().update(DragonState.Available);
+				flameyTheDragon.makeAvailable();;
 			}
 		}));
 		
