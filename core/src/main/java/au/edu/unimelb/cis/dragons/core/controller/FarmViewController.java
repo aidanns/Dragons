@@ -5,6 +5,7 @@ import playn.core.Pointer.Event;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
 import au.edu.unimelb.cis.dragons.core.HittableGroup;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
+import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
@@ -39,6 +40,9 @@ public class FarmViewController extends ContainerViewController {
 		// Label displaying the name of the dragon in the pen.
 		private Label _dragonNameLabel = new Label();
 		
+		// Label displaying the state of the dragon in the pen.
+		private Label _dragonStateLabel = new Label();
+		
 		@Override
 		public String title() {
 			return "Pen";
@@ -54,6 +58,8 @@ public class FarmViewController extends ContainerViewController {
 			group.add(_penStateLabel);
 			group.add(new Label("Dragon Name:"));
 			group.add(_dragonNameLabel);
+			group.add(new Label("Dragon State:"));
+			group.add(_dragonStateLabel);
 			
 			return group;
 		}
@@ -72,6 +78,14 @@ public class FarmViewController extends ContainerViewController {
 		 */
 		public Label dragonNameLabel() {
 			return _dragonNameLabel;
+		}
+		
+		/**
+		 * Get the label that displays the dragon's state.
+		 * @return The label.
+		 */
+		public Label dragonStateLabel() {
+			return _dragonStateLabel;
 		}
 	}
 	
@@ -125,6 +139,13 @@ public class FarmViewController extends ContainerViewController {
 						return input.toString();
 					}
 				}).connectNotify(child.penStateLabel().text.slot());
+				
+				final Listener<DragonState> dragonStateChangeListener = new Listener<DragonState>() {
+					@Override
+					public void onChange(DragonState value, DragonState oldValue) {
+						child.dragonStateLabel().text.update(value.toString());
+					}
+				};
 
 				// The dragons name should be updated if either the dragon, or it's name changes.
 				ValueView<Dragon> dragon = _farm.dragonForPen(i, j); 
@@ -133,9 +154,11 @@ public class FarmViewController extends ContainerViewController {
 					public void onChange(Dragon value, Dragon oldValue) {
 						if (oldValue != null) {
 							oldValue.name().disconnect(child.dragonNameLabel().text.slot());
+							oldValue.state().disconnect(dragonStateChangeListener);
 						}
 						if (value != null) {
 							value.name().connectNotify(child.dragonNameLabel().text.slot());
+							value.state().connectNotify(dragonStateChangeListener);
 						}
 					}
 				});

@@ -65,14 +65,31 @@ public class DebuggingViewController extends ViewController {
 			}
 		}));
 		
+		final Dragon flameyTheDragon = new Dragon(_gameState, 0);
+		flameyTheDragon.name().update("Flamey");
+		flameyTheDragon.state().update(DragonState.Available);
+		
 		// Button to add a dragon to pen two and make it full.
-		group.add(new Button("Add Dragon").onClick(new UnitSlot() {
+		group.add(new Button("Add Flamey to the Farm").onClick(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				Dragon flameyTheDragon = new Dragon(_gameState, 0);
-				flameyTheDragon.name().update("Flamey");
-				flameyTheDragon.state().update(DragonState.Available);
 				_farm.setDragonForPen(flameyTheDragon, 0, 2);
+			}
+		}));
+		
+		// Button to send flamey to race.
+		group.add(new Button("Send Flamey to Race").onClick(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				flameyTheDragon.state().update(DragonState.Racing);
+			}
+		}));
+		
+		// Button to make flamey available.
+		group.add(new Button("Make Flamey Available").onClick(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				flameyTheDragon.state().update(DragonState.Available);
 			}
 		}));
 		
