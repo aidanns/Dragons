@@ -68,7 +68,15 @@ public class DragonsGame extends Game.Default {
 	private final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
 	
 	// Time that can be used to schedule actions.
-	private final Timer _timer = new Timer();
+	private static final Timer timer = new Timer();
+	
+	/**
+	 * Get a timer that can be used to schedule actions.
+	 * @return The timer.
+	 */
+	public static Timer timer() {
+		return timer;
+	}
 	
 	public DragonsGame(PersistenceClient persistenceClient, CustomPlatform platform) {
 		super(UPDATE_RATE);
@@ -138,7 +146,7 @@ public class DragonsGame extends Game.Default {
 						// If the game state hasn't yet been populated, then
 						// try again later.
 						if (!_gameState.hasBeenPopulated()) {
-							_timer.after(250, this);
+							timer.after(250, this);
 						} else {
 							List<ViewController> controllers = new ArrayList<ViewController>();
 							controllers.add(new LoreViewController());
@@ -152,7 +160,7 @@ public class DragonsGame extends Game.Default {
 						}
 					}
 				};
-				_timer.after(timeToWait >= 0 ? timeToWait : 0, presentGameScreen);
+				timer.after(timeToWait >= 0 ? timeToWait : 0, presentGameScreen);
 			}
 		});
 		
@@ -164,7 +172,7 @@ public class DragonsGame extends Game.Default {
 	public void update(int delta) {
 		_clock.update(delta);
 		_screens.update(delta);
-		_timer.update();
+		timer.update();
 	}
 
 	@Override
