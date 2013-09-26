@@ -95,7 +95,4 @@ public class DebuggingViewController extends ViewController {
 		
 		return group;
 	}
-	
-	
-
 }
