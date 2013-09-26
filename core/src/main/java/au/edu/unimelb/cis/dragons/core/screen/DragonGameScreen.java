@@ -7,7 +7,7 @@ import tripleplay.ui.Background;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
 import tripleplay.ui.Style;
-import tripleplay.ui.layout.AxisLayout;
+import tripleplay.ui.layout.AbsoluteLayout;
 
 /**
  * Base class for all Screens. Presents a single ViewController.
@@ -26,6 +26,9 @@ public class DragonGameScreen extends UIScreen {
 	@SuppressWarnings("unused")
 	private ScreenStack _stack;
 	
+	// The ViewController that is being presented on screen, if any. Null otherwise.
+	private ViewController _modalChild;
+	
 	/**
 	 * Create a new ScreenController.
 	 * 
@@ -41,12 +44,14 @@ public class DragonGameScreen extends UIScreen {
 	public void wasAdded() {
 		super.wasAdded();
 		// Create a root and add the view to it.
-		_root = iface.createRoot(AxisLayout.vertical().gap(0).offStretch(), 
+//		_root = iface.createRoot(AxisLayout.vertical().gap(0).offStretch(),
+		_root = iface.createRoot(new AbsoluteLayout(),
 			SimpleStyles.newSheet(), layer);
 		_root.addStyles(Style.BACKGROUND.is(
 			Background.solid(0xFFFFFFFF)), Style.VALIGN.top);
 		_root.setSize(width(), height());
-		_root.add(_viewController.view().setConstraint(AxisLayout.stretched()));
+//		_root.add(_viewController.view().setConstraint(AxisLayout.stretched()));
+		_root.add(AbsoluteLayout.at(_viewController.view(), 0, 0, width(), height()));
 		_viewController.wasAdded();
 	}
 
@@ -70,4 +75,29 @@ public class DragonGameScreen extends UIScreen {
 		super.wasRemoved();
 	}
 	
+	/**
+	 * Modally present a ViewController on the screen. Will dismiss any previously presented controllers.
+	 * @param modal The ViewController to present.
+	 */
+	public void presentViewController(ViewController modal) {
+		if (_modalChild != null) {
+			dismissViewController();
+		}
+		_modalChild = modal;
+		_root.add(AbsoluteLayout.at(_modalChild.view(), 0, 0, width(), height()));
+		_modalChild.wasShown();
+	}
+	
+	/**
+	 * Dismisses any ViewController's currently being displayed modally.
+	 */
+	public void dismissViewController() {
+		if (_modalChild != null) {
+			_root.remove(_modalChild.view());
+			_root.pack();
+			_modalChild.wasRemoved();
+			_modalChild = null;
+		}
+		
+	}
 }
