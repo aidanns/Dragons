@@ -107,6 +107,15 @@ public class GameState {
 		public static Key dragonStateKeyForId(Integer id) {
 			return dataStoreKeyToKey.get(String.format("dragon_%d_state", id));
 		}
+
+		/**
+		 * Get the Key for the name for a dragon with a certain id.
+		 * @param id The id of the dragon.
+		 * @return The state for that dragon.
+		 */
+		public static Key dragonNameForId(Integer id) {
+			return dataStoreKeyToKey.get(String.format("dragon_%d_name", id));
+		}
 	}
 	
 	/** Whether the game state has been populated. */

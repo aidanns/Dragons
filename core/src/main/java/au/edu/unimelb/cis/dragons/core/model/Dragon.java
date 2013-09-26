@@ -33,7 +33,7 @@ public class Dragon {
 			for (DragonState state : DragonState.values()) {
 				stateNameToStateMap.put(state._stateName, state);
 			}
-			stateNameToStateMap.put("null", null);
+			stateNameToStateMap.put("", null);
 		}
 		
 		private String _stateName;
@@ -97,6 +97,14 @@ public class Dragon {
 		});
 		
 		return dragonStateValue;
+	}
+	
+	/**
+	 * Get the name of the dragon.
+	 * @return The dragon's name.
+	 */
+	public Value<String> name() {
+		return _gameState.valueForKey(GameState.Key.dragonNameForId(_id));
 	}
 
 }

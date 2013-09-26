@@ -36,4 +36,7 @@ html/target
 ios/target
 java/target
 
+.idea
+*.iml
+
 **/.DS_Store
