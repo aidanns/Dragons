@@ -1,6 +1,7 @@
 package au.edu.unimelb.cis.dragons.html;
 
 import playn.core.PlayN;
+import react.Value;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -35,6 +36,33 @@ public class MuglePersistenceClient implements PersistenceClient {
 	@Override
 	public void populate(GameState state) {
 		
+		// Stub the population for now, until we get the data store up and running.
+		
+		state.addValueForKey(Value.create("0"), GameState.Key.CurrentGold);
+		state.addValueForKey(Value.create(""), GameState.Key.Username);
+		
+		// Pen states
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 2; j++) {
+				state.addValueForKey(Value.create(i == 1 || i == 2 ? "empty" : "locked"), GameState.Key.penStateKeyAtIndex(j, i));
+			}
+		}
+		
+		// Pen contents
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 2; j++) {
+				state.addValueForKey(Value.create(""), GameState.Key.penDragonIdKeyAtIndex(j, i));
+			}
+		}
+		
+		// Dragons
+		for (int i = 0; i < 8; i++) {
+			state.addValueForKey(Value.create(""), GameState.Key.dragonStateKeyForId(i));
+			state.addValueForKey(Value.create(""), GameState.Key.dragonNameForId(i));
+		}
+		
+		state.markPopulated();
+		return;
 	}
 
 	/*
