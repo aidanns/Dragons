@@ -29,6 +29,9 @@ public class DragonGameScreen extends UIScreen {
 	// The ViewController that is being presented on screen, if any. Null otherwise.
 	private ViewController _modalChild;
 	
+	// Number of pixels to inset the modally displayed view from the edge of the screen.
+	private static int MODAL_INSET_DISTANCE = 40;
+	
 	/**
 	 * Create a new ScreenController.
 	 * 
@@ -44,13 +47,11 @@ public class DragonGameScreen extends UIScreen {
 	public void wasAdded() {
 		super.wasAdded();
 		// Create a root and add the view to it.
-//		_root = iface.createRoot(AxisLayout.vertical().gap(0).offStretch(),
 		_root = iface.createRoot(new AbsoluteLayout(),
 			SimpleStyles.newSheet(), layer);
 		_root.addStyles(Style.BACKGROUND.is(
 			Background.solid(0xFFFFFFFF)), Style.VALIGN.top);
 		_root.setSize(width(), height());
-//		_root.add(_viewController.view().setConstraint(AxisLayout.stretched()));
 		_root.add(AbsoluteLayout.at(_viewController.view(), 0, 0, width(), height()));
 		_viewController.wasAdded();
 	}
@@ -84,7 +85,7 @@ public class DragonGameScreen extends UIScreen {
 			dismissViewController();
 		}
 		_modalChild = modal;
-		_root.add(AbsoluteLayout.at(_modalChild.view(), 0, 0, width(), height()));
+		_root.add(AbsoluteLayout.at(_modalChild.view(), MODAL_INSET_DISTANCE, MODAL_INSET_DISTANCE, width() - 2 * MODAL_INSET_DISTANCE, height() - 2 * MODAL_INSET_DISTANCE));
 		_modalChild.wasShown();
 	}
 	
