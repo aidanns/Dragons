@@ -19,6 +19,12 @@
       <artifactId>playn-core</artifactId>
       <version>${playn.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>coza.mambo.migraine</groupId>
+      <artifactId>migraine-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>

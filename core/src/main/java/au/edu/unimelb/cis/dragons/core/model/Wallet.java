@@ -43,7 +43,7 @@ public class Wallet {
 	public void addGold(Integer amount) {
 		Value<String> goldValue = _gameState.valueForKey(GameState.Key.CurrentGold);
 		int currentGold = Integer.parseInt(goldValue.get());
-		goldValue.update(new String("" + currentGold + amount));
+		goldValue.update(new String("" + (currentGold + amount)));
 	}
 	
 	/**

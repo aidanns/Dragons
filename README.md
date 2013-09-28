@@ -6,21 +6,21 @@ The Dragon Game. An educational game designed to run on the MUGLE platform to te
 
 ## Setup
 
-1. Install Maven 3.0.3 or newer.
+### Tools
 
-### Eclipse
+Install the following tools:
 
-1. Install Eclipse 4.3 or newer.
-2. Install m2e plugin for Eclipse.
-3. Install Maven Natives plugin for Eclipse.
-4. Install Google plugin for Eclipse with GWT tooling & SDK.
-5. Install JBoss Maven Profile plugin for Eclipse.
-6. Import the project in to Eclipse as an "Existing Maven Project".
-7. Right click on the "dragons-html" project, select "Properties", then select "Google" > "Web Toolkit" and check "Use Google Web Toolkit".
+- Maven 3.0.3 or newer.
+
+### Dependencies
+
+Install the following jars to your local maven repo.
+
+- https://github.com/threerings/tripleplay
+- https://github.com/threerings/playn (need to use their fork to use tripleplay)
+- https://github.com/aidanns/migraine (only need the core sub-module)
 
 ## Running
-
-### Command line
 
     cd dragons
 
@@ -35,17 +35,6 @@ To run the Java version
 To clean and build a new HTML version (once Jetty is already running)
     cd core; mvn clean; cd ..; mvn -Phtml clean package
 
-### Eclipse
-
-To run the Java version
-
-1. Select the "Java" Maven profile using the JBoss plugin.
-2. Run the dragons project with a Maven target of "test".
-
-To run the HTML (GWT) version
-
-1. Select the "HTML" Maven profile using the JBoss plugin.
-2. Run the dragons project with a Maven target of "integration-test".
 
 
 

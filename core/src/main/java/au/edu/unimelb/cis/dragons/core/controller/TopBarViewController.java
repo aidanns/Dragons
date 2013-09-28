@@ -1,12 +1,8 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
-import tripleplay.ui.Background;
 import tripleplay.ui.Group;
-import tripleplay.ui.SizableGroup;
-import tripleplay.ui.Style;
-import tripleplay.ui.Styles;
-import tripleplay.ui.layout.AxisLayout;
-import tripleplay.ui.layout.BorderLayout;
+import tripleplay.ui.MigGroup;
+import tripleplay.ui.MigLayout;
 
 /**
  * A ViewController that handles the display of one view as a top bar, with
@@ -15,9 +11,6 @@ import tripleplay.ui.layout.BorderLayout;
  */
 public class TopBarViewController extends ViewController {
 
-	// The height in PX for the top bar.
-	private static int TOP_BAR_HEIGHT = 30;
-	
 	// The ViewController for the top bar.
 	private ViewController _topBarViewController;
 	
@@ -48,23 +41,9 @@ public class TopBarViewController extends ViewController {
 	 */
 	@Override
 	protected Group createInterface() {
-		SizableGroup parent = new SizableGroup(new BorderLayout(0));
-		parent.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF00FF00))));
-		parent.setConstraint(AxisLayout.stretched());
-		
-		// Main content window.
-		Group contentView = new Group(AxisLayout.vertical().offStretch().stretchByDefault());
-		contentView.add(_contentAreaViewController.view().setConstraint(
-			AxisLayout.stretched()));
-		parent.add(contentView.setConstraint(BorderLayout.CENTER));
-		
-		// Top Bar.
-		SizableGroup topBarView = new SizableGroup(AxisLayout.horizontal().offStretch().stretchByDefault(), 
-			parentScreen().width(), TOP_BAR_HEIGHT);
-		topBarView.add(_topBarViewController.view().setConstraint(
-			AxisLayout.stretched()));
-		parent.add(topBarView.setConstraint(BorderLayout.NORTH));
-
+		MigGroup parent = new MigGroup(new MigLayout("fill, insets 0", "0[]0", "0[10%!]0[90%!]0"));
+		parent.add(_topBarViewController.view(), "cell 0 0, grow"); // Top bar.
+		parent.add(_contentAreaViewController.view(), "cell 0 1, grow"); // Main content.
 		return parent;
 	}
 }

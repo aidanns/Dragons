@@ -7,7 +7,6 @@ import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
 import tripleplay.ui.Style;
 import tripleplay.ui.layout.AxisLayout;
-import tripleplay.ui.layout.FlowLayout;
 
 /**
  * A ViewController that handles the presentation of information in the top
@@ -43,7 +42,7 @@ public class TopBarEntryViewController extends ViewController {
 
 	@Override
 	protected Group createInterface() {
-		SizableGroup group = new SizableGroup(new FlowLayout());
+		SizableGroup group = new SizableGroup(AxisLayout.horizontal());
 		group.setConstraint(AxisLayout.fixed());
 		_titleLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(
 				FONT_NAME, Font.Style.BOLD, FONT_SIZE)));
