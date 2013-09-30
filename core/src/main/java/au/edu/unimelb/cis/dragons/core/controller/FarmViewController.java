@@ -187,13 +187,20 @@ public class FarmViewController extends ContainerViewController {
 				child.view().layer.addListener(new Pointer.Adapter() {
 					@Override
 					public void onPointerEnd(Event event) {
-						if (_farm.stateForPen(currentRow, currentColumn).get() == PenState.Locked) {
+						switch(_farm.stateForPen(currentRow, currentColumn).get()) {
+						case Locked:
 							if (_wallet.gold().get() >= 50) {
 								_farm.openAndClearPen(currentRow, currentColumn);
 								_wallet.subtractGold(50);
 							} else {
 								new Alert("Unlocking a pen costs 50 gold. You do not have enough.").displayOnScreen(parentScreen());;
 							}
+							break;
+						case Full:
+							parentScreen().presentViewController(new DragonDetailViewController(_farm.dragonForPen(currentRow, currentColumn).get()));
+							break;
+						case Empty:
+							break;
 						}
 					}
 				});

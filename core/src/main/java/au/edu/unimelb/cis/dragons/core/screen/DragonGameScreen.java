@@ -86,6 +86,7 @@ public class DragonGameScreen extends UIScreen {
 		}
 		_modalChild = modal;
 		_root.add(AbsoluteLayout.at(_modalChild.view(), MODAL_INSET_DISTANCE, MODAL_INSET_DISTANCE, width() - 2 * MODAL_INSET_DISTANCE, height() - 2 * MODAL_INSET_DISTANCE));
+		_modalChild.setParentScreen(this);
 		_modalChild.wasShown();
 	}
 	
@@ -97,6 +98,7 @@ public class DragonGameScreen extends UIScreen {
 			_root.remove(_modalChild.view());
 			_root.pack();
 			_modalChild.wasRemoved();
+			_modalChild.setParentScreen(null);
 			_modalChild = null;
 		}
 	}
