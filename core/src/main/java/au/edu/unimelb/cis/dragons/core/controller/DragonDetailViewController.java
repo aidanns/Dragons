@@ -6,9 +6,7 @@ import au.edu.unimelb.cis.dragons.core.GlobalConfig;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import react.Function;
-import react.UnitSlot;
 import tripleplay.ui.Background;
-import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
 import tripleplay.ui.MigGroup;
@@ -42,7 +40,7 @@ public class DragonDetailViewController extends ViewController {
 	@Override
 	protected Group createInterface() {
 		MigGroup group = new MigGroup(new MigLayout(
-				"insets 0, gap 0, fill", "[50%, fill][50%, fill]", "[90%, fill][10%, fill]"));
+				"insets 0, gap 0, fill", "[50%, fill][50%, fill]", "[100%, fill]"));
 		group.setStyles(Style.BACKGROUND.is(Background.solid(0xFFFFFFFF)));
 		
 		// Add a left pane that displays an image of the dragon.
@@ -78,18 +76,6 @@ public class DragonDetailViewController extends ViewController {
 		rightPane.add(dragonStateLabel, "cell 1 1");
 		
 		group.add(rightPane, "cell 1 0");
-		
-		// Add a bottom pane with a button to close the view.
-		Group bottomPane = new Group(AxisLayout.horizontal());
-		Button closeModelButton = new Button("Close");
-		closeModelButton.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				parentScreen().dismissViewController();
-			}
-		});
-		bottomPane.add(closeModelButton);
-		group.add(bottomPane, "cell 0 1, span 2 1");
 		
 		return group;
 	}
