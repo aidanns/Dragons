@@ -1,18 +1,17 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
-import playn.core.Pointer;
-import playn.core.Pointer.Event;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
-import au.edu.unimelb.cis.dragons.core.HittableGroup;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import react.Function;
+import react.UnitSlot;
 import react.ValueView;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
+import tripleplay.ui.ClickableGroup;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
@@ -49,8 +48,8 @@ public class FarmViewController extends ContainerViewController {
 		}
 		
 		@Override
-		protected HittableGroup createInterface() {
-			HittableGroup group = new HittableGroup(new FlowLayout());
+		protected Group createInterface() {
+			Group group = new Group(new FlowLayout());
 			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF0000FF))));
 			group.setConstraint(AxisLayout.stretched());
 
@@ -183,9 +182,9 @@ public class FarmViewController extends ContainerViewController {
 				});
 				
 				// Add a listener for click events on the pen to allow purchasing.
-				child.view().layer.addListener(new Pointer.Adapter() {
+				new ClickableGroup(child.view()).clicked().connect(new UnitSlot() {
 					@Override
-					public void onPointerEnd(Event event) {
+					public void onEmit() {
 						switch(_farm.stateForPen(currentRow, currentColumn).get()) {
 						case Locked:
 							parentScreen().presentViewController(new ClosableModalViewController(new BuyPenViewController(_farm, currentColumn, currentRow, _wallet)));
