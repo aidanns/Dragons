@@ -3,10 +3,10 @@ package au.edu.unimelb.cis.dragons.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import react.Value;
 import au.edu.unimelb.cis.dragons.core.Badge;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.PersistenceClient;
+import au.edu.unimelb.cis.dragons.core.StubGameStatePopulator;
 
 /**
  * A stub persistence client that mimicks the MUGLE API.
@@ -32,30 +32,7 @@ public class StubLocalPersistenceClient implements PersistenceClient {
 	 */
 	@Override
 	public void populate(GameState state) {
-		state.addValueForKey(Value.create("0"), GameState.Key.CurrentGold);
-		state.addValueForKey(Value.create(""), GameState.Key.Username);
-		
-		// Pen states
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 2; j++) {
-				state.addValueForKey(Value.create(i == 1 || i == 2 ? "empty" : "locked"), GameState.Key.penStateKeyAtIndex(j, i));
-			}
-		}
-		
-		// Pen contents
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 2; j++) {
-				state.addValueForKey(Value.create(""), GameState.Key.penDragonIdKeyAtIndex(j, i));
-			}
-		}
-		
-		// Dragons
-		for (int i = 0; i < 8; i++) {
-			state.addValueForKey(Value.create(""), GameState.Key.dragonStateKeyForId(i));
-			state.addValueForKey(Value.create(""), GameState.Key.dragonNameForId(i));
-		}
-		
-		state.markPopulated();
+		StubGameStatePopulator.populateGameState(state);
 		return;
 	}
 

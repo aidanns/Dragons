@@ -1,8 +1,7 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
-import playn.core.Font;
-import playn.core.PlayN;
-import au.edu.unimelb.cis.dragons.core.GlobalConfig;
+import static au.edu.unimelb.cis.dragons.core.GlobalConfig.*;
+
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import react.Function;
@@ -50,23 +49,17 @@ public class DragonDetailViewController extends ViewController {
 		
 		// Add a right pane which displays information about the dragon.
 		MigGroup rightPane = new MigGroup(new MigLayout(
-				"insets 5, gap 5, fill", "[][]", "[][][grow]"));
+				"insets 5, gap 5, fill", "[][]", "[][][][grow]"));
 		
 		// Add a label that displays the dragon's name
-		rightPane.add(new Label("Name:").addStyles(Style.FONT.is(PlayN.graphics().createFont(
-				GlobalConfig.FontName, Font.Style.BOLD, GlobalConfig.FontSize))), "cell 0 0");
-		Label dragonNameLabel = new Label().addStyles(Style.FONT.is(
-				PlayN.graphics().createFont(
-						GlobalConfig.FontName, Font.Style.PLAIN, GlobalConfig.FontSize)));
+		rightPane.add(makeBoldLabel("Name:"), "cell 0 0");
+		Label dragonNameLabel = makePlainLabel();
 		_dragon.name().connectNotify(dragonNameLabel.text.slot());
 		rightPane.add(dragonNameLabel, "cell 1 0");
 		
 		// Add a label that displays the dragon's status
-		rightPane.add(new Label("State:").addStyles(Style.FONT.is(PlayN.graphics().createFont(
-				GlobalConfig.FontName, Font.Style.BOLD, GlobalConfig.FontSize))), "cell 0 1");
-		Label dragonStateLabel = new Label().addStyles(Style.FONT.is(
-				PlayN.graphics().createFont(
-						GlobalConfig.FontName, Font.Style.PLAIN, GlobalConfig.FontSize)));;
+		rightPane.add(makeBoldLabel("State:"), "cell 0 1");
+		Label dragonStateLabel = makePlainLabel();
 		_dragon.state().map(new Function<DragonState, String>() {
 			@Override
 			public String apply(DragonState input) {
@@ -75,6 +68,16 @@ public class DragonDetailViewController extends ViewController {
 		}).connectNotify(dragonStateLabel.text.slot());
 		rightPane.add(dragonStateLabel, "cell 1 1");
 		
+		// Add a label that displays the dragon's score.
+		rightPane.add(makeBoldLabel("Score:"), "cell 0 2");
+		Label dragonScoreLabel = makePlainLabel();
+		_dragon.score().map(new Function<Integer, String>() {
+			@Override
+			public String apply(Integer input) {
+				return input.toString();
+			}
+		}).connectNotify(dragonScoreLabel.text.slot());
+		rightPane.add(dragonScoreLabel, "cell 1 2");
 		group.add(rightPane, "cell 1 0");
 		
 		return group;

@@ -48,7 +48,17 @@ public class GameState {
 		DragonFourState("dragon_4_state"),
 		DragonFiveState("dragon_5_state"),
 		DragonSixState("dragon_6_state"),
-		DragonSevenState("dragon_7_state");
+		DragonSevenState("dragon_7_state"),
+
+		// The current score of the dragons.
+		DragonZeroScore("dragon_0_score"),
+		DragonOneScore("dragon_1_score"),
+		DragonTwoScore("dragon_2_score"),
+		DragonThreeScore("dragon_3_score"),
+		DragonFourScore("dragon_4_score"),
+		DragonFiveScore("dragon_5_score"),
+		DragonSixScore("dragon_6_score"),
+		DragonSevenScore("dragon_7_score");
 		
 		private String _dataStoreKey;
 		private String _shortDescription;
@@ -78,6 +88,8 @@ public class GameState {
 			for (int i = 0; i < 8; i++) {
 				dataStoreKeyToShortDescription.put("dragon_" + i + "_state", "Dragon "+ i + "'s state");
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_state", "The current state of dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_score", "Dragon "+ i + "'s score");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_score", "The current score of dragon " + i);
 			}
 			
 			for (Key key : Key.values()) {
@@ -137,6 +149,10 @@ public class GameState {
 
 		public static Key penDragonIdKeyAtIndex(Integer row, Integer column) {
 			return dataStoreKeyToKey.get("pen_" + row + "_" + column + "_dragon");
+		}
+
+		public static Key dragonScoreForId(Integer id) {
+			return dataStoreKeyToKey.get("dragon_" + id + "_score");
 		}
 	}
 	

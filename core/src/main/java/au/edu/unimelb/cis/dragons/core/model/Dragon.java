@@ -79,6 +79,7 @@ public class Dragon {
 	 */
 	public static Dragon create(GameState gameState, Integer id, String name) {
 		gameState.valueForKey(GameState.Key.dragonNameForId(id)).update(name);
+		gameState.valueForKey(GameState.Key.dragonScoreForId(id)).update("0");
 		Dragon dragon = new Dragon(gameState, id);
 		dragon.makeAvailable();
 		return dragon;
@@ -142,6 +143,19 @@ public class Dragon {
 	 */
 	public ValueView<String> name() {
 		return _gameState.valueForKey(GameState.Key.dragonNameForId(_id));
+	} 
+	
+	/**
+	 * Get the score for this dragon.
+	 * @return The dragon's score.
+	 */
+	public ValueView<Integer> score() {
+		return _gameState.valueForKey(GameState.Key.dragonScoreForId(_id)).map(new Function<String, Integer>() {
+			@Override
+			public Integer apply(String input) {
+				return Integer.parseInt(input);
+			}
+		});
 	}
 
 }

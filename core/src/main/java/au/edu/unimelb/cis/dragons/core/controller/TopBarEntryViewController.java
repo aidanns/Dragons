@@ -1,12 +1,10 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
-import au.edu.unimelb.cis.dragons.core.GlobalConfig;
-import playn.core.Font;
-import playn.core.PlayN;
+import static au.edu.unimelb.cis.dragons.core.GlobalConfig.makeBoldLabel;
+import static au.edu.unimelb.cis.dragons.core.GlobalConfig.makePlainLabel;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
-import tripleplay.ui.Style;
 import tripleplay.ui.layout.AxisLayout;
 
 /**
@@ -29,8 +27,8 @@ public class TopBarEntryViewController extends ViewController {
 	 *            The title for this entry.
 	 */
 	public TopBarEntryViewController(String title) {
-		_titleLabel = new Label(title + ":");
-		_valueLabel = new Label();
+		_titleLabel = makeBoldLabel(title + ":");
+		_valueLabel = makePlainLabel();
 	}
 
 	@Override
@@ -42,11 +40,7 @@ public class TopBarEntryViewController extends ViewController {
 	protected Group createInterface() {
 		SizableGroup group = new SizableGroup(AxisLayout.horizontal());
 		group.setConstraint(AxisLayout.fixed());
-		_titleLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(
-				GlobalConfig.FontName, Font.Style.BOLD, GlobalConfig.FontSize)));
 		group.add(_titleLabel);
-		_valueLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(
-				GlobalConfig.FontName, Font.Style.PLAIN, GlobalConfig.FontSize)));
 		group.add(_valueLabel);
 		return group;
 	}
