@@ -1,11 +1,12 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
 import static au.edu.unimelb.cis.dragons.core.GlobalConfig.*;
-
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import react.Function;
+import react.UnitSlot;
 import tripleplay.ui.Background;
+import tripleplay.ui.Button;
 import tripleplay.ui.Group;
 import tripleplay.ui.Label;
 import tripleplay.ui.MigGroup;
@@ -49,7 +50,7 @@ public class DragonDetailViewController extends ViewController {
 		
 		// Add a right pane which displays information about the dragon.
 		MigGroup rightPane = new MigGroup(new MigLayout(
-				"insets 5, gap 5, fill", "[][]", "[][][][grow]"));
+				"insets 5, gap 5, fill", "[][]", "[][][][grow][]"));
 		
 		// Add a label that displays the dragon's name
 		rightPane.add(makeBoldLabel("Name:"), "cell 0 0");
@@ -78,6 +79,31 @@ public class DragonDetailViewController extends ViewController {
 			}
 		}).connectNotify(dragonScoreLabel.text.slot());
 		rightPane.add(dragonScoreLabel, "cell 1 2");
+		
+		// Add a pane that shows buttons allowing the player to complete
+		// actions using the dragon.
+		Group actionPane = new Group(AxisLayout.horizontal());
+		
+		Button sendDragonToBreedButton = new Button("Send to Breed");
+		sendDragonToBreedButton.clicked().connect(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				_dragon.sendToBreed();
+			}
+		});
+		actionPane.add(sendDragonToBreedButton);
+		
+		Button sendDragonToRaceButton = new Button("Send to Race");
+		sendDragonToRaceButton.clicked().connect(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				_dragon.sendToRace();
+			}
+		});
+		actionPane.add(sendDragonToRaceButton);
+		
+		rightPane.add(actionPane, "cell 0 4, span 2 1");
+		
 		group.add(rightPane, "cell 1 0");
 		
 		return group;
