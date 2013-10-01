@@ -1,5 +1,6 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
+import au.edu.unimelb.cis.dragons.core.GlobalConfig;
 import playn.core.Font;
 import playn.core.PlayN;
 import tripleplay.ui.Group;
@@ -16,9 +17,6 @@ import tripleplay.ui.layout.AxisLayout;
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class TopBarEntryViewController extends ViewController {
-
-	private static String FONT_NAME = "Times New Roman";
-	private static int FONT_SIZE = 20;
 
 	private Label _titleLabel;
 	private Label _valueLabel;
@@ -45,10 +43,10 @@ public class TopBarEntryViewController extends ViewController {
 		SizableGroup group = new SizableGroup(AxisLayout.horizontal());
 		group.setConstraint(AxisLayout.fixed());
 		_titleLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(
-				FONT_NAME, Font.Style.BOLD, FONT_SIZE)));
+				GlobalConfig.FontName, Font.Style.BOLD, GlobalConfig.FontSize)));
 		group.add(_titleLabel);
 		_valueLabel.addStyles(Style.FONT.is(PlayN.graphics().createFont(
-				FONT_NAME, Font.Style.PLAIN, FONT_SIZE)));
+				GlobalConfig.FontName, Font.Style.PLAIN, GlobalConfig.FontSize)));
 		group.add(_valueLabel);
 		return group;
 	}
