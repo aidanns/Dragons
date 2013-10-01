@@ -1,5 +1,8 @@
 package au.edu.unimelb.cis.dragons.core.screen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
@@ -27,7 +30,7 @@ public class DragonGameScreen extends UIScreen {
 	private ScreenStack _stack;
 	
 	// The ViewController that is being presented on screen, if any. Null otherwise.
-	private ViewController _modalChild;
+	private List<ViewController> _modalChildren = new ArrayList<ViewController>();
 	
 	// Number of pixels to inset the modally displayed view from the edge of the screen.
 	private static int MODAL_INSET_DISTANCE = 40;
@@ -81,33 +84,22 @@ public class DragonGameScreen extends UIScreen {
 	 * @param modal The ViewController to present.
 	 */
 	public void presentViewController(ViewController modal) {
-		if (_modalChild != null) {
-			dismissViewController();
-		}
-		_modalChild = modal;
-		_root.add(AbsoluteLayout.at(_modalChild.view(), MODAL_INSET_DISTANCE, MODAL_INSET_DISTANCE, width() - 2 * MODAL_INSET_DISTANCE, height() - 2 * MODAL_INSET_DISTANCE));
-		_modalChild.setParentScreen(this);
-		_modalChild.wasShown();
+		_modalChildren.add(modal);
+		_root.add(AbsoluteLayout.at(modal.view(), MODAL_INSET_DISTANCE, MODAL_INSET_DISTANCE, width() - 2 * MODAL_INSET_DISTANCE, height() - 2 * MODAL_INSET_DISTANCE));
+		modal.setParentScreen(this);
+		modal.wasShown();
 	}
 	
 	/**
 	 * Dismisses any ViewController's currently being displayed modally.
 	 */
-	public void dismissViewController() {
-		if (_modalChild != null) {
-			_root.remove(_modalChild.view());
+	public void dismissViewController(ViewController modal) {
+		if (modal != null && _modalChildren.contains(modal)) {
+			_root.remove(modal.view());
 			_root.pack();
-			_modalChild.wasRemoved();
-			_modalChild.setParentScreen(null);
-			_modalChild = null;
+			_modalChildren.remove(modal);
+			modal.wasRemoved();
+			modal.setParentScreen(null);
 		}
-	}
-	
-	/**
-	 * Return the current modal child of this screen, or null.
-	 * @return The ViewController being presented modally, or null if none is.
-	 */
-	public ViewController modalChild() {
-		return _modalChild;
 	}
 }

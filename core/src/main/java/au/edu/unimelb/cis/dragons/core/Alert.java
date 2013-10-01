@@ -48,9 +48,7 @@ public class Alert {
 		DragonsGame.timer().after(numberOfMilliseconds, new Runnable() {
 			@Override
 			public void run() {
-				if (screen.modalChild() == alertViewController) {
-					screen.dismissViewController();
-				}
+				screen.dismissViewController(alertViewController);
 			}
 		});
 	}

@@ -2,7 +2,6 @@ package au.edu.unimelb.cis.dragons.core.controller;
 
 import playn.core.Pointer;
 import playn.core.Pointer.Event;
-import au.edu.unimelb.cis.dragons.core.Alert;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
 import au.edu.unimelb.cis.dragons.core.HittableGroup;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
@@ -189,12 +188,7 @@ public class FarmViewController extends ContainerViewController {
 					public void onPointerEnd(Event event) {
 						switch(_farm.stateForPen(currentRow, currentColumn).get()) {
 						case Locked:
-							if (_wallet.gold().get() >= 50) {
-								_farm.openAndClearPen(currentRow, currentColumn);
-								_wallet.subtractGold(50);
-							} else {
-								new Alert("Unlocking a pen costs 50 gold. You do not have enough.").displayOnScreen(parentScreen());;
-							}
+							parentScreen().presentViewController(new ClosableModalViewController(new BuyPenViewController(_farm, currentColumn, currentRow, _wallet)));
 							break;
 						case Full:
 							parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(_farm.dragonForPen(currentRow, currentColumn).get())));

@@ -42,7 +42,7 @@ public class ClosableModalViewController extends ViewController {
 		closeModalButton.clicked().connect(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				parentScreen().dismissViewController();
+				parentScreen().dismissViewController(ClosableModalViewController.this);
 			}
 		});
 		bottomPane.add(closeModalButton);
