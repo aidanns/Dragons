@@ -194,6 +194,7 @@ public class FarmViewController extends ContainerViewController {
 							parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(_farm.dragonForPen(currentRow, currentColumn).get())));
 							break;
 						case Empty:
+							parentScreen().presentViewController(new ClosableModalViewController(new BuyDragonViewController()));
 							break;
 						}
 					}
