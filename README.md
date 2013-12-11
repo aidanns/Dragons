@@ -12,13 +12,27 @@ Install the following tools:
 
 - Maven 3.0.3 or newer.
 
-### Dependencies
+### Dependencies Setup
 
-Install the following jars to your local maven repo.
+Install the following jars to your local maven repo:
 
-- https://github.com/threerings/tripleplay
-- https://github.com/threerings/playn (need to use their fork to use tripleplay)
-- https://github.com/aidanns/migraine (only need the core sub-module)
+Three Rings PlayN fork:
+
+	git clone git@github.com:threerings/playn.git
+	cd playn
+	mvn install
+
+Three Rings TriplePlay library:
+
+	git clone git@github.com:threerings/tripleplay.git
+	cd tripleplay
+	mvn install
+
+Aidan's MigLayout port:
+
+	git clone git@github.com:aidanns/migraine.git
+	cd migraine
+	mvn install
 
 ## Running
 
