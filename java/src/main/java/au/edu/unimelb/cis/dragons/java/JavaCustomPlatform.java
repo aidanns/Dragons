@@ -16,7 +16,6 @@ import playn.core.Pointer;
 import playn.core.RegularExpression;
 import playn.core.Storage;
 import playn.core.Touch;
-import playn.core.UIOverlay;
 import playn.java.JavaPlatform;
 
 public class JavaCustomPlatform implements CustomPlatform {
@@ -132,11 +131,6 @@ public class JavaCustomPlatform implements CustomPlatform {
 	@Override
 	public RegularExpression regularExpression() {
 		return _underlyingPlatform.regularExpression();
-	}
-
-	@Override
-	public UIOverlay uiOverlay() {
-		return _underlyingPlatform.uiOverlay();
 	}
 
 	@Override
