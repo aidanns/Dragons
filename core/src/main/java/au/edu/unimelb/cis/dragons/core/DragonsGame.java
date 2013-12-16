@@ -9,6 +9,7 @@ import au.edu.unimelb.cis.dragons.core.CustomGraphics.ResizeHandler;
 import au.edu.unimelb.cis.dragons.core.controller.FarmViewController;
 import au.edu.unimelb.cis.dragons.core.controller.InfoBarViewController;
 import au.edu.unimelb.cis.dragons.core.controller.LeaderboardViewController;
+import au.edu.unimelb.cis.dragons.core.controller.LoadingViewController;
 import au.edu.unimelb.cis.dragons.core.controller.LoreViewController;
 import au.edu.unimelb.cis.dragons.core.controller.TabController;
 import au.edu.unimelb.cis.dragons.core.controller.TopBarViewController;
@@ -17,7 +18,6 @@ import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.User;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import au.edu.unimelb.cis.dragons.core.screen.DragonGameScreen;
-import au.edu.unimelb.cis.dragons.core.screen.LoadingScreen;
 import playn.core.AssetWatcher;
 import playn.core.Game;
 import playn.core.PlayN;
@@ -49,7 +49,7 @@ public class DragonsGame extends Game.Default {
 	private static final int UPDATE_RATE = 50;
 	
 	// Loading screen must be displayed for at least 4 seconds.
-	private static final int MINIMUM_LOADING_SCREEN_TIME = 800;
+	private static final int MINIMUM_LOADING_SCREEN_TIME = 4000;
 
 	// Screen that manages a stack of other screens being presented.
 	private final ScreenStack _screens = new ScreenStack() {
@@ -87,7 +87,7 @@ public class DragonsGame extends Game.Default {
 	@Override
 	public void init() {
 		// Display the default loading screen.
-		_screens.push(new LoadingScreen(_screens));
+		_screens.push(new DragonGameScreen(_screens, new LoadingViewController()));
 		populateGameState();
 		loadResourcesThenDisplayGame();
 		
@@ -130,6 +130,12 @@ public class DragonsGame extends Game.Default {
 	private void loadResourcesThenDisplayGame() {
 		AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
 			
+			@Override
+			public void progress(int loaded, int errors, int total) {
+				// TODO Auto-generated method stub
+				super.progress(loaded, errors, total);
+			}
+
 			@Override
 			public void error(Throwable e) {
 				log().error(e.getMessage());
