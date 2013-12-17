@@ -87,9 +87,10 @@ public class DragonsGame extends Game.Default {
 	@Override
 	public void init() {
 		// Display the default loading screen.
-		_screens.push(new DragonGameScreen(_screens, new LoadingViewController()));
+		LoadingViewController loadingViewController = new LoadingViewController();
+		_screens.push(new DragonGameScreen(_screens, loadingViewController));
 		populateGameState();
-		loadResourcesThenDisplayGame();
+		loadResourcesThenDisplayGame(loadingViewController);
 		
 		_platform.graphics().addResizeHandler(new ResizeHandler() {
 
@@ -126,14 +127,16 @@ public class DragonsGame extends Game.Default {
 	/*
 	 * When the resources have loaded and MINIMUM_LOADING_SCREEN_TIME has past,
 	 * the game is displayed.
+	 * @param loadingViewController The view controller that is displaying the
+	 *   loading status of the game to the user. Should be updated as the
+	 *   status of the loading changes.
 	 */
-	private void loadResourcesThenDisplayGame() {
+	private void loadResourcesThenDisplayGame(final LoadingViewController loadingViewController) {
 		AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
 			
 			@Override
 			public void progress(int loaded, int errors, int total) {
-				// TODO Auto-generated method stub
-				super.progress(loaded, errors, total);
+				loadingViewController.setProgress(loaded, errors, total);
 			}
 
 			@Override
@@ -170,6 +173,12 @@ public class DragonsGame extends Game.Default {
 			}
 		});
 		
+		// Add some images that we need to wait for before loading the main game.
+		assetWatcher.add(assets().getImage("images/bg.png"));
+		assetWatcher.add(assets().getImage("images/bug_in_lampshade.jpeg"));
+		assetWatcher.add(assets().getImage("images/like_couch_better.jpeg"));
+		
+		// Start loading.
 		assetWatcher.start();
 	}
 	

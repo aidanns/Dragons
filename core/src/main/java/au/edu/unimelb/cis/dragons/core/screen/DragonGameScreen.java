@@ -5,7 +5,7 @@ import java.util.List;
 
 import au.edu.unimelb.cis.dragons.core.controller.ViewController;
 import tripleplay.game.ScreenStack;
-import tripleplay.game.UIScreen;
+import tripleplay.game.UIAnimScreen;
 import tripleplay.ui.Background;
 import tripleplay.ui.Root;
 import tripleplay.ui.SimpleStyles;
@@ -17,7 +17,7 @@ import tripleplay.ui.layout.AbsoluteLayout;
  * 
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
-public class DragonGameScreen extends UIScreen {
+public class DragonGameScreen extends UIAnimScreen {
 
 	/** The root that this screen is presenting */
 	private Root _root;
