@@ -40,4 +40,14 @@ public enum Allele {
 	public String toString() {
 		return _name;
 	}
+	
+	/**
+	 * Get the Allele for a given allele name, which is returned from 
+	 * the GameState.
+	 * @param alleleName The name of the allele to retrieve.
+	 * @return The allele.
+	 */
+	/* package */ static Allele dragonStateForStateName(String alleleName) {
+		return nameToAlleleMap.get(alleleName);
+	}
 }

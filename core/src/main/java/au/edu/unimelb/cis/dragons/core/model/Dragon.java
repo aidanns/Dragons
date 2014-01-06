@@ -6,6 +6,7 @@ import java.util.Map;
 import react.Function;
 import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
+import au.edu.unimelb.cis.dragons.core.genetics.Allele;
 
 /**
  * Represents an individual dragon within the game.
@@ -157,5 +158,140 @@ public class Dragon {
 			}
 		});
 	}
+	
+	// For us in all the Allele retrieving functions.
+	private Function<String, Allele> _stringToAlleleMapper = new Function<String, Allele>() {
+		@Override
+		public Allele apply(String input) {
+			return Allele.valueOf(input);
+		}
+	};
+	
+	/**
+	 * Get the first leg length allele for this dragon.
+	 * @return The dragon's first leg length allele.
+	 */
+	public ValueView<Allele> legLengthAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonLegLengthAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second leg length allele for this dragon.
+	 * @return The dragon's second leg length allele.
+	 */
+	public ValueView<Allele> legLengthAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonLegLengthAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the first feet type allele for this dragon.
+	 * @return The dragon's first feet type allele.
+	 */
+	public ValueView<Allele> feetTypeAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonFeetTypeAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second feet type allele for this dragon.
+	 * @return The dragon's second feet type allele.
+	 */
+	public ValueView<Allele> feetTypeAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonFeetTypeAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
 
+	/**
+	 * Get the first coat type allele for this dragon.
+	 * @return The dragon's first coat type allele.
+	 */
+	public ValueView<Allele> coatTypeAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonCoatTypeAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second coat type allele for this dragon.
+	 * @return The dragon's second coat type allele.
+	 */
+	public ValueView<Allele> coatTypeAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonCoatTypeAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+
+	/**
+	 * Get the first wing size allele for this dragon.
+	 * @return The dragon's first wing size allele.
+	 */
+	public ValueView<Allele> wingSizeAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonWingSizeAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second wing size allele for this dragon.
+	 * @return The dragon's second wing size allele.
+	 */
+	public ValueView<Allele> wingSizeAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonWingSizeAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+
+	/**
+	 * Get the first tail length allele for this dragon.
+	 * @return The dragon's first tail length allele.
+	 */
+	public ValueView<Allele> tailLengthAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonTailLengthAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second tail length allele for this dragon.
+	 * @return The dragon's second tail length allele.
+	 */
+	public ValueView<Allele> tailLengthAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonTailLengthAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+
+	/**
+	 * Get the first physique allele for this dragon.
+	 * @return The dragon's first physique allele.
+	 */
+	public ValueView<Allele> physiqueAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second physique allele for this dragon.
+	 * @return The dragon's second physique allele.
+	 */
+	public ValueView<Allele> physiqueAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+
+	/**
+	 * Get the first lung size allele for this dragon.
+	 * @return The dragon's first lung size allele.
+	 */
+	public ValueView<Allele> lungSizeAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonLungSizeAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second lung size allele for this dragon.
+	 * @return The dragon's second lung size allele.
+	 */
+	public ValueView<Allele> lungSizeAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+
+	/**
+	 * Get the first heart size allele for this dragon.
+	 * @return The dragon's first heart size allele.
+	 */
+	public ValueView<Allele> heartSizeAlleleOne() {
+		return _gameState.valueForKey(GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	/**
+	 * Get the second heart size allele for this dragon.
+	 * @return The dragon's second heart size allele.
+	 */
+	public ValueView<Allele> heartSizeAlleleTwo() {
+		return _gameState.valueForKey(GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
 }
