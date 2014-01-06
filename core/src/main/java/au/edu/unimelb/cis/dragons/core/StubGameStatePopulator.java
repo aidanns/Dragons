@@ -33,8 +33,8 @@ public class StubGameStatePopulator {
 		// Dragons
 		for (int i = 0; i < 8; i++) {
 			state.addValueForKey(Value.create(""), GameState.Key.dragonStateKeyForId(i));
-			state.addValueForKey(Value.create(""), GameState.Key.dragonNameForId(i));
-			state.addValueForKey(Value.create(""), GameState.Key.dragonScoreForId(i));
+			state.addValueForKey(Value.create(""), GameState.Key.dragonNameKeyForId(i));
+			state.addValueForKey(Value.create(""), GameState.Key.dragonScoreKeyForId(i));
 		}
 		
 		state.markPopulated();

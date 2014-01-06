@@ -58,7 +58,161 @@ public class GameState {
 		DragonFourScore("dragon_4_score"),
 		DragonFiveScore("dragon_5_score"),
 		DragonSixScore("dragon_6_score"),
-		DragonSevenScore("dragon_7_score");
+		DragonSevenScore("dragon_7_score"),
+		
+		// Dragon Phenotypes.
+		
+		// Leg Length
+		DragonZeroLegLengthAlleleOne("dragon_0_leg_length_allele_one"),
+		DragonOneLegLengthAlleleOne("dragon_1_leg_length_allele_one"),
+		DragonTwoLegLengthAlleleOne("dragon_2_leg_length_allele_one"),
+		DragonThreeLegLengthAlleleOne("dragon_3_leg_length_allele_one"),
+		DragonFourLegLengthAlleleOne("dragon_4_leg_length_allele_one"),
+		DragonFiveLegLengthAlleleOne("dragon_5_leg_length_allele_one"),
+		DragonSixLegLengthAlleleOne("dragon_6_leg_length_allele_one"),
+		DragonSevenLegLengthAlleleOne("dragon_7_leg_length_allele_one"),
+		
+		DragonZeroLegLengthAlleleTwo("dragon_0_leg_length_allele_two"),
+		DragonOneLegLengthAlleleTwo("dragon_1_leg_length_allele_two"),
+		DragonTwoLegLengthAlleleTwo("dragon_2_leg_length_allele_two"),
+		DragonThreeLegLengthAlleleTwo("dragon_3_leg_length_allele_two"),
+		DragonFourLegLengthAlleleTwo("dragon_4_leg_length_allele_two"),
+		DragonFiveLegLengthAlleleTwo("dragon_5_leg_length_allele_two"),
+		DragonSixLegLengthAlleleTwo("dragon_6_leg_length_allele_two"),
+		DragonSevenLegLengthAlleleTwo("dragon_7_leg_length_allele_two"),
+
+		// Feet Type
+		DragonZeroFeetTypeAlleleOne("dragon_0_feet_type_allele_one"),
+		DragonOneFeetTypeAlleleOne("dragon_1_feet_type_allele_one"),
+		DragonTwoFeetTypeAlleleOne("dragon_2_feet_type_allele_one"),
+		DragonThreeFeetTypeAlleleOne("dragon_3_feet_type_allele_one"),
+		DragonFourFeetTypeAlleleOne("dragon_4_feet_type_allele_one"),
+		DragonFiveFeetTypeAlleleOne("dragon_5_feet_type_allele_one"),
+		DragonSixFeetTypeAlleleOne("dragon_6_feet_type_allele_one"),
+		DragonSevenFeetTypeAlleleOne("dragon_7_feet_type_allele_one"),
+		
+		DragonZeroFeetTypeAlleleTwo("dragon_0_feet_type_allele_two"),
+		DragonOneFeetTypeAlleleTwo("dragon_1_feet_type_allele_two"),
+		DragonTwoFeetTypeAlleleTwo("dragon_2_feet_type_allele_two"),
+		DragonThreeFeetTypeAlleleTwo("dragon_3_feet_type_allele_two"),
+		DragonFourFeetTypeAlleleTwo("dragon_4_feet_type_allele_two"),
+		DragonFiveFeetTypeAlleleTwo("dragon_5_feet_type_allele_two"),
+		DragonSixFeetTypeAlleleTwo("dragon_6_feet_type_allele_two"),
+		DragonSevenFeetTypeAlleleTwo("dragon_7_feet_type_allele_two"),
+		
+		// Coat Type
+		DragonZeroCoatTypeAlleleOne("dragon_0_coat_type_allele_one"),
+		DragonOneCoatTypeAlleleOne("dragon_1_coat_type_allele_one"),
+		DragonTwoCoatTypeAlleleOne("dragon_2_coat_type_allele_one"),
+		DragonThreeCoatTypeAlleleOne("dragon_3_coat_type_allele_one"),
+		DragonFourCoatTypeAlleleOne("dragon_4_coat_type_allele_one"),
+		DragonFiveCoatTypeAlleleOne("dragon_5_coat_type_allele_one"),
+		DragonSixCoatTypeAlleleOne("dragon_6_coat_type_allele_one"),
+		DragonSevenCoatTypeAlleleOne("dragon_7_coat_type_allele_one"),
+		
+		DragonZeroCoatTypeAlleleTwo("dragon_0_coat_type_allele_two"),
+		DragonOneCoatTypeAlleleTwo("dragon_1_coat_type_allele_two"),
+		DragonTwoCoatTypeAlleleTwo("dragon_2_coat_type_allele_two"),
+		DragonThreeCoatTypeAlleleTwo("dragon_3_coat_type_allele_two"),
+		DragonFourCoatTypeAlleleTwo("dragon_4_coat_type_allele_two"),
+		DragonFiveCoatTypeAlleleTwo("dragon_5_coat_type_allele_two"),
+		DragonSixCoatTypeAlleleTwo("dragon_6_coat_type_allele_two"),
+		DragonSevenCoatTypeAlleleTwo("dragon_7_coat_type_allele_two"),
+
+		// Wing Size
+		DragonZeroWingSizeAlleleOne("dragon_0_wing_size_allele_one"),
+		DragonOneWingSizeAlleleOne("dragon_1_wing_size_allele_one"),
+		DragonTwoWingSizeAlleleOne("dragon_2_wing_size_allele_one"),
+		DragonThreeWingSizeAlleleOne("dragon_3_wing_size_allele_one"),
+		DragonFourWingSizeAlleleOne("dragon_4_wing_size_allele_one"),
+		DragonFiveWingSizeAlleleOne("dragon_5_wing_size_allele_one"),
+		DragonSixWingSizeAlleleOne("dragon_6_wing_size_allele_one"),
+		DragonSevenWingSizeAlleleOne("dragon_7_wing_size_allele_one"),
+		
+		DragonZeroWingSizeAlleleTwo("dragon_0_wing_size_allele_two"),
+		DragonOneWingSizeAlleleTwo("dragon_1_wing_size_allele_two"),
+		DragonTwoWingSizeAlleleTwo("dragon_2_wing_size_allele_two"),
+		DragonThreeWingSizeAlleleTwo("dragon_3_wing_size_allele_two"),
+		DragonFourWingSizeAlleleTwo("dragon_4_wing_size_allele_two"),
+		DragonFiveWingSizeAlleleTwo("dragon_5_wing_size_allele_two"),
+		DragonSixWingSizeAlleleTwo("dragon_6_wing_size_allele_two"),
+		DragonSevenWingSizeAlleleTwo("dragon_7_wing_size_allele_two"),
+
+		// Tail Length
+		DragonZeroTailLengthAlleleOne("dragon_0_tail_length_allele_one"),
+		DragonOneTailLengthAlleleOne("dragon_1_tail_length_allele_one"),
+		DragonTwoTailLengthAlleleOne("dragon_2_tail_length_allele_one"),
+		DragonThreeTailLengthAlleleOne("dragon_3_tail_length_allele_one"),
+		DragonFourTailLengthAlleleOne("dragon_4_tail_length_allele_one"),
+		DragonFiveTailLengthAlleleOne("dragon_5_tail_length_allele_one"),
+		DragonSixTailLengthAlleleOne("dragon_6_tail_length_allele_one"),
+		DragonSevenTailLengthAlleleOne("dragon_7_tail_length_allele_one"),
+		
+		DragonZeroTailLengthAlleleTwo("dragon_0_tail_length_allele_two"),
+		DragonOneTailLengthAlleleTwo("dragon_1_tail_length_allele_two"),
+		DragonTwoTailLengthAlleleTwo("dragon_2_tail_length_allele_two"),
+		DragonThreeTailLengthAlleleTwo("dragon_3_tail_length_allele_two"),
+		DragonFourTailLengthAlleleTwo("dragon_4_tail_length_allele_two"),
+		DragonFiveTailLengthAlleleTwo("dragon_5_tail_length_allele_two"),
+		DragonSixTailLengthAlleleTwo("dragon_6_tail_length_allele_two"),
+		DragonSevenTailLengthAlleleTwo("dragon_7_tail_length_allele_two"),
+
+		// Physique
+		DragonZeroPhysiqueAlleleOne("dragon_0_physique_allele_one"),
+		DragonOnePhysiqueAlleleOne("dragon_1_physique_allele_one"),
+		DragonTwoPhysiqueAlleleOne("dragon_2_physique_allele_one"),
+		DragonThreePhysiqueAlleleOne("dragon_3_physique_allele_one"),
+		DragonFourPhysiqueAlleleOne("dragon_4_physique_allele_one"),
+		DragonFivePhysiqueAlleleOne("dragon_5_physique_allele_one"),
+		DragonSixPhysiqueAlleleOne("dragon_6_physique_allele_one"),
+		DragonSevenPhysiqueAlleleOne("dragon_7_physique_allele_one"),
+		
+		DragonZeroPhysiqueAlleleTwo("dragon_0_physique_allele_two"),
+		DragonOnePhysiqueAlleleTwo("dragon_1_physique_allele_two"),
+		DragonTwoPhysiqueAlleleTwo("dragon_2_physique_allele_two"),
+		DragonThreePhysiqueAlleleTwo("dragon_3_physique_allele_two"),
+		DragonFourPhysiqueAlleleTwo("dragon_4_physique_allele_two"),
+		DragonFivePhysiqueAlleleTwo("dragon_5_physique_allele_two"),
+		DragonSixPhysiqueAlleleTwo("dragon_6_physique_allele_two"),
+		DragonSevenPhysiqueAlleleTwo("dragon_7_physique_allele_two"),
+
+		// Lung Size
+		DragonZeroLungSizeAlleleOne("dragon_0_lung_size_allele_one"),
+		DragonOneLungSizeAlleleOne("dragon_1_lung_size_allele_one"),
+		DragonTwoLungSizeAlleleOne("dragon_2_lung_size_allele_one"),
+		DragonThreeLungSizeAlleleOne("dragon_3_lung_size_allele_one"),
+		DragonFourLungSizeAlleleOne("dragon_4_lung_size_allele_one"),
+		DragonFiveLungSizeAlleleOne("dragon_5_lung_size_allele_one"),
+		DragonSixLungSizeAlleleOne("dragon_6_lung_size_allele_one"),
+		DragonSevenLungSizeAlleleOne("dragon_7_lung_size_allele_one"),
+		
+		DragonZeroLungSizeAlleleTwo("dragon_0_lung_size_allele_two"),
+		DragonOneLungSizeAlleleTwo("dragon_1_lung_size_allele_two"),
+		DragonTwoLungSizeAlleleTwo("dragon_2_lung_size_allele_two"),
+		DragonThreeLungSizeAlleleTwo("dragon_3_lung_size_allele_two"),
+		DragonFourLungSizeAlleleTwo("dragon_4_lung_size_allele_two"),
+		DragonFiveLungSizeAlleleTwo("dragon_5_lung_size_allele_two"),
+		DragonSixLungSizeAlleleTwo("dragon_6_lung_size_allele_two"),
+		DragonSevenLungSizeAlleleTwo("dragon_7_lung_size_allele_two"),
+
+		// Heart Size
+		DragonZeroHeartSizeAlleleOne("dragon_0_heart_size_allele_one"),
+		DragonOneHeartSizeAlleleOne("dragon_1_heart_size_allele_one"),
+		DragonTwoHeartSizeAlleleOne("dragon_2_heart_size_allele_one"),
+		DragonThreeHeartSizeAlleleOne("dragon_3_heart_size_allele_one"),
+		DragonFourHeartSizeAlleleOne("dragon_4_heart_size_allele_one"),
+		DragonFiveHeartSizeAlleleOne("dragon_5_heart_size_allele_one"),
+		DragonSixHeartSizeAlleleOne("dragon_6_heart_size_allele_one"),
+		DragonSevenHeartSizeAlleleOne("dragon_7_heart_size_allele_one"),
+		
+		DragonZeroHeartSizeAlleleTwo("dragon_0_heart_size_allele_two"),
+		DragonOneHeartSizeAlleleTwo("dragon_1_heart_size_allele_two"),
+		DragonTwoHeartSizeAlleleTwo("dragon_2_heart_size_allele_two"),
+		DragonThreeHeartSizeAlleleTwo("dragon_3_heart_size_allele_two"),
+		DragonFourHeartSizeAlleleTwo("dragon_4_heart_size_allele_two"),
+		DragonFiveHeartSizeAlleleTwo("dragon_5_heart_size_allele_two"),
+		DragonSixHeartSizeAlleleTwo("dragon_6_heart_size_allele_two"),
+		DragonSevenHeartSizeAlleleTwo("dragon_7_heart_size_allele_two");
 		
 		private String _dataStoreKey;
 		private String _shortDescription;
@@ -90,6 +244,47 @@ public class GameState {
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_state", "The current state of dragon " + i);
 				dataStoreKeyToShortDescription.put("dragon_" + i + "_score", "Dragon "+ i + "'s score");
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_score", "The current score of dragon " + i);
+				
+				// Phenotypes.
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_leg_length_allele_one", "Dragon " + i + "'s first leg length allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_leg_length_allele_one", "The first allele contributing towards the leg length phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_leg_length_allele_two", "Dragon " + i + "'s second leg length allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_leg_length_allele_two", "The second allele contributing towards the leg length phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_feet_type_allele_one", "Dragon " + i + "'s first feet type allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_feet_type_allele_one", "The first allele contributing towards the feet type phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_feet_type_allele_two", "Dragon " + i + "'s first feet type allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_feet_type_allele_two", "The first allele contributing towards the feet type phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_coat_type_allele_one", "Dragon " + i + "'s first coat_type allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_coat_type_allele_one", "The first allele contributing towards the coat_type phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_coat_type_allele_two", "Dragon " + i + "'s first coat_type allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_coat_type_allele_two", "The first allele contributing towards the coat_type phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_wing_size_allele_one", "Dragon " + i + "'s first wing size allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_wing_size_allele_one", "The first allele contributing towards the wing size phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_wing_size_allele_two", "Dragon " + i + "'s first wing size allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_wing_size_allele_two", "The first allele contributing towards the wing size phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_tail_length_allele_one", "Dragon " + i + "'s first tail length allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_tail_length_allele_one", "The first allele contributing towards the tail length phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_tail_length_allele_two", "Dragon " + i + "'s first tail length allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_tail_length_allele_two", "The first allele contributing towards the tail length phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_physique_allele_one", "Dragon " + i + "'s first physique allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_physique_allele_one", "The first allele contributing towards the physique phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_physique_allele_two", "Dragon " + i + "'s first physique allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_physique_allele_two", "The first allele contributing towards the physique phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_lung_size_allele_one", "Dragon " + i + "'s first lung size allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_lung_size_allele_one", "The first allele contributing towards the lung size phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_lung_size_allele_two", "Dragon " + i + "'s first lung size allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_lung_size_allele_two", "The first allele contributing towards the lung size phenotype for dragon " + i);
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_heart_size_allele_one", "Dragon " + i + "'s first heart size allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_heart_size_allele_one", "The first allele contributing towards the heart size phenotype for dragon " + i);
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_heart_size_allele_two", "Dragon " + i + "'s first heart size allele");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_heart_size_allele_two", "The first allele contributing towards the heart size phenotype for dragon " + i);
 			}
 			
 			for (Key key : Key.values()) {
@@ -132,7 +327,7 @@ public class GameState {
 		/**
 		 * Get the Key for the state for a dragon with a certain id.
 		 * @param id The id of the dragon.
-		 * @return The state for that dragon.
+		 * @return The key for the state of that dragon.
 		 */
 		public static Key dragonStateKeyForId(Integer id) {
 			return dataStoreKeyToKey.get("dragon_" + id + "_state");
@@ -141,18 +336,200 @@ public class GameState {
 		/**
 		 * Get the Key for the name for a dragon with a certain id.
 		 * @param id The id of the dragon.
-		 * @return The state for that dragon.
+		 * @return The key for that dragon's name.
 		 */
-		public static Key dragonNameForId(Integer id) {
+		public static Key dragonNameKeyForId(Integer id) {
 			return dataStoreKeyToKey.get("dragon_" + id + "_name");
 		}
 
+		/**
+		 * Get the Key for the dragon stored in a certain pen in the farm.
+		 * @param row The row of the pen.
+		 * @param column The column of the pen.
+		 * @return The key for the dragon in that pen.
+		 */
 		public static Key penDragonIdKeyAtIndex(Integer row, Integer column) {
 			return dataStoreKeyToKey.get("pen_" + row + "_" + column + "_dragon");
 		}
 
-		public static Key dragonScoreForId(Integer id) {
+		/**
+		 * Get the Key for the score of a certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the score of that dragon.
+		 */
+		public static Key dragonScoreKeyForId(Integer id) {
 			return dataStoreKeyToKey.get("dragon_" + id + "_score");
+		}
+
+		/**
+		 * Get the Key for the first allele for the leg length phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonLegLengthAlleleOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "leg_length", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the leg length phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonLegLengthAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "leg_length", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the feet type phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonFeetTypeOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "feet_type", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the feet type phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonFeetTypeAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "feet_type", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the coat type phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonCoatTypeOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "coat_type", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the coat type phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonCoatTypeAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "coat_type", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the wing size phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonWingSizeOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "wing_size", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the wing size phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonWingSizeAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "wing_size", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the tail length phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonTailLengthOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "tail_length", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the tail length phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonTailLengthAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "tail_length", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the physique phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonPhysiqueOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "physique", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the physique phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonPhysiqueAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "physique", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the lung size phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonLungSizeOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "lung_size", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the lung size phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonLungSizeAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "lung_size", 2);
+		}
+
+		/**
+		 * Get the Key for the first allele for the heart size phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonHeartSizeOneKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "", 1);
+		}
+
+		/**
+		 * Get the Key for the first allele for the heart size phenotype for a 
+		 * certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The key for the allele.
+		 */
+		public static Key dragonHeartSizeAlleleTwoKeyForId(Integer id) {
+			return dragonAlleleKeyForIdAndGeneAndNumber(id, "", 2);
+		}
+
+		/**
+		 * Get the key for a certain allele from a certain dragon.
+		 * @param id The id of the dragon.
+		 * @param gene The key of the gene to retrieve from.
+		 * @param number The number of the allele to retrieve (1 or 2).
+		 * @return The key for the allele.
+		 */
+		private static Key dragonAlleleKeyForIdAndGeneAndNumber(Integer id, String gene, Integer number) {
+			return dataStoreKeyToKey.get("dragon_" + id + "_" + gene + "_allele_" + number.toString());
 		}
 	}
 	
