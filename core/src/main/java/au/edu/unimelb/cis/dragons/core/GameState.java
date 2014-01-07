@@ -387,7 +387,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonFeetTypeOneKeyForId(Integer id) {
+		public static Key dragonFeetTypeAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "feet_type", 1);
 		}
 
@@ -407,7 +407,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonCoatTypeOneKeyForId(Integer id) {
+		public static Key dragonCoatTypeAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "coat_type", 1);
 		}
 
@@ -427,7 +427,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonWingSizeOneKeyForId(Integer id) {
+		public static Key dragonWingSizeAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "wing_size", 1);
 		}
 
@@ -447,7 +447,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonTailLengthOneKeyForId(Integer id) {
+		public static Key dragonTailLengthAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "tail_length", 1);
 		}
 
@@ -467,7 +467,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonPhysiqueOneKeyForId(Integer id) {
+		public static Key dragonPhysiqueAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "physique", 1);
 		}
 
@@ -487,7 +487,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonLungSizeOneKeyForId(Integer id) {
+		public static Key dragonLungSizeAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "lung_size", 1);
 		}
 
@@ -507,7 +507,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The key for the allele.
 		 */
-		public static Key dragonHeartSizeOneKeyForId(Integer id) {
+		public static Key dragonHeartSizeAlleleOneKeyForId(Integer id) {
 			return dragonAlleleKeyForIdAndGeneAndNumber(id, "", 1);
 		}
 

@@ -4,9 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import react.Function;
+import react.Slot;
+import react.Value;
 import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.genetics.Allele;
+import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.CoatType;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.FeetType;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.HeartSize;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.LegLength;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.LungSize;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.Physique;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.TailLength;
+import au.edu.unimelb.cis.dragons.core.genetics.genes.WingSize;
 
 /**
  * Represents an individual dragon within the game.
@@ -293,5 +304,215 @@ public class Dragon {
 	 */
 	public ValueView<Allele> heartSizeAlleleTwo() {
 		return _gameState.valueForKey(GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id)).map(this._stringToAlleleMapper);
+	}
+	
+	// Phenotype's are lazily loaded as needed.
+
+	private Value<Phenotype> _legLengthPhenotype = null;
+	
+	/**
+	 * @return The leg length phenotype for this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> legLength() {
+		if (_legLengthPhenotype == null) {
+			final LegLength legLegthGene = new LegLength();
+			final ValueView<Allele> alleleOne = legLengthAlleleOne();
+			final ValueView<Allele> alleleTwo = legLengthAlleleTwo();
+			
+			_legLengthPhenotype = Value.create(legLegthGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_legLengthPhenotype.update(legLegthGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _legLengthPhenotype;
+	}
+	
+	private Value<Phenotype> _feetTypePhenotype = null;
+	
+	/**
+	 * @return The feet type phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> feetType() {
+		if (_feetTypePhenotype == null) {
+			final FeetType feetTypeGene = new FeetType();
+			final ValueView<Allele> alleleOne = feetTypeAlleleOne();
+			final ValueView<Allele> alleleTwo = feetTypeAlleleTwo();
+			
+			_feetTypePhenotype = Value.create(feetTypeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_feetTypePhenotype.update(feetTypeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _feetTypePhenotype;
+	}
+	
+	private Value<Phenotype> _coatTypePhenotype = null;
+	
+	/**
+	 * @return The coat type phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> coatType() {
+		if (_coatTypePhenotype == null) {
+			final CoatType coatTypeGene = new CoatType();
+			final ValueView<Allele> alleleOne = coatTypeAlleleOne();
+			final ValueView<Allele> alleleTwo = coatTypeAlleleTwo();
+			
+			_coatTypePhenotype = Value.create(coatTypeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_coatTypePhenotype.update(coatTypeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _coatTypePhenotype;
+	}
+	
+	private Value<Phenotype> _wingSizePhenotype = null;
+	
+	/**
+	 * @return The wing size phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> wingSize() {
+		if (_wingSizePhenotype == null) {
+			final WingSize wingSizeGene = new WingSize();
+			final ValueView<Allele> alleleOne = wingSizeAlleleOne();
+			final ValueView<Allele> alleleTwo = wingSizeAlleleTwo();
+			
+			_wingSizePhenotype = Value.create(wingSizeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_wingSizePhenotype.update(wingSizeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _wingSizePhenotype;
+	}
+	
+	private Value<Phenotype> _tailLengthPhenotype = null;
+	
+	/**
+	 * @return The tail length phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> tailLength() {
+		if (_tailLengthPhenotype == null) {
+			final TailLength tailLengthGene = new TailLength();
+			final ValueView<Allele> alleleOne = tailLengthAlleleOne();
+			final ValueView<Allele> alleleTwo = tailLengthAlleleTwo();
+			
+			_tailLengthPhenotype = Value.create(tailLengthGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_tailLengthPhenotype.update(tailLengthGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _tailLengthPhenotype;
+	}
+	
+	private Value<Phenotype> _physiquePhenotype = null;
+	
+	/**
+	 * @return The physique phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> physique() {
+		if (_physiquePhenotype == null) {
+			final Physique physiqueGene = new Physique();
+			final ValueView<Allele> alleleOne = physiqueAlleleOne();
+			final ValueView<Allele> alleleTwo = physiqueAlleleTwo();
+			
+			_physiquePhenotype = Value.create(physiqueGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_physiquePhenotype.update(physiqueGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _physiquePhenotype;
+	}
+	
+	private Value<Phenotype> _lungSizePhenotype = null;
+	
+	/**
+	 * @return The lung size phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> lungSize() {
+		if (_lungSizePhenotype == null) {
+			final LungSize lungSizeGene = new LungSize();
+			final ValueView<Allele> alleleOne = lungSizeAlleleOne();
+			final ValueView<Allele> alleleTwo = lungSizeAlleleTwo();
+			
+			_lungSizePhenotype = Value.create(lungSizeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_lungSizePhenotype.update(lungSizeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _lungSizePhenotype;
+	}
+	
+	private Value<Phenotype> _heartSizePhenotype = null;
+	
+	/**
+	 * @return The heart size phenotype of this dragon, computed from it's
+	 * genotype.
+	 */
+	public ValueView<Phenotype> heartSize() {
+		if (_heartSizePhenotype == null) {
+			final HeartSize heartSizeGene = new HeartSize();
+			final ValueView<Allele> alleleOne = heartSizeAlleleOne();
+			final ValueView<Allele> alleleTwo = heartSizeAlleleTwo();
+			
+			_heartSizePhenotype = Value.create(heartSizeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+			
+			Slot<Allele> alleleChangedSlot = new Slot<Allele>() {
+				@Override
+				public void onEmit(Allele allele) {
+					_heartSizePhenotype.update(heartSizeGene.getPhenotypeForGenotype(alleleOne.get(), alleleTwo.get()));
+				}
+			};
+			alleleOne.connect(alleleChangedSlot);
+			alleleTwo.connect(alleleChangedSlot);
+		}
+		return _heartSizePhenotype;
 	}
 }
