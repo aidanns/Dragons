@@ -74,7 +74,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonLegLengthAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.ShortLegs.toString()));
-        assertEquals(_dragon.legLengthAlleleOne().get(), Allele.ShortLegs);
+        assertEquals(Allele.ShortLegs, _dragon.legLengthAlleleOne().get());
     }
     
     @Test
@@ -82,7 +82,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonLegLengthAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.LongLegs.toString()));
-        assertEquals(_dragon.legLengthAlleleTwo().get(), Allele.LongLegs);
+        assertEquals(Allele.LongLegs, _dragon.legLengthAlleleTwo().get());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonFeetTypeAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.ClawedFeet.toString()));
-        assertEquals(_dragon.feetTypeAlleleOne().get(), Allele.ClawedFeet);
+        assertEquals(Allele.ClawedFeet, _dragon.feetTypeAlleleOne().get());
     }
     
     @Test
@@ -98,7 +98,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonFeetTypeAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.WebbedFeet.toString()));
-        assertEquals(_dragon.feetTypeAlleleTwo().get(), Allele.WebbedFeet);
+        assertEquals(Allele.WebbedFeet, _dragon.feetTypeAlleleTwo().get());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonCoatTypeAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.ScaledCoat.toString()));
-        assertEquals(_dragon.coatTypeAlleleOne().get(), Allele.ScaledCoat);
+        assertEquals(Allele.ScaledCoat, _dragon.coatTypeAlleleOne().get());
     }
     
     @Test
@@ -114,7 +114,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonCoatTypeAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.FurryCoat.toString()));
-        assertEquals(_dragon.coatTypeAlleleTwo().get(), Allele.FurryCoat);
+        assertEquals(Allele.FurryCoat, _dragon.coatTypeAlleleTwo().get());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.SmallWings.toString()));
-        assertEquals(_dragon.wingSizeAlleleOne().get(), Allele.SmallWings);
+        assertEquals(Allele.SmallWings, _dragon.wingSizeAlleleOne().get());
     }
     
     @Test
@@ -130,7 +130,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonWingSizeAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.LargeWings.toString()));
-        assertEquals(_dragon.wingSizeAlleleTwo().get(), Allele.LargeWings);
+        assertEquals(Allele.LargeWings, _dragon.wingSizeAlleleTwo().get());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.MuscularPhysique.toString()));
-        assertEquals(_dragon.physiqueAlleleOne().get(), Allele.MuscularPhysique);
+        assertEquals(Allele.MuscularPhysique, _dragon.physiqueAlleleOne().get());
     }
     
     @Test
@@ -146,7 +146,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.LeanPhysique.toString()));
-        assertEquals(_dragon.physiqueAlleleTwo().get(), Allele.LeanPhysique);
+        assertEquals(Allele.LeanPhysique, _dragon.physiqueAlleleTwo().get());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.AdditiveLungs.toString()));
-        assertEquals(_dragon.lungSizeAlleleOne().get(), Allele.AdditiveLungs);
+        assertEquals(Allele.AdditiveLungs, _dragon.lungSizeAlleleOne().get());
     }
     
     @Test
@@ -162,7 +162,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.PlainLungs.toString()));
-        assertEquals(_dragon.lungSizeAlleleTwo().get(), Allele.PlainLungs);
+        assertEquals(Allele.PlainLungs, _dragon.lungSizeAlleleTwo().get());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
                         Value.create(Allele.AdditiveHeart.toString()));
-        assertEquals(_dragon.heartSizeAlleleOne().get(), Allele.AdditiveHeart);
+        assertEquals(Allele.AdditiveHeart, _dragon.heartSizeAlleleOne().get());
     }
     
     @Test
@@ -178,7 +178,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
                         Value.create(Allele.PlainHeart.toString()));
-        assertEquals(_dragon.heartSizeAlleleTwo().get(), Allele.PlainHeart);
+        assertEquals(Allele.PlainHeart, _dragon.heartSizeAlleleTwo().get());
     }
     
     @Test
