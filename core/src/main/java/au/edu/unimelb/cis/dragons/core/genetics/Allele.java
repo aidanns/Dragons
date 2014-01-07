@@ -25,7 +25,7 @@ public enum Allele {
 	
 	static {
 		for (Allele allele : Allele.values()) {
-			nameToAlleleMap.put(allele._name, allele);
+			nameToAlleleMap.put(allele.toString(), allele);
 		}
 		nameToAlleleMap.put("", null);
 	}
@@ -47,7 +47,7 @@ public enum Allele {
 	 * @param alleleName The name of the allele to retrieve.
 	 * @return The allele.
 	 */
-	/* package */ static Allele dragonStateForStateName(String alleleName) {
+	public static Allele alleleForAlleleName(String alleleName) {
 		return nameToAlleleMap.get(alleleName);
 	}
 }

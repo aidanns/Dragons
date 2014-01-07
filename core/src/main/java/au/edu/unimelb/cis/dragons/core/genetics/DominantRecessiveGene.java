@@ -2,6 +2,7 @@ package au.edu.unimelb.cis.dragons.core.genetics;
 
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 
 public class DominantRecessiveGene extends Gene {
 	
@@ -29,6 +30,6 @@ public class DominantRecessiveGene extends Gene {
 		_dominantAllele = dominantAllele;
 		_dominantPhenotype = dominantPhenotype;
 		_recessivePhenotype = recessivePhenotype;
-		_validAlleles = validAlleles;
+		_validAlleles = ImmutableSet.copyOf(validAlleles);
 	}
 }
