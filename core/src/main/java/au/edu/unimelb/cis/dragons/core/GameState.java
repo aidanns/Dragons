@@ -212,7 +212,46 @@ public class GameState {
 		DragonFourHeartSizeAlleleTwo("dragon_4_heart_size_allele_2"),
 		DragonFiveHeartSizeAlleleTwo("dragon_5_heart_size_allele_2"),
 		DragonSixHeartSizeAlleleTwo("dragon_6_heart_size_allele_2"),
-		DragonSevenHeartSizeAlleleTwo("dragon_7_heart_size_allele_2");
+		DragonSevenHeartSizeAlleleTwo("dragon_7_heart_size_allele_2"),
+		
+		// Attribute training bonuses.
+		
+		DragonZeroSpeedTrainingRemainingRaces("dragon_0_speed_training_remaining_races"),
+		DragonOneSpeedTrainingRemainingRaces("dragon_1_speed_training_remaining_races"),
+		DragonTwoSpeedTrainingRemainingRaces("dragon_2_speed_training_remaining_races"),
+		DragonThreeSpeedTrainingRemainingRaces("dragon_3_speed_training_remaining_races"),
+		DragonFourSpeedTrainingRemainingRaces("dragon_4_speed_training_remaining_races"),
+		DragonFiveSpeedTrainingRemainingRaces("dragon_5_speed_training_remaining_races"),
+		DragonSixSpeedTrainingRemainingRaces("dragon_6_speed_training_remaining_races"),
+		DragonSevenSpeedTrainingRemainingRaces("dragon_7_speed_training_remaining_races"),
+		
+		DragonZeroEnduranceTrainingRemainingRaces("dragon_0_endurance_training_remaining_races"),
+		DragonOneEnduranceTrainingRemainingRaces("dragon_1_endurance_training_remaining_races"),
+		DragonTwoEnduranceTrainingRemainingRaces("dragon_2_endurance_training_remaining_races"),
+		DragonThreeEnduranceTrainingRemainingRaces("dragon_3_endurance_training_remaining_races"),
+		DragonFourEnduranceTrainingRemainingRaces("dragon_4_endurance_training_remaining_races"),
+		DragonFiveEnduranceTrainingRemainingRaces("dragon_5_endurance_training_remaining_races"),
+		DragonSixEnduranceTrainingRemainingRaces("dragon_6_endurance_training_remaining_races"),
+		DragonSevenEnduranceTrainingRemainingRaces("dragon_7_endurance_training_remaining_races"),
+		
+		DragonZeroBalanceTrainingRemainingRaces("dragon_0_balance_training_remaining_races"),
+		DragonOneBalanceTrainingRemainingRaces("dragon_1_balance_training_remaining_races"),
+		DragonTwoBalanceTrainingRemainingRaces("dragon_2_balance_training_remaining_races"),
+		DragonThreeBalanceTrainingRemainingRaces("dragon_3_balance_training_remaining_races"),
+		DragonFourBalanceTrainingRemainingRaces("dragon_4_balance_training_remaining_races"),
+		DragonFiveBalanceTrainingRemainingRaces("dragon_5_balance_training_remaining_races"),
+		DragonSixBalanceTrainingRemainingRaces("dragon_6_balance_training_remaining_races"),
+		DragonSevenBalanceTrainingRemainingRaces("dragon_7_balance_training_remaining_races"),
+		
+		DragonZeroWeightTrainingRemainingRaces("dragon_0_weight_training_remaining_races"),
+		DragonOneWeightTrainingRemainingRaces("dragon_1_weight_training_remaining_races"),
+		DragonTwoWeightTrainingRemainingRaces("dragon_2_weight_training_remaining_races"),
+		DragonThreeWeightTrainingRemainingRaces("dragon_3_weight_training_remaining_races"),
+		DragonFourWeightTrainingRemainingRaces("dragon_4_weight_training_remaining_races"),
+		DragonFiveWeightTrainingRemainingRaces("dragon_5_weight_training_remaining_races"),
+		DragonSixWeightTrainingRemainingRaces("dragon_6_weight_training_remaining_races"),
+		DragonSevenWeightTrainingRemainingRaces("dragon_7_weight_training_remaining_races");
+		
 		
 		private String _dataStoreKey;
 		private String _shortDescription;
@@ -242,6 +281,7 @@ public class GameState {
 			for (int i = 0; i < 8; i++) {
 				dataStoreKeyToShortDescription.put("dragon_" + i + "_state", "Dragon "+ i + "'s state");
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_state", "The current state of dragon " + i);
+
 				dataStoreKeyToShortDescription.put("dragon_" + i + "_score", "Dragon "+ i + "'s score");
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_score", "The current score of dragon " + i);
 				
@@ -285,6 +325,17 @@ public class GameState {
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_heart_size_allele_one", "The first allele contributing towards the heart size phenotype for dragon " + i);
 				dataStoreKeyToShortDescription.put("dragon_" + i + "_heart_size_allele_two", "Dragon " + i + "'s first heart size allele");
 				dataStoreKeyToLongDescription.put("dragon_" + i + "_heart_size_allele_two", "The first allele contributing towards the heart size phenotype for dragon " + i);
+
+				// Attribute training bonusses.
+				
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_speed_training_remaining_races", "Number of remaining races before dragon " + i + "'s speed training loses effectivness");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_speed_training_remaining_races", "Number of remaining races before dragon " + i + "'s speed training loses effectivness");
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_endurance_training_remaining_races", "Number of remaining races before dragon " + i + "'s endurance training loses effectivness");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_endurance_training_remaining_races", "Number of remaining races before dragon " + i + "'s endurance training loses effectivness");
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_balance_training_remaining_races", "Number of remaining races before dragon " + i + "'s balance training loses effectivness");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_balance_training_remaining_races", "Number of remaining races before dragon " + i + "'s balance training loses effectivness");
+				dataStoreKeyToShortDescription.put("dragon_" + i + "_weight_training_remaining_races", "Number of remaining races before dragon " + i + "'s weight training loses effectivness");
+				dataStoreKeyToLongDescription.put("dragon_" + i + "_weight_training_remaining_races", "Number of remaining races before dragon " + i + "'s weight training loses effectivness");
 			}
 			
 			for (Key key : Key.values()) {
@@ -530,6 +581,57 @@ public class GameState {
 		 */
 		private static Key dragonAlleleKeyForIdAndGeneAndNumber(Integer id, String gene, Integer number) {
 			return dataStoreKeyToKey.get("dragon_" + id.toString() + "_" + gene + "_allele_" + number.toString());
+		}
+
+		/**
+		 * Get the key for number of races remaining before speed training
+		 *     loses effectiveness for a certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The Key.
+		 */
+		public static Key dragonSpeedAttributeTrainingRemainingRacesKey(Integer id) {
+			return dragonTrainingRacesRemainingKeyForIdAndAttribute(id, "speed");
+		}
+		
+		/**
+		 * Get the key for number of races remaining before endurance training
+		 *     loses effectiveness for a certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The Key.
+		 */
+		public static Key dragonEnduranceAttributeTrainingRemainingRacesKey(Integer id) {
+			return dragonTrainingRacesRemainingKeyForIdAndAttribute(id, "endurance");
+		}
+		
+		/**
+		 * Get the key for number of races remaining before balance training
+		 *     loses effectiveness for a certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The Key.
+		 */
+		public static Key dragonBalanceAttributeTrainingRemainingRacesKey(Integer id) {
+			return dragonTrainingRacesRemainingKeyForIdAndAttribute(id, "balance");
+		}
+		
+		/**
+		 * Get the key for number of races remaining before weight training
+		 *     loses effectiveness for a certain dragon.
+		 * @param id The id of the dragon.
+		 * @return The Key.
+		 */
+		public static Key dragonWeightAttributeRacesRemainingKey(Integer id) {
+			return dragonTrainingRacesRemainingKeyForIdAndAttribute(id, "weight");
+		}
+		
+		/**
+		 * Get the key for the number of races remaining before training loses
+		 *     effectiveness for a certain dragon and attribute.
+		 * @param id The id of the dragon.
+		 * @param attribute The name of the attribute.
+		 * @return The Key.
+		 */
+		private static Key dragonTrainingRacesRemainingKeyForIdAndAttribute(Integer id, String attribute) {
+			return dataStoreKeyToKey.get("dragon_" + id.toString() + "_" + attribute + "_training_remaining_races");
 		}
 	}
 	

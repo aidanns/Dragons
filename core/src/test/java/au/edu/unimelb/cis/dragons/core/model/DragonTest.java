@@ -292,4 +292,452 @@ public class DragonTest {
         
         assertEquals(Phenotype.MediumHeart, _dragon.heartSize().get());
     }
+    
+    @Test
+    public void speedAttributeBase() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ShortLegs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongLegs.toString()));
+        when(_legLengthMock.getPhenotypeForGenotype(
+                Allele.ShortLegs, Allele.LongLegs)).thenReturn(Phenotype.ShortLegs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.MuscularPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.MuscularPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.MuscularPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(4), _dragon.speed().get());
+    }
+    
+    @Test
+    public void speedAttributeTrainingBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ShortLegs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongLegs.toString()));
+        when(_legLengthMock.getPhenotypeForGenotype(
+                Allele.ShortLegs, Allele.LongLegs)).thenReturn(Phenotype.ShortLegs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.MuscularPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.MuscularPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.MuscularPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("1"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.speed().get());
+    }
+    
+    @Test
+    public void speedAttributeLongLegsBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongLegs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongLegs.toString()));
+        when(_legLengthMock.getPhenotypeForGenotype(
+                Allele.LongLegs, Allele.LongLegs)).thenReturn(Phenotype.LongLegs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.MuscularPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.MuscularPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.MuscularPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.speed().get());
+    }
+    
+    @Test
+    public void speedAttributeLeanPhysiqueBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ShortLegs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLegLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongLegs.toString()));
+        when(_legLengthMock.getPhenotypeForGenotype(
+                Allele.ShortLegs, Allele.LongLegs)).thenReturn(Phenotype.ShortLegs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.speed().get());
+    }
+    
+    @Test
+    public void enduranceAttributeBase() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_lungSizeMock.getPhenotypeForGenotype(
+                Allele.PlainLungs, Allele.PlainLungs)).thenReturn(Phenotype.SmallLungs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_heartSizeMock.getPhenotypeForGenotype(
+                Allele.PlainHeart, Allele.PlainHeart)).thenReturn(Phenotype.SmallHeart);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(4), _dragon.endurance().get());
+    }
+    
+    @Test
+    public void enduranceAttributeTrainingBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_lungSizeMock.getPhenotypeForGenotype(
+                Allele.PlainLungs, Allele.PlainLungs)).thenReturn(Phenotype.SmallLungs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_heartSizeMock.getPhenotypeForGenotype(
+                Allele.PlainHeart, Allele.PlainHeart)).thenReturn(Phenotype.SmallHeart);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("1"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.endurance().get());
+    }
+    
+    @Test
+    public void enduranceAttributeMediumHeartBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_lungSizeMock.getPhenotypeForGenotype(
+                Allele.PlainLungs, Allele.PlainLungs)).thenReturn(Phenotype.SmallLungs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.AdditiveHeart.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_heartSizeMock.getPhenotypeForGenotype(
+                Allele.AdditiveHeart, Allele.PlainHeart)).thenReturn(Phenotype.MediumHeart);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(5), _dragon.endurance().get());
+    }
+    
+    @Test
+    public void enduranceAttributeLargeHeartBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_lungSizeMock.getPhenotypeForGenotype(
+                Allele.PlainLungs, Allele.PlainLungs)).thenReturn(Phenotype.SmallLungs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.AdditiveHeart.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.AdditiveHeart.toString()));
+        when(_heartSizeMock.getPhenotypeForGenotype(
+                Allele.AdditiveHeart, Allele.AdditiveHeart)).thenReturn(Phenotype.LargeHeart);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.endurance().get());
+    }
+    
+    @Test
+    public void enduranceAttributeMediumLungsBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.AdditiveLungs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainLungs.toString()));
+        when(_lungSizeMock.getPhenotypeForGenotype(
+                Allele.AdditiveLungs, Allele.PlainLungs)).thenReturn(Phenotype.MediumLungs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_heartSizeMock.getPhenotypeForGenotype(
+                Allele.PlainHeart, Allele.PlainHeart)).thenReturn(Phenotype.SmallHeart);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(5), _dragon.endurance().get());
+    }
+    
+    @Test
+    public void enduranceAttributeLargeLungsBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.AdditiveLungs.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonLungSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.AdditiveLungs.toString()));
+        when(_lungSizeMock.getPhenotypeForGenotype(
+                Allele.AdditiveLungs, Allele.AdditiveLungs)).thenReturn(Phenotype.LargeLungs);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonHeartSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.PlainHeart.toString()));
+        when(_heartSizeMock.getPhenotypeForGenotype(
+                Allele.PlainHeart, Allele.PlainHeart)).thenReturn(Phenotype.SmallHeart);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.endurance().get());
+    }
+    
+    @Test
+    public void balanceAttributeBase() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.SmallWings.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LargeWings.toString()));
+        when(_wingSizeMock.getPhenotypeForGenotype(
+                Allele.SmallWings, Allele.LargeWings)).thenReturn(Phenotype.SmallWings);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ShortTail.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongTail.toString()));
+        when(_tailLengthMock.getPhenotypeForGenotype(
+                Allele.ShortTail, Allele.LongTail)).thenReturn(Phenotype.ShortTail);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(4), _dragon.balance().get());
+    }
+    
+    @Test
+    public void balanceTrainingBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.SmallWings.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LargeWings.toString()));
+        when(_wingSizeMock.getPhenotypeForGenotype(
+                Allele.SmallWings, Allele.LargeWings)).thenReturn(Phenotype.SmallWings);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ShortTail.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongTail.toString()));
+        when(_tailLengthMock.getPhenotypeForGenotype(
+                Allele.ShortTail, Allele.LongTail)).thenReturn(Phenotype.ShortTail);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("1"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.balance().get());
+    }
+    
+    public void balanceAttributeLargeWingsBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LargeWings.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LargeWings.toString()));
+        when(_wingSizeMock.getPhenotypeForGenotype(
+                Allele.LargeWings, Allele.LargeWings)).thenReturn(Phenotype.LargeWings);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ShortTail.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongTail.toString()));
+        when(_tailLengthMock.getPhenotypeForGenotype(
+                Allele.ShortTail, Allele.LongTail)).thenReturn(Phenotype.ShortTail);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.balance().get());
+    }
+    
+    public void balanceAttributeLongTailBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.SmallWings.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonWingSizeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LargeWings.toString()));
+        when(_wingSizeMock.getPhenotypeForGenotype(
+                Allele.SmallWings, Allele.LargeWings)).thenReturn(Phenotype.SmallWings);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongTail.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonTailLengthAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LongTail.toString()));
+        when(_tailLengthMock.getPhenotypeForGenotype(
+                Allele.LongTail, Allele.LongTail)).thenReturn(Phenotype.LongTail);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.balance().get());
+    }
+    
+    @Test
+    public void weightAttributeBase() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ScaledCoat.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.FurryCoat.toString()));
+        when(_coatTypeMock.getPhenotypeForGenotype(
+                Allele.ScaledCoat, Allele.FurryCoat)).thenReturn(Phenotype.ScaledCoat);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(4), _dragon.weight().get());
+    }
+    
+    @Test
+    public void weightAttributeTrainingBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ScaledCoat.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.FurryCoat.toString()));
+        when(_coatTypeMock.getPhenotypeForGenotype(
+                Allele.ScaledCoat, Allele.FurryCoat)).thenReturn(Phenotype.ScaledCoat);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        				Value.create("1"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.weight().get());
+    }
+    
+    @Test
+    public void weightAttributeFurryCoatBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.FurryCoat.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.FurryCoat.toString()));
+        when(_coatTypeMock.getPhenotypeForGenotype(
+                Allele.FurryCoat, Allele.FurryCoat)).thenReturn(Phenotype.FurryCoat);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.LeanPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.weight().get());
+    }
+    
+    @Test
+    public void weightAttributeMuscularPhysiqueBonus() {
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.ScaledCoat.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonCoatTypeAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.FurryCoat.toString()));
+        when(_coatTypeMock.getPhenotypeForGenotype(
+                Allele.ScaledCoat, Allele.FurryCoat)).thenReturn(Phenotype.ScaledCoat);
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleOneKeyForId(_id))).thenReturn(
+                        Value.create(Allele.MuscularPhysique.toString()));
+        when(_gameStateMock.valueForKey(
+                GameState.Key.dragonPhysiqueAlleleTwoKeyForId(_id))).thenReturn(
+                        Value.create(Allele.MuscularPhysique.toString()));
+        when(_physiqueMock.getPhenotypeForGenotype(
+                Allele.MuscularPhysique, Allele.MuscularPhysique)).thenReturn(Phenotype.MuscularPhysique);
+        when(_gameStateMock.valueForKey(
+        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        				Value.create("0"));
+        
+        assertEquals(Integer.valueOf(6), _dragon.weight().get());
+    }
 }

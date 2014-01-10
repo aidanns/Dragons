@@ -472,14 +472,25 @@ public class Dragon {
     
     // Attributes.
     
+    /** 
+     * Map from a phenotype to an attribute bonus. Used when calculating the
+     * attributes for each dragon.
+     */
     private static class AttributeBonusMapper implements Function<Phenotype, Integer> {
 
+    	/** Map from phenotypes that this mapper knows about to a bonus for each one. */
     	private final Map<Phenotype, Integer> _valueMap;
     	
     	public AttributeBonusMapper() {
     		_valueMap = Maps.newHashMap();
     	}
     	
+    	/**
+    	 * Add a phenotype to give a bonus for to the mapper.
+    	 * @param targetPhenotype The phenotype to check for.
+    	 * @param bonus The bonus to give for that phenotype.
+    	 * @return The mapper, for chaining.
+    	 */
     	public AttributeBonusMapper add(Phenotype targetPhenotype, Integer bonus) {
     		_valueMap.put(targetPhenotype, bonus);
     		return this;
@@ -496,22 +507,48 @@ public class Dragon {
     	
     }
     
+    /**
+     * Maps between the number of races remaining before training loses
+     * effectiveness and the bonus for that attribute.
+     * 
+     * Bonus of 2 for any training that is still active (>0 races remaining).
+     */
+    private Function<String, Integer> _trainingRacesRemainingToBonusMapper = new Function<String, Integer>() {
+    	@Override
+    	public Integer apply(String input) {
+    		if (Integer.valueOf(input).intValue() > 0) {
+    			return 2;
+    		} else {
+    			return 0;
+    		}
+    	}
+    };
+    
+    /**
+     * @return The base speed for a dragon.
+     */
     private ValueView<Integer> speedBase() {
     	return Value.create(4);
     }
     
+    /** @return Speed bonus from having long legs */
     private ValueView<Integer> speedBonusLegs() {
     	return legLength().map(new AttributeBonusMapper().add(Phenotype.LongLegs, 2));
     }
     
+    /** @return Speed bonus from having a lean physique */
     private ValueView<Integer> speedBonusPhysique() {
     	return physique().map(new AttributeBonusMapper().add(Phenotype.LeanPhysique, 2));
     }
     
+    /** @return Speed bonus from training */
     private ValueView<Integer> speedBonusTraining() {
-    	return Value.create(0);
+    	return _gameState.valueForKey(GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
     
+    /**
+     * @return The dragon's computed speed attribute.
+     */
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> speed() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
@@ -528,22 +565,27 @@ public class Dragon {
     			}).valueView();
     }
     
+    /** @return Base endurance, before bonuses. */
     private ValueView<Integer> enduranceBase() {
     	return Value.create(4);
     }
     
+    /** @return Endurance bonuses from heart size */
     private ValueView<Integer> enduranceBonusHeart() {
     	return heartSize().map(new AttributeBonusMapper().add(Phenotype.LargeHeart, 2).add(Phenotype.MediumHeart, 1)); 
     }
     
+    /** @return Endurance bonuses from lung size */
     private ValueView<Integer> enduranceBonusLungs() {
     	return lungSize().map(new AttributeBonusMapper().add(Phenotype.LargeLungs, 2).add(Phenotype.MediumLungs, 1));
     }
     
+    /** @return Endurance bonuses from training */
     private ValueView<Integer> enduranceBonusTraining() {
-    	return Value.create(0);
+    	return _gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
     
+    /** @return The dragon's computed endurance attribute. */
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> endurance() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
@@ -560,22 +602,27 @@ public class Dragon {
     			}).valueView();
     }
     
+    /** The dragon's base balance. */
     private ValueView<Integer> balanceBase() {
     	return Value.create(4);
     }
     
+    /** @return Balance bonus from large wings. */
     private ValueView<Integer> balanceBonusWings() {
     	return wingSize().map(new AttributeBonusMapper().add(Phenotype.LargeWings, 2));
     }
     
+    /** @return Balance bonus from long tail */
     private ValueView<Integer> balanceBonusTail() {
     	return tailLength().map(new AttributeBonusMapper().add(Phenotype.LongTail, 2));
     }
     
+    /** @return Balance bonus from training. */
     private ValueView<Integer> balanceBonusTraining() {
-    	return Value.create(0);
+    	return _gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
 
+    /** @return The dragon's computed balance. */
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> balance() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
@@ -592,22 +639,27 @@ public class Dragon {
     			}).valueView();
     }
     
+    /** @return Dragon's base weight. */
     private ValueView<Integer> weightBase() {
     	return Value.create(4);
     }
     
+    /** @return Bonus weight from furry coat. */
     private ValueView<Integer> weightBonusCoat() {
     	return coatType().map(new AttributeBonusMapper().add(Phenotype.FurryCoat, 2));
     }
     
+    /** @return Bonus weight from muscular physique. */
     private ValueView<Integer> weightBonusPhysique() {
     	return physique().map(new AttributeBonusMapper().add(Phenotype.MuscularPhysique, 2));
     }
     
+    /** @return Bonus weight from training. */
     private ValueView<Integer> weightBonusTraining() {
-    	return Value.create(0);
+    	return _gameState.valueForKey(GameState.Key.dragonWeightAttributeRacesRemainingKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
     
+    /** @return The dragon's computed weight. */
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> weight() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
