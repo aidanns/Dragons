@@ -177,6 +177,7 @@ public class DragonsGame extends Game.Default {
 		assetWatcher.add(assets().getImage("images/bg.png"));
 		assetWatcher.add(assets().getImage("images/bug_in_lampshade.jpeg"));
 		assetWatcher.add(assets().getImage("images/like_couch_better.jpeg"));
+		assetWatcher.add(assets().getImage("images/bug_in_lampshade_small.jpeg"));
 		
 		// Start loading.
 		assetWatcher.start();

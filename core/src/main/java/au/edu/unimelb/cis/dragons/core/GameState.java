@@ -619,7 +619,7 @@ public class GameState {
 		 * @param id The id of the dragon.
 		 * @return The Key.
 		 */
-		public static Key dragonWeightAttributeRacesRemainingKey(Integer id) {
+		public static Key dragonWeightAttributeTrainingRemainingRacesKey(Integer id) {
 			return dragonTrainingRacesRemainingKeyForIdAndAttribute(id, "weight");
 		}
 		

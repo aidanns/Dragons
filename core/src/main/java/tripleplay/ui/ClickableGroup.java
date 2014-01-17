@@ -9,7 +9,7 @@ import tripleplay.ui.Element.Flag;
 import tripleplay.ui.Group;
 
 /**
- * A Group that will respond to hit events no it's layer.
+ * A Group that will respond to hit events on it's layer.
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class ClickableGroup implements Clickable<Group> {

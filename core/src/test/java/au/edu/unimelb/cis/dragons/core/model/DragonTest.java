@@ -660,7 +660,7 @@ public class DragonTest {
         when(_physiqueMock.getPhenotypeForGenotype(
                 Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
         when(_gameStateMock.valueForKey(
-        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
         
         assertEquals(Integer.valueOf(4), _dragon.weight().get());
@@ -685,7 +685,7 @@ public class DragonTest {
         when(_physiqueMock.getPhenotypeForGenotype(
                 Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
         when(_gameStateMock.valueForKey(
-        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("1"));
         
         assertEquals(Integer.valueOf(6), _dragon.weight().get());
@@ -710,7 +710,7 @@ public class DragonTest {
         when(_physiqueMock.getPhenotypeForGenotype(
                 Allele.LeanPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.LeanPhysique);
         when(_gameStateMock.valueForKey(
-        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
         
         assertEquals(Integer.valueOf(6), _dragon.weight().get());
@@ -735,7 +735,7 @@ public class DragonTest {
         when(_physiqueMock.getPhenotypeForGenotype(
                 Allele.MuscularPhysique, Allele.MuscularPhysique)).thenReturn(Phenotype.MuscularPhysique);
         when(_gameStateMock.valueForKey(
-        		GameState.Key.dragonWeightAttributeRacesRemainingKey(_id))).thenReturn(
+        		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
         
         assertEquals(Integer.valueOf(6), _dragon.weight().get());

@@ -3,6 +3,7 @@ package au.edu.unimelb.cis.dragons.core.controller;
 import react.UnitSlot;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
+import tripleplay.ui.ClickableGroup;
 import tripleplay.ui.Group;
 import tripleplay.ui.MigGroup;
 import tripleplay.ui.MigLayout;
@@ -47,7 +48,7 @@ public class ClosableModalViewController extends ViewController {
 		});
 		bottomPane.add(closeModalButton);
 		group.add(bottomPane, "cell 0 1");
-		
+		new ClickableGroup(group); // Make the group absorb clicks.
 		return group;
 	}
 }
