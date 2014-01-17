@@ -50,6 +50,7 @@ public class BuyPenViewController extends ViewController {
 				if (_wallet.gold().get() >= 50) {
 					_farm.openAndClearPen(_row, _column);
 					_wallet.subtractGold(50);
+					parentScreen().dismissViewController(BuyPenViewController.this);
 				} else {
 					new Alert("Unlocking a pen costs 50 gold. You do not have enough.").displayOnScreen(parentScreen());;
 				}

@@ -33,7 +33,7 @@ public class DragonGameScreen extends UIAnimScreen {
 	private List<ViewController> _modalChildren = new ArrayList<ViewController>();
 	
 	// Number of pixels to inset the modally displayed view from the edge of the screen.
-	private static int MODAL_INSET_DISTANCE = 40;
+	private static int MODAL_INSET_DISTANCE = 0;
 	
 	/**
 	 * Create a new ScreenController.
@@ -91,15 +91,24 @@ public class DragonGameScreen extends UIAnimScreen {
 	}
 	
 	/**
-	 * Dismisses any ViewController's currently being displayed modally.
+	 * Attempt to dismiss a given ViewController (or it's root ViewController
+	 * if it has a parent).
 	 */
 	public void dismissViewController(ViewController modal) {
-		if (modal != null && _modalChildren.contains(modal)) {
-			_root.remove(modal.view());
-			_root.pack();
-			_modalChildren.remove(modal);
-			modal.wasRemoved();
-			modal.setParentScreen(null);
+		if (modal != null) {
+			// Find the root of the ViewController heirarchy for this potential modal.
+			ViewController controllerToDismiss = modal;
+			while (controllerToDismiss.parentViewController() != null) {
+				controllerToDismiss = controllerToDismiss.parentViewController();
+			}
+			// If it's actually a modal child, then dismiss it.
+			if (_modalChildren.contains(controllerToDismiss)) {
+				_root.remove(controllerToDismiss.view());
+				_root.pack();
+				_modalChildren.remove(controllerToDismiss);
+				controllerToDismiss.wasRemoved();
+				controllerToDismiss.setParentScreen(null);
+			}
 		}
 	}
 }

@@ -173,7 +173,7 @@ public class ViewController {
 	 * Get the parent ViewController for this view.
 	 * @return The parent ViewController.
 	 */
-	protected ViewController parentViewController() {
+	public ViewController parentViewController() {
 		return _parentViewController;
 	}
 
