@@ -6,6 +6,7 @@ import tripleplay.ui.Group;
 import tripleplay.ui.layout.AxisLayout;
 import au.edu.unimelb.cis.dragons.core.Alert;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 
 /**
@@ -42,21 +43,43 @@ public class BuyPenViewController extends ViewController {
 
 	@Override
 	protected Group createInterface() {
+		final Integer goldToUnlockNextPen = goldToUnlockNextPen();
 		Group group = new Group(AxisLayout.vertical());
-		Button buyPenButton = new Button("Purchase Pen: 50 Gold"); 
+		Button buyPenButton = new Button("Purchase Pen: " + goldToUnlockNextPen.toString() + " Gold"); 
 		buyPenButton.clicked().connect(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				if (_wallet.gold().get() >= 50) {
+				if (_wallet.gold().get() >= goldToUnlockNextPen) {
 					_farm.openAndClearPen(_row, _column);
-					_wallet.subtractGold(50);
+					_wallet.subtractGold(goldToUnlockNextPen);
 					parentScreen().dismissViewController(BuyPenViewController.this);
 				} else {
-					new Alert("Unlocking a pen costs 50 gold. You do not have enough.").displayOnScreen(parentScreen());;
+					new Alert("Unlocking the next pen costs " + goldToUnlockNextPen + " gold. You do not have enough.").displayOnScreen(parentScreen());;
 				}
 			}
 		});	
 		group.add(buyPenButton);
 		return group;	
+	}
+	
+	private int goldToUnlockNextPen() {
+		int lockedPens = 0;
+		for (int column = 0; column < 4; column++) {
+			for (int row = 0; row < 2; row++) {
+				if (_farm.stateForPen(row, column).get() == PenState.Locked) {
+					lockedPens++;
+				}
+			}
+		}
+		switch (lockedPens) {
+		case 1:
+			return 1000;
+		case 2:
+			return 400;
+		case 3:
+			return 200;
+		default:
+			return 100;
+		}
 	}
 }
