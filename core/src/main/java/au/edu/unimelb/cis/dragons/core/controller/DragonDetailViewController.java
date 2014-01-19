@@ -2,6 +2,8 @@ package au.edu.unimelb.cis.dragons.core.controller;
 
 import static au.edu.unimelb.cis.dragons.core.GlobalConfig.*;
 import static playn.core.PlayN.assets;
+import au.edu.unimelb.cis.dragons.core.genetics.Allele;
+import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import react.Function;
@@ -44,7 +46,7 @@ public class DragonDetailViewController extends ViewController {
 	@Override
 	protected Group createInterface() {
 		MigGroup group = new MigGroup(new MigLayout(
-				"insets 0, gap 0, fill", "[50%, fill][50%, fill]", "[100%, fill]"));
+				"insets 0, gap 0, fill", "[40%, fill][60%, fill]", "[100%, fill]"));
 		group.setStyles(Style.BACKGROUND.is(Background.solid(0xFFFFFFFF)));
 
 		// Add a left pane that displays an image of the dragon.
@@ -55,7 +57,7 @@ public class DragonDetailViewController extends ViewController {
 
 		// Add a right pane which displays information about the dragon.
 		MigGroup rightPane = new MigGroup(new MigLayout(
-				"insets 5, gap 5, fill", "[][]", "[][][][][][][][grow][]"));
+				"insets 5, gap 5, fill", "[50%][50%]", "[][][][][][][][][grow][]"));
 
 		// Add a label that displays the dragon's name
 		rightPane.add(makeBoldLabel("Name:"), "cell 0 0");
@@ -92,30 +94,138 @@ public class DragonDetailViewController extends ViewController {
 			}
 		};
 
+		Function<Allele, String> alleleToStringMapper  = new Function<Allele, String>() {
+			@Override
+			public String apply(Allele input) {
+				return input.toString();
+			}
+		};
+
+		Function<Phenotype, String> phenotypeToStringMapper = new Function<Phenotype, String>() {
+			@Override
+			public String apply(Phenotype input) {
+				return input.toString();
+			}
+		};
+
+		// Add genotype
+		MigGroup genesGroup = new MigGroup(new MigLayout(
+				"insets 0, gap 0, fill", "[][][][]", "[][][][][][][][][grow]"));
+
+		genesGroup.add(makeBoldLabel("Leg Length"), "cell 0 0");
+		Label dragonLegLengthGenotypeLabelOne = makePlainLabel();
+		_dragon.legLengthAlleleOne().map(alleleToStringMapper).connectNotify(dragonLegLengthGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonLegLengthGenotypeLabelOne, "cell 1 0");
+		Label dragonLegLengthGenotypeLabelTwo = makePlainLabel();
+		_dragon.legLengthAlleleTwo().map(alleleToStringMapper).connectNotify(dragonLegLengthGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonLegLengthGenotypeLabelTwo, "cell 2 0");
+		Label dragonLegLengthPhenotypeLabel = makePlainLabel();
+		_dragon.legLength().map(phenotypeToStringMapper).connectNotify(dragonLegLengthPhenotypeLabel.text.slot());
+		genesGroup.add(dragonLegLengthPhenotypeLabel, "cell 3 0");
+
+		genesGroup.add(makeBoldLabel("Feet Type"), "cell 0 1");
+		Label dragonFeetTypeGenotypeLabelOne = makePlainLabel();
+		_dragon.feetTypeAlleleOne().map(alleleToStringMapper).connectNotify(dragonFeetTypeGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonFeetTypeGenotypeLabelOne, "cell 1 1");
+		Label dragonFeetTypeGenotypeLabelTwo = makePlainLabel();
+		_dragon.feetTypeAlleleTwo().map(alleleToStringMapper).connectNotify(dragonFeetTypeGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonFeetTypeGenotypeLabelTwo, "cell 2 1");
+		Label dragonFeetTypePhenotypeLabel = makePlainLabel();
+		_dragon.feetType().map(phenotypeToStringMapper).connectNotify(dragonFeetTypePhenotypeLabel.text.slot());
+		genesGroup.add(dragonFeetTypePhenotypeLabel, "cell 3 1");
+
+		genesGroup.add(makeBoldLabel("Coat Type"), "cell 0 2");
+		Label dragonCoatTypeGenotypeLabelOne = makePlainLabel();
+		_dragon.coatTypeAlleleOne().map(alleleToStringMapper).connectNotify(dragonCoatTypeGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonCoatTypeGenotypeLabelOne, "cell 1 2");
+		Label dragonCoatTypeGenotypeLabelTwo = makePlainLabel();
+		_dragon.coatTypeAlleleTwo().map(alleleToStringMapper).connectNotify(dragonCoatTypeGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonCoatTypeGenotypeLabelTwo, "cell 2 2");
+		Label dragonCoatTypePhenotypeLabel = makePlainLabel();
+		_dragon.coatType().map(phenotypeToStringMapper).connectNotify(dragonCoatTypePhenotypeLabel.text.slot());
+		genesGroup.add(dragonCoatTypePhenotypeLabel, "cell 3 2");
+
+		genesGroup.add(makeBoldLabel("Wing Size"), "cell 0 3");
+		Label dragonWingSizeGenotypeLabelOne = makePlainLabel();
+		_dragon.wingSizeAlleleOne().map(alleleToStringMapper).connectNotify(dragonWingSizeGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonWingSizeGenotypeLabelOne, "cell 1 3");
+		Label dragonWingSizeGenotypeLabelTwo = makePlainLabel();
+		_dragon.wingSizeAlleleTwo().map(alleleToStringMapper).connectNotify(dragonWingSizeGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonWingSizeGenotypeLabelTwo, "cell 2 3");
+		Label dragonWingSizePhenotypeLabel = makePlainLabel();
+		_dragon.wingSize().map(phenotypeToStringMapper).connectNotify(dragonWingSizePhenotypeLabel.text.slot());
+		genesGroup.add(dragonWingSizePhenotypeLabel, "cell 3 3");
+
+		genesGroup.add(makeBoldLabel("Tail Length"), "cell 0 4");
+		Label dragonTailLengthGenotypeLabelOne = makePlainLabel();
+		_dragon.tailLengthAlleleOne().map(alleleToStringMapper).connectNotify(dragonTailLengthGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonTailLengthGenotypeLabelOne, "cell 1 4");
+		Label dragonTailLengthGenotypeLabelTwo = makePlainLabel();
+		_dragon.tailLengthAlleleTwo().map(alleleToStringMapper).connectNotify(dragonTailLengthGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonTailLengthGenotypeLabelTwo, "cell 2 4");
+		Label dragonTailLengthPhenotypeLabel = makePlainLabel();
+		_dragon.tailLength().map(phenotypeToStringMapper).connectNotify(dragonTailLengthPhenotypeLabel.text.slot());
+		genesGroup.add(dragonTailLengthPhenotypeLabel, "cell 3 4");
+
+		genesGroup.add(makeBoldLabel("Physique"), "cell 0 5");
+		Label dragonPhysiqueGenotypeLabelOne = makePlainLabel();
+		_dragon.physiqueAlleleOne().map(alleleToStringMapper).connectNotify(dragonPhysiqueGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonPhysiqueGenotypeLabelOne, "cell 1 5");
+		Label dragonPhysiqueGenotypeLabelTwo = makePlainLabel();
+		_dragon.physiqueAlleleTwo().map(alleleToStringMapper).connectNotify(dragonPhysiqueGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonPhysiqueGenotypeLabelTwo, "cell 2 5");
+		Label dragonPhysiquePhenotypeLabel = makePlainLabel();
+		_dragon.physique().map(phenotypeToStringMapper).connectNotify(dragonPhysiquePhenotypeLabel.text.slot());
+		genesGroup.add(dragonPhysiquePhenotypeLabel, "cell 3 5");
+
+		genesGroup.add(makeBoldLabel("Lung Size"), "cell 0 6");
+		Label dragonLungSizeGenotypeLabelOne = makePlainLabel();
+		_dragon.lungSizeAlleleOne().map(alleleToStringMapper).connectNotify(dragonLungSizeGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonLungSizeGenotypeLabelOne, "cell 1 6");
+		Label dragonLungSizeGenotypeLabelTwo = makePlainLabel();
+		_dragon.lungSizeAlleleTwo().map(alleleToStringMapper).connectNotify(dragonLungSizeGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonLungSizeGenotypeLabelTwo, "cell 2 6");
+		Label dragonLungSizePhenotypeLabel = makePlainLabel();
+		_dragon.lungSize().map(phenotypeToStringMapper).connectNotify(dragonLungSizePhenotypeLabel.text.slot());
+		genesGroup.add(dragonLungSizePhenotypeLabel, "cell 3 6");
+
+		genesGroup.add(makeBoldLabel("Heart Size"), "cell 0 7");
+		Label dragonHeartSizeGenotypeLabelOne = makePlainLabel();
+		_dragon.heartSizeAlleleOne().map(alleleToStringMapper).connectNotify(dragonHeartSizeGenotypeLabelOne.text.slot());
+		genesGroup.add(dragonHeartSizeGenotypeLabelOne, "cell 1 7");
+		Label dragonHeartSizeGenotypeLabelTwo = makePlainLabel();
+		_dragon.heartSizeAlleleTwo().map(alleleToStringMapper).connectNotify(dragonHeartSizeGenotypeLabelTwo.text.slot());
+		genesGroup.add(dragonHeartSizeGenotypeLabelTwo, "cell 2 7");
+		Label dragonHeartSizePhenotypeLabel = makePlainLabel();
+		_dragon.heartSize().map(phenotypeToStringMapper).connectNotify(dragonHeartSizePhenotypeLabel.text.slot());
+		genesGroup.add(dragonHeartSizePhenotypeLabel, "cell 3 7");
+
+		rightPane.add(genesGroup, "cell 0 3, span 2 1");
+
 		// Add labels that display the dragon's attributes
-		rightPane.add(makeBoldLabel("Speed:"), "cell 0 3");
+		rightPane.add(makeBoldLabel("Speed:"), "cell 0 4");
 		Label dragonSpeedLabel = makePlainLabel();
 		_dragon.speed().map(integerToStringMapper).connectNotify(dragonSpeedLabel.text.slot());
-		rightPane.add(dragonSpeedLabel, "cell 1 3");
+		rightPane.add(dragonSpeedLabel, "cell 1 4");
 
-		rightPane.add(makeBoldLabel("Endurance:"), "cell 0 4");
+		rightPane.add(makeBoldLabel("Endurance:"), "cell 0 5");
 		Label dragonEnduranceLabel = makePlainLabel();
 		_dragon.endurance().map(integerToStringMapper).connectNotify(dragonEnduranceLabel.text.slot());
-		rightPane.add(dragonEnduranceLabel, "cell 1 4");
+		rightPane.add(dragonEnduranceLabel, "cell 1 5");
 
-		rightPane.add(makeBoldLabel("Balance:"), "cell 0 5");
+		rightPane.add(makeBoldLabel("Balance:"), "cell 0 6");
 		Label dragonBalanceLabel = makePlainLabel();
 		_dragon.balance().map(integerToStringMapper).connectNotify(dragonBalanceLabel.text.slot());
-		rightPane.add(dragonBalanceLabel, "cell 1 5");
+		rightPane.add(dragonBalanceLabel, "cell 1 6");
 
-		rightPane.add(makeBoldLabel("Weight:"), "cell 0 6");
+		rightPane.add(makeBoldLabel("Weight:"), "cell 0 7");
 		Label dragonWeightLabel = makePlainLabel();
 		_dragon.weight().map(integerToStringMapper).connectNotify(dragonWeightLabel.text.slot());
-		rightPane.add(dragonWeightLabel, "cell 1 6");
+		rightPane.add(dragonWeightLabel, "cell 1 7");
 
 		// Add a pane that shows buttons allowing the player to complete
 		// actions using the dragon.
-		Group actionPane = new Group(AxisLayout.vertical());
+		Group actionPane = new Group(AxisLayout.horizontal());
 
 		final Button sendDragonToBreedButton = new Button("Send to Breed");
 		sendDragonToBreedButton.clicked().connect(new UnitSlot() {
