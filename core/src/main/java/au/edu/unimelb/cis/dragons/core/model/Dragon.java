@@ -136,7 +136,7 @@ public class Dragon {
         gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(id)).update("0");
         gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(id)).update("0");
         gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(id)).update("0");
-        
+
         return dragon;
     }
 
@@ -395,13 +395,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> legLength() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(legLengthAlleleOne(), legLengthAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _legLength.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(legLengthAlleleOne(), legLengthAlleleTwo())).valueView();
     }
 
     /**
@@ -411,13 +410,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> feetType() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(feetTypeAlleleOne(), feetTypeAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _feetType.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(feetTypeAlleleOne(), feetTypeAlleleTwo())).valueView();
     }
 
     /**
@@ -427,13 +425,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> coatType() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(coatTypeAlleleOne(), coatTypeAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _coatType.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(coatTypeAlleleOne(), coatTypeAlleleTwo())).valueView();
     }
 
     /**
@@ -443,13 +440,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> wingSize() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(wingSizeAlleleOne(), wingSizeAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _wingSize.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(wingSizeAlleleOne(), wingSizeAlleleTwo())).valueView();
     }
 
     /**
@@ -459,13 +455,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> tailLength() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(tailLengthAlleleOne(), tailLengthAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _tailLength.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(tailLengthAlleleOne(), tailLengthAlleleTwo())).valueView();
     }
 
     /**
@@ -475,13 +470,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> physique() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(physiqueAlleleOne(), physiqueAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _physique.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(physiqueAlleleOne(), physiqueAlleleTwo())).valueView();
     }
 
     /**
@@ -491,13 +485,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> lungSize() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(lungSizeAlleleOne(), lungSizeAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _lungSize.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(lungSizeAlleleOne(), lungSizeAlleleTwo())).valueView();
     }
 
     /**
@@ -507,13 +500,12 @@ public class Dragon {
     @SuppressWarnings("unchecked")
     public ValueView<Phenotype> heartSize() {
         return new MultipleSourceValueViewBuilder<Allele, Phenotype>(
-                Lists.newArrayList(heartSizeAlleleOne(), heartSizeAlleleTwo()),
                 new Function<List<ValueView<Allele>>, Phenotype>() {
                     @Override
                     public Phenotype apply(List<ValueView<Allele>> input) {
                         return _heartSize.getPhenotypeForGenotype(input.get(0).get(), input.get(1).get());
                     }
-                }).valueView();
+                }, Lists.newArrayList(heartSizeAlleleOne(), heartSizeAlleleTwo())).valueView();
     }
 
     // Attributes.
@@ -598,7 +590,6 @@ public class Dragon {
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> speed() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
-    			Lists.newArrayList(speedBase(), speedBonusLegs(), speedBonusPhysique(), speedBonusTraining()),
     			new Function<List<ValueView<Integer>>, Integer>() {
     				@Override
     				public Integer apply(List<ValueView<Integer>> input) {
@@ -608,7 +599,7 @@ public class Dragon {
     					}
     					return sum;
     				}
-    			}).valueView();
+    			}, Lists.newArrayList(speedBase(), speedBonusLegs(), speedBonusPhysique(), speedBonusTraining())).valueView();
     }
 
     /** @return Base endurance, before bonuses. */
@@ -635,7 +626,6 @@ public class Dragon {
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> endurance() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
-    			Lists.newArrayList(enduranceBase(), enduranceBonusHeart(), enduranceBonusLungs(), enduranceBonusTraining()),
     			new Function<List<ValueView<Integer>>, Integer>() {
     				@Override
     				public Integer apply(List<ValueView<Integer>> input) {
@@ -645,7 +635,7 @@ public class Dragon {
     					}
     					return sum;
     				}
-    			}).valueView();
+    			}, Lists.newArrayList(enduranceBase(), enduranceBonusHeart(), enduranceBonusLungs(), enduranceBonusTraining())).valueView();
     }
 
     /** The dragon's base balance. */
@@ -672,7 +662,6 @@ public class Dragon {
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> balance() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
-    			Lists.newArrayList(balanceBase(), balanceBonusWings(), balanceBonusTail(), balanceBonusTraining()),
     			new Function<List<ValueView<Integer>>, Integer>() {
     				@Override
     				public Integer apply(List<ValueView<Integer>> input) {
@@ -682,7 +671,7 @@ public class Dragon {
     					}
     					return sum;
     				}
-    			}).valueView();
+    			}, Lists.newArrayList(balanceBase(), balanceBonusWings(), balanceBonusTail(), balanceBonusTraining())).valueView();
     }
 
     /** @return Dragon's base weight. */
@@ -709,7 +698,6 @@ public class Dragon {
     @SuppressWarnings("unchecked")
 	public ValueView<Integer> weight() {
     	return new MultipleSourceValueViewBuilder<Integer, Integer>(
-    			Lists.newArrayList(weightBase(), weightBonusCoat(), weightBonusPhysique(), weightBonusTraining()),
     			new Function<List<ValueView<Integer>>, Integer>() {
     				@Override
     				public Integer apply(List<ValueView<Integer>> input) {
@@ -719,6 +707,6 @@ public class Dragon {
     					}
     					return sum;
     				}
-    			}).valueView();
+    			}, Lists.newArrayList(weightBase(), weightBonusCoat(), weightBonusPhysique(), weightBonusTraining())).valueView();
     }
 }
