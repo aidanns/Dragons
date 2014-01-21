@@ -164,7 +164,7 @@ public class DragonsGame extends Game.Default {
 							controllers.add(new DebuggingViewController(_gameState));
 							
 							_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
-									new InfoBarViewController(new User(_gameState), new Wallet(_gameState)),
+									new InfoBarViewController(new User(_gameState), new Wallet(_gameState), new Farm(_gameState)),
 									new TabController(controllers))));
 						}
 					}
