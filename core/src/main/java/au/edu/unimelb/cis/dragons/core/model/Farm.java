@@ -9,7 +9,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import react.Function;
-import react.UnitSlot;
 import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.MultipleSourceValueViewBuilder;
@@ -165,18 +164,56 @@ public class Farm {
 		}, penStates());
 		return viewBuilder.valueView();
 	}
+	
+	Map<DragonState, RebuildableMultipleSourceValueViewBuilder<DragonState, Integer>> _dragonsInStateMap = 
+			new HashMap<DragonState, RebuildableMultipleSourceValueViewBuilder<DragonState, Integer>>(4);
+	private ValueView<Integer> numberOfDragonsInState(final DragonState state) {
+		if (!_dragonsInStateMap.containsKey(state)) {
+			_dragonsInStateMap.put(state, new RebuildableMultipleSourceValueViewBuilder<DragonState, Integer>(new Function<List<ValueView<DragonState>>, Integer>() {
+				@Override
+				public Integer apply(List<ValueView<DragonState>> input) {
+					Integer i = 0;
+					for (ValueView<DragonState> dragonState : input) {
+						if (dragonState.get() == state) {
+							++i;
+						}
+					}
+					return i;
+				}
+			}, new Function<Void, List<ValueView<DragonState>>>() {
+				@Override
+				public List<ValueView<DragonState>> apply(Void input) {
+					return activeDragonStates();
+				}
+			}, dragons()));
+		}
+		return _dragonsInStateMap.get(state).valueView();
+		
+	}
 
-	private MultipleSourceValueViewBuilder<DragonState, Integer> _dragonsAvailableBuilder = null;
-	private MultipleSourceValueViewBuilder<DragonState, Integer> _dragonsRacingBuilder = null;
-	private MultipleSourceValueViewBuilder<DragonState, Integer> _dragonsBreedingBuilder = null;
-	private MultipleSourceValueViewBuilder<DragonState, Integer> _dragonsTrainingBuilder = null;
-
+	private RebuildableMultipleSourceValueViewBuilder<DragonState, Integer> _dragonsAvailableBuilder = null;
 	/**
 	 * @return Number of dragons currently available in the farm.
 	 */
 	public ValueView<Integer> numberOfDragonsAvailable() {
 		if (_dragonsAvailableBuilder == null) {
-			createDragonStateViews();
+			_dragonsAvailableBuilder = new RebuildableMultipleSourceValueViewBuilder<DragonState, Integer>(new Function<List<ValueView<DragonState>>, Integer>() {
+				@Override
+				public Integer apply(List<ValueView<DragonState>> input) {
+					Integer i = 0;
+					for (ValueView<DragonState> dragonState : input) {
+						if (dragonState.get() == DragonState.Available) {
+							++i;
+						}
+					}
+					return i;
+				}
+			}, new Function<Void, List<ValueView<DragonState>>>() {
+				@Override
+				public List<ValueView<DragonState>> apply(Void input) {
+					return activeDragonStates();
+				}
+			}, dragons());
 		}
 		return _dragonsAvailableBuilder.valueView();
 	}
@@ -185,112 +222,21 @@ public class Farm {
 	 * @return Number of dragons currently racing in the farm.
 	 */
 	public ValueView<Integer> numberOfDragonsRacing() {
-		if (_dragonsRacingBuilder == null) {
-			createDragonStateViews();
-		}
-		return _dragonsRacingBuilder.valueView();
+		return numberOfDragonsInState(DragonState.Racing);
 	}
 	
 	/**
 	 * @return Number of dragons currently breeding in the farm.
 	 */
 	public ValueView<Integer> numberOfDragonsBreeding() {
-		if (_dragonsBreedingBuilder == null) {
-			createDragonStateViews();
-		}
-		return _dragonsBreedingBuilder.valueView();
+		return numberOfDragonsInState(DragonState.Breeding);
 	}
 	
 	/**
 	 * @return Number of dragons currently training in the farm.
 	 */
 	public ValueView<Integer> numberOfDragonsTraining() {
-		if (_dragonsTrainingBuilder == null) {
-			createDragonStateViews();
-		}
-		return _dragonsTrainingBuilder.valueView();
-	}
-
-	private void createDragonStateViews() {
-		// Calculate dragons available by summing all dragons that have the state available.
-		_dragonsAvailableBuilder = new MultipleSourceValueViewBuilder<DragonState, Integer>(new Function<List<ValueView<DragonState>>, Integer>() {
-			@Override
-			public Integer apply(List<ValueView<DragonState>> input) {
-				Integer i = 0;
-				for (ValueView<DragonState> dragonState : input) {
-					if (dragonState.get() == DragonState.Available) {
-						++i;
-					}
-				}
-				return i;
-			}
-		});
-
-		// Calculate dragons racing by summing all dragons that have the state racing.
-		_dragonsRacingBuilder = new MultipleSourceValueViewBuilder<DragonState, Integer>(new Function<List<ValueView<DragonState>>, Integer>() {
-			@Override
-			public Integer apply(List<ValueView<DragonState>> input) {
-				Integer i = 0;
-				for (ValueView<DragonState> dragonState : input) {
-					if (dragonState.get() == DragonState.Racing) {
-						++i;
-					}
-				}
-				return i;
-			}
-		});
-
-		// Calculate dragons breeding by summing all dragons that have the state racing.
-		_dragonsBreedingBuilder = new MultipleSourceValueViewBuilder<DragonState, Integer>(new Function<List<ValueView<DragonState>>, Integer>() {
-			@Override
-			public Integer apply(List<ValueView<DragonState>> input) {
-				Integer i = 0;
-				for (ValueView<DragonState> dragonState : input) {
-					if (dragonState.get() == DragonState.Breeding) {
-						++i;
-					}
-				}
-				return i;
-			}
-		});
-
-		_dragonsTrainingBuilder = new MultipleSourceValueViewBuilder<DragonState, Integer>(new Function<List<ValueView<DragonState>>, Integer>() {
-			@Override
-			public Integer apply(List<ValueView<DragonState>> input) {
-				Integer i = 0;
-				for (ValueView<DragonState> dragonState : input) {
-					if (dragonState.get() == DragonState.Training) {
-						++i;
-					}
-				}
-				return i;
-			}
-		});
-
-		// Need two levels of mapping because the number of available dragons needs
-		// to be updated when either a dragon's state changes, or a dragon changes.
-		// When the dragon changes, we also need to update with the extra dragon state
-		// that we now have access to.
-		final UnitSlot rebuildDragonStateBuilderSources = new UnitSlot() {
-			@Override
-			public void onEmit() {
-				_dragonsAvailableBuilder.clearSources();
-				_dragonsRacingBuilder.clearSources();
-				_dragonsBreedingBuilder.clearSources();
-				_dragonsTrainingBuilder.clearSources();
-				for (ValueView<DragonState> state : activeDragonStates()) {
-					_dragonsAvailableBuilder.addSource(state);
-					_dragonsRacingBuilder.addSource(state);
-					_dragonsBreedingBuilder.addSource(state);
-					_dragonsTrainingBuilder.addSource(state);
-				}
-			}
-		};
-		for (ValueView<Dragon> dragon : dragons()) {
-			dragon.connect(rebuildDragonStateBuilderSources);
-		}
-		
-		rebuildDragonStateBuilderSources.onEmit();
+		return numberOfDragonsInState(DragonState.Training);
 	}
 	
 	/**
