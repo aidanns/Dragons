@@ -278,11 +278,11 @@ public class Farm {
 				_dragonsRacingBuilder.clearSources();
 				_dragonsBreedingBuilder.clearSources();
 				_dragonsTrainingBuilder.clearSources();
-				for (ValueView<Dragon> dragon : activeDragons()) {
-					_dragonsAvailableBuilder.addSource(dragon.get().state());
-					_dragonsRacingBuilder.addSource(dragon.get().state());
-					_dragonsBreedingBuilder.addSource(dragon.get().state());
-					_dragonsTrainingBuilder.addSource(dragon.get().state());
+				for (ValueView<DragonState> state : activeDragonStates()) {
+					_dragonsAvailableBuilder.addSource(state);
+					_dragonsRacingBuilder.addSource(state);
+					_dragonsBreedingBuilder.addSource(state);
+					_dragonsTrainingBuilder.addSource(state);
 				}
 			}
 		};
@@ -306,11 +306,38 @@ public class Farm {
 		return dragons;
 	}
 	
+	/**
+	 * @return A list of all active dragons that are in the farm.
+	 */
 	private List<ValueView<Dragon>> activeDragons() {
 		return Lists.newArrayList(Iterables.filter(dragons(), new Predicate<ValueView<Dragon>>() {
 			@Override
 			public boolean apply(ValueView<Dragon> input) {
 				return input.get() != null;
+			}
+		}));
+	}
+	
+	/**
+	 * @return A list of the scores of all active dragons in the farm.
+	 */
+	private List<ValueView<Integer>> activeDragonScores() {
+		return Lists.newArrayList(Iterables.transform(activeDragons(), new com.google.common.base.Function<ValueView<Dragon>, ValueView<Integer>>() {
+			@Override
+			public ValueView<Integer> apply(ValueView<Dragon> input) {
+				return input.get().score();
+			}
+		}));
+	}
+	
+	/**
+	 * @return A list of the states of all active dragons in the farm.
+	 */
+	private List<ValueView<DragonState>> activeDragonStates() {
+		return Lists.newArrayList(Iterables.transform(activeDragons(), new com.google.common.base.Function<ValueView<Dragon>, ValueView<DragonState>>() {
+			@Override
+			public ValueView<DragonState> apply(ValueView<Dragon> input) {
+				return input.get().state();
 			}
 		}));
 	}
@@ -345,16 +372,7 @@ public class Farm {
 				}, new Function<Void, List<ValueView<Integer>>>() {
 					@Override
 					public List<ValueView<Integer>> apply(Void _) {
-						List<ValueView<Integer>> dragonScores = Lists.newArrayList();
-						for (int col = 0; col < 4; ++col) {
-							for (int row = 0; row < 2; ++row) {
-								Dragon dragon = dragonForPen(row, col).get();
-								if (dragon != null) {
-									dragonScores.add(dragon.score());
-								}
-							}
-						}
-						return dragonScores;
+						return activeDragonScores();
 					}
 				}, dragons()).valueView();
 	}

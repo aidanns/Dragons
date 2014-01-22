@@ -709,4 +709,15 @@ public class Dragon {
     				}
     			}, Lists.newArrayList(weightBase(), weightBonusCoat(), weightBonusPhysique(), weightBonusTraining())).valueView();
     }
+    
+    /**
+     * Increment the score of this dragon.
+     * @param value The value to increase by.
+     * @return The dragon itself, for method chaining.
+     */
+    public Dragon incrementScore(Integer value) {
+    	Value<String> score = _gameState.valueForKey(GameState.Key.dragonScoreKeyForId(_id));
+    	score.update(Integer.toString(Integer.parseInt(score.get()) + value));
+    	return this;
+    }
 }

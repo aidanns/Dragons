@@ -98,6 +98,14 @@ public class DebuggingViewController extends ViewController {
 			}
 		}));
 		
+		// Button to give flamey extra score.
+		group.add(new Button("Give flamey 100 points").onClick(new UnitSlot() {
+			@Override
+			public void onEmit() {
+				flameyTheDragon.incrementScore(100);
+			}
+		}));
+		
 		return group;
 	}
 }
