@@ -69,20 +69,21 @@ public class InfoBarViewController extends ContainerViewController {
 		_farm.numberOfDragons().map(integerToStringMapper).connectNotify(dragonsOwnedView.valueLabel().text.slot());
 		group.add(dragonsOwnedView.view());
 
-		// Calculate dragons available by summing all dragons that have the state available.
 		TopBarEntryViewController dragonsAvailableView = new TopBarEntryViewController("Avail");
 		_farm.numberOfDragonsAvailable().map(integerToStringMapper).connectNotify(dragonsAvailableView.valueLabel().text.slot());
 		group.add(dragonsAvailableView.view());
 		
-		// Calculate dragons racing by summing all dragons that have the state racing.
 		TopBarEntryViewController dragonsRacingView = new TopBarEntryViewController("Race");
 		_farm.numberOfDragonsRacing().map(integerToStringMapper).connectNotify(dragonsRacingView.valueLabel().text.slot());
 		group.add(dragonsRacingView.view());
 		
-		// Calculate dragons breeding by summing all dragons that have the state racing.
 		TopBarEntryViewController dragonsBreedingView = new TopBarEntryViewController("Breed");
 		_farm.numberOfDragonsBreeding().map(integerToStringMapper).connectNotify(dragonsBreedingView.valueLabel().text.slot());
 		group.add(dragonsBreedingView.view());
+		
+		TopBarEntryViewController score = new TopBarEntryViewController("Score");
+		_farm.score().map(integerToStringMapper).connectNotify(score.valueLabel().text.slot());
+		group.add(score.view());
 
 		return group;
 	}

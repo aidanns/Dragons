@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
 import react.Function;
 import react.UnitSlot;
 import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.MultipleSourceValueViewBuilder;
+import au.edu.unimelb.cis.dragons.core.RebuildableMultipleSourceValueViewBuilder;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 
 /**
@@ -142,6 +147,9 @@ public class Farm {
 		_gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).update(dragon.id().toString());
 	}
 
+	/**
+	 * @return Number of dragons currently in the farm.
+	 */
 	public ValueView<Integer> numberOfDragons() {
 		 MultipleSourceValueViewBuilder<PenState, Integer> viewBuilder = new MultipleSourceValueViewBuilder<PenState, Integer>(new Function<List<ValueView<PenState>>, Integer>() {
 			@Override
@@ -154,12 +162,7 @@ public class Farm {
 				}
 				return i;
 			}
-		});
-		for (int col = 0; col < 4; ++col) {
-			for (int row = 0; row < 2; ++row) {
-				viewBuilder.addSource(stateForPen(row, col));
-			}
-		}
+		}, penStates());
 		return viewBuilder.valueView();
 	}
 
@@ -168,24 +171,39 @@ public class Farm {
 	private MultipleSourceValueViewBuilder<DragonState, Integer> _dragonsBreedingBuilder = null;
 	private MultipleSourceValueViewBuilder<DragonState, Integer> _dragonsTrainingBuilder = null;
 
+	/**
+	 * @return Number of dragons currently available in the farm.
+	 */
 	public ValueView<Integer> numberOfDragonsAvailable() {
 		if (_dragonsAvailableBuilder == null) {
 			createDragonStateViews();
 		}
 		return _dragonsAvailableBuilder.valueView();
 	}
+	
+	/**
+	 * @return Number of dragons currently racing in the farm.
+	 */
 	public ValueView<Integer> numberOfDragonsRacing() {
 		if (_dragonsRacingBuilder == null) {
 			createDragonStateViews();
 		}
 		return _dragonsRacingBuilder.valueView();
 	}
+	
+	/**
+	 * @return Number of dragons currently breeding in the farm.
+	 */
 	public ValueView<Integer> numberOfDragonsBreeding() {
 		if (_dragonsBreedingBuilder == null) {
 			createDragonStateViews();
 		}
 		return _dragonsBreedingBuilder.valueView();
 	}
+	
+	/**
+	 * @return Number of dragons currently training in the farm.
+	 */
 	public ValueView<Integer> numberOfDragonsTraining() {
 		if (_dragonsTrainingBuilder == null) {
 			createDragonStateViews();
@@ -260,22 +278,85 @@ public class Farm {
 				_dragonsRacingBuilder.clearSources();
 				_dragonsBreedingBuilder.clearSources();
 				_dragonsTrainingBuilder.clearSources();
-				for (int row = 0; row < 2; ++row) {
-					for (int col = 0; col < 4; ++col) {
-						if (dragonForPen(row, col).get() != null) {
-							_dragonsAvailableBuilder.addSource(dragonForPen(row, col).get().state());
-							_dragonsRacingBuilder.addSource(dragonForPen(row, col).get().state());
-							_dragonsBreedingBuilder.addSource(dragonForPen(row, col).get().state());
-							_dragonsTrainingBuilder.addSource(dragonForPen(row, col).get().state());
-						}
-					}
+				for (ValueView<Dragon> dragon : activeDragons()) {
+					_dragonsAvailableBuilder.addSource(dragon.get().state());
+					_dragonsRacingBuilder.addSource(dragon.get().state());
+					_dragonsBreedingBuilder.addSource(dragon.get().state());
+					_dragonsTrainingBuilder.addSource(dragon.get().state());
 				}
 			}
 		};
-		for (int row = 0; row < 2; ++row) {
-			for (int col = 0; col < 4; ++col) {
-				dragonForPen(row, col).connect(rebuildDragonStateBuilderSources);
+		for (ValueView<Dragon> dragon : dragons()) {
+			dragon.connect(rebuildDragonStateBuilderSources);
+		}
+		
+		rebuildDragonStateBuilderSources.onEmit();
+	}
+	
+	/**
+	 * @return A List of all dragons in the farm. Some may contain null.
+	 */
+	private List<ValueView<Dragon>> dragons() {
+		List<ValueView<Dragon>> dragons = Lists.newArrayList();
+		for (int col = 0; col < 4; ++col) {
+			for (int row = 0; row < 2; ++row) {
+				dragons.add(dragonForPen(row, col));
 			}
 		}
+		return dragons;
 	}
+	
+	private List<ValueView<Dragon>> activeDragons() {
+		return Lists.newArrayList(Iterables.filter(dragons(), new Predicate<ValueView<Dragon>>() {
+			@Override
+			public boolean apply(ValueView<Dragon> input) {
+				return input.get() != null;
+			}
+		}));
+	}
+	
+	/**
+	 * @return A list of all pen states for the farm.
+	 */
+	private List<ValueView<PenState>> penStates() {
+		List<ValueView<PenState>> penStates = Lists.newArrayList();
+		for (int col = 0; col < 4; ++col) {
+			for (int row = 0; row < 2; ++row) {
+				penStates.add(stateForPen(row, col));
+			}
+		}
+		return penStates;
+	}
+	
+	/**
+	 * @return Sum of the score of all dragons in the farm.
+	 */
+	public ValueView<Integer> score() {
+		return new RebuildableMultipleSourceValueViewBuilder<Integer, Integer>(
+				new Function<List<ValueView<Integer>>, Integer>() {
+					@Override
+					public Integer apply(List<ValueView<Integer>> input) {
+						Integer sum = 0;
+						for (ValueView<Integer> i : input) {
+							sum += i.get();
+						}
+						return sum;
+					}
+				}, new Function<Void, List<ValueView<Integer>>>() {
+					@Override
+					public List<ValueView<Integer>> apply(Void _) {
+						List<ValueView<Integer>> dragonScores = Lists.newArrayList();
+						for (int col = 0; col < 4; ++col) {
+							for (int row = 0; row < 2; ++row) {
+								Dragon dragon = dragonForPen(row, col).get();
+								if (dragon != null) {
+									dragonScores.add(dragon.score());
+								}
+							}
+						}
+						return dragonScores;
+					}
+				}, dragons()).valueView();
+	}
+	
 }
