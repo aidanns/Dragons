@@ -141,7 +141,7 @@ public class FarmViewController extends ContainerViewController {
 			};
 			
 			// Show the dragon name label as needed.
-			// Make sure the dragon state listener is always listeneing to the corrent dragon.
+			// Make sure the dragon state listener is always listening to the correct dragon.
 			_farm.dragonForPen(_penIdX, _penIdY).connectNotify(new Listener<Dragon>() {
 				@Override
 				public void onChange(Dragon value, Dragon oldValue) {
@@ -174,15 +174,6 @@ public class FarmViewController extends ContainerViewController {
 			_penDragonStateRacingText.setVisible(false);
 			_penDragonStateTrainingText.setVisible(false);
 		}
-		
-		/**
-		 * Get the label that displays the dragon's name.
-		 * @return The label.
-		 */
-		public Label dragonNameLabel() {
-			return _dragonNameLabel;
-		}
-
 	}
 
 	// Size of the grid representing the farm.
