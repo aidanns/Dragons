@@ -7,6 +7,7 @@ import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
+import react.Function;
 import react.UnitSlot;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
@@ -206,8 +207,10 @@ public class FarmViewController extends ContainerViewController {
 
 	@Override
 	protected  Group createInterface() {
-		SizableGroup _pens = new SizableGroup(new ExpandingRowsTableLayout(TableLayout.COL.stretch().free(1).copy(NUM_COLUMNS)).gaps(ROW_GAP, COL_GAP).fillHeight());
-		_pens.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF000000))));
+		SizableGroup view = new SizableGroup(AxisLayout.vertical());
+		
+		SizableGroup pensView = new SizableGroup(new ExpandingRowsTableLayout(TableLayout.COL.stretch().free(1).copy(NUM_COLUMNS)).gaps(ROW_GAP, COL_GAP).fillHeight());
+		pensView.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF000000))));
 
 		// Create a controller for every pen and add it to this view as a sub view controller.
 		for (int i = 0; i < NUM_ROWS; i++) {
@@ -238,9 +241,22 @@ public class FarmViewController extends ContainerViewController {
 					}
 				});
 				
-				_pens.add(child.view());
+				pensView.add(child.view());
 			}
 		}
-		return _pens;
+		view.add(pensView);
+		
+		Function<Integer, String> integerToStringMapper = new Function<Integer, String>() {
+			@Override
+			public String apply(Integer input) {
+				return input.toString();
+			}
+		};
+		
+		TopBarEntryViewController score = new TopBarEntryViewController("Total Farm Score");
+		_farm.score().map(integerToStringMapper).connectNotify(score.valueLabel().text.slot());
+		view.add(score.view());
+		
+		return view;
 	}
 }
