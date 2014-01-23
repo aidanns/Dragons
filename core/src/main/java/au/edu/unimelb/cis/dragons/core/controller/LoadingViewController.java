@@ -37,7 +37,7 @@ public class LoadingViewController extends ViewController {
 		}
 		
 		public void setProgress(UIAnimScreen screen, float percent) {
-			screen.anim.tweenScaleX(_loadingBar.layer).to(percent * size().width()).in(1000).easeInOut();
+			screen.anim.tweenScaleX(_loadingBar.layer).to(percent * size().width()).in(200).easeInOut();
 		}
 	}
 

@@ -27,29 +27,29 @@ import tripleplay.util.Timer;
 
 /**
  * Root of the game, loads up the screen stack and delegates all work to it.
- * 
+ *
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class DragonsGame extends Game.Default {
-	
+
 	// Username for the current user.
 	@SuppressWarnings("unused")
 	private String _currentUserName;
-	
+
 	// PersistenceClient is used to store data on the server.
 	private final PersistenceClient _persistenceClient;
-	
+
 	// Allows for platform specific interactions.
 	private final CustomPlatform _platform;
-	
+
 	// GameState is used to store the current state of the game for this user.
 	private final GameState _gameState = new GameState();
 
 	// 50ms between each update.
 	private static final int UPDATE_RATE = 50;
-	
+
 	// Loading screen must be displayed for at least 4 seconds.
-	private static final int MINIMUM_LOADING_SCREEN_TIME = 4000;
+	private static final int MINIMUM_LOADING_SCREEN_TIME = 2000;
 
 	// Screen that manages a stack of other screens being presented.
 	private final ScreenStack _screens = new ScreenStack() {
@@ -63,13 +63,13 @@ public class DragonsGame extends Game.Default {
 			return slide();
 		}
 	};
-	
+
 	// Main game clock.
 	private final Clock.Source _clock = new Clock.Source(UPDATE_RATE);
-	
+
 	// Time that can be used to schedule actions.
 	private static final Timer timer = new Timer();
-	
+
 	/**
 	 * Get a timer that can be used to schedule actions.
 	 * @return The timer.
@@ -77,7 +77,7 @@ public class DragonsGame extends Game.Default {
 	public static Timer timer() {
 		return timer;
 	}
-	
+
 	public DragonsGame(PersistenceClient persistenceClient, CustomPlatform platform) {
 		super(UPDATE_RATE);
 		_persistenceClient = persistenceClient;
@@ -91,7 +91,7 @@ public class DragonsGame extends Game.Default {
 		_screens.push(new DragonGameScreen(_screens, loadingViewController));
 		populateGameState();
 		loadResourcesThenDisplayGame(loadingViewController);
-		
+
 		_platform.graphics().addResizeHandler(new ResizeHandler() {
 
 			@Override
@@ -100,10 +100,10 @@ public class DragonsGame extends Game.Default {
 				// TODO: aidanns: Does this cause a leak?
 				_screens.top().wasAdded();
 			}
-			
+
 		});
 	}
-	
+
 	/*
 	 * Populate the game state from the store.
 	 */
@@ -123,7 +123,7 @@ public class DragonsGame extends Game.Default {
 				}
 			});
 	}
-	
+
 	/*
 	 * When the resources have loaded and MINIMUM_LOADING_SCREEN_TIME has past,
 	 * the game is displayed.
@@ -133,7 +133,7 @@ public class DragonsGame extends Game.Default {
 	 */
 	private void loadResourcesThenDisplayGame(final LoadingViewController loadingViewController) {
 		AssetWatcher assetWatcher = new AssetWatcher(new AssetWatcher.Listener() {
-			
+
 			@Override
 			public void progress(int loaded, int errors, int total) {
 				loadingViewController.setProgress(loaded, errors, total);
@@ -144,7 +144,7 @@ public class DragonsGame extends Game.Default {
 				log().error(e.getMessage());
 				// TODO aidanns: Show an error message to the user.
 			}
-			
+
 			@Override
 			public void done() {
 				// Display the main game UI.
@@ -162,7 +162,7 @@ public class DragonsGame extends Game.Default {
 							controllers.add(new FarmViewController(new Farm(_gameState), new Wallet(_gameState)));
 							controllers.add(new LeaderboardViewController());
 							controllers.add(new DebuggingViewController(_gameState));
-							
+
 							_screens.replace(new DragonGameScreen(_screens, new TopBarViewController(
 									new InfoBarViewController(new User(_gameState), new Wallet(_gameState), new Farm(_gameState)),
 									new TabController(controllers))));
@@ -172,18 +172,27 @@ public class DragonsGame extends Game.Default {
 				timer.after(timeToWait >= 0 ? timeToWait : 0, presentGameScreen);
 			}
 		});
-		
+
 		// Add some images that we need to wait for before loading the main game.
 		assetWatcher.add(assets().getImage("images/bg.png"));
 		assetWatcher.add(assets().getImage("images/bug_in_lampshade.jpeg"));
 		assetWatcher.add(assets().getImage("images/like_couch_better.jpeg"));
 		assetWatcher.add(assets().getImage("images/bug_in_lampshade_small.jpeg"));
-		
+
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_dragon_status_available.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_dragon_status_breeding.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_dragon_status_racing.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_dragon_status_training.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_dragon.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_empty.png"));
+		assetWatcher.add(assets().getImage("images/farm_placeholder_pen_locked.png"));
+
 		// Start loading.
 		assetWatcher.start();
 	}
-	
-	
+
+
 	@Override
 	public void update(int delta) {
 		_clock.update(delta);

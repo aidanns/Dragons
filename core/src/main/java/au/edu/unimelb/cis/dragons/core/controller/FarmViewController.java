@@ -1,24 +1,24 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
+import static playn.core.PlayN.assets;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
 import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
-import react.Function;
 import react.UnitSlot;
-import react.ValueView;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
 import tripleplay.ui.ClickableGroup;
 import tripleplay.ui.Group;
+import tripleplay.ui.Icons;
 import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
 import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
+import tripleplay.ui.layout.AbsoluteLayout;
 import tripleplay.ui.layout.AxisLayout;
-import tripleplay.ui.layout.FlowLayout;
 import tripleplay.ui.layout.TableLayout;
 
 /**
@@ -26,46 +26,153 @@ import tripleplay.ui.layout.TableLayout;
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class FarmViewController extends ContainerViewController {
-	
+
 	/**
 	 * Represents an individual pen within the farm view.
 	 * Logic is managed by the FarmViewController, this only manages updating the view on demand.
 	 */
 	private class PenViewController extends ViewController {
 		
-		// Label displaying the pen state.
-		private Label _penStateLabel = new Label();
+		// Farm that is backing this pen view.
+		private Farm _farm;
 		
+		// Id of this pen within the farm.
+		private int _penIdX;
+		private int _penIdY;
+
+		// Absolute positioning data for the pen view.
+		private int PEN_X_OFFSET = 30;
+		private int PEN_Y_OFFSET = 30;
+		private int PEN_WIDTH = 100;
+		private int PEN_HEIGHT = 100;
+
 		// Label displaying the name of the dragon in the pen.
 		private Label _dragonNameLabel = new Label();
 		
-		// Label displaying the state of the dragon in the pen.
-		private Label _dragonStateLabel = new Label();
+		// Labels that hold images used to display the state of the pen and it's current contents.
+		private Label _penBorder = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen.png")));
+		private Label _penLockedText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_locked.png")));
+		private Label _penEmptyText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_empty.png")));
+		private Label _penDragonText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon.png")));
+		private Label _penDragonStateAvailableText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_available.png")));
+		private Label _penDragonStateBreedingText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_breeding.png")));
+		private Label _penDragonStateRacingText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_racing.png")));
+		private Label _penDragonStateTrainingText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_training.png")));
+
+		/**
+		 * Creat a new PenViewController
+		 * @param farm The farm that backs this PenViewController
+		 * @param penIdX Column location of this pen within the farm.
+		 * @param penIdY Row location of this pen within the farm.
+		 */
+		public PenViewController(Farm farm, int penIdX, int penIdY) {
+			_farm = farm;
+			_penIdX = penIdX;
+			_penIdY = penIdY;
+		}
 		
 		@Override
 		public String title() {
 			return "Pen";
 		}
-		
+
 		@Override
 		protected Group createInterface() {
-			Group group = new Group(new FlowLayout());
-			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF0000FF))));
-			group.setConstraint(AxisLayout.stretched());
+			Group group = new Group(new AbsoluteLayout());
+			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFFFFFFFF))));
 
-			group.add(_penStateLabel);
-			group.add(_dragonNameLabel);
-			group.add(_dragonStateLabel);
+			// Add all the labels in their final position and initially hide them.
+			group.add(AbsoluteLayout.at(_penBorder, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penLockedText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penEmptyText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penDragonText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penDragonStateAvailableText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penDragonStateBreedingText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penDragonStateRacingText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_penDragonStateTrainingText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
+			group.add(AbsoluteLayout.at(_dragonNameLabel, PEN_X_OFFSET, PEN_Y_OFFSET + 5, PEN_WIDTH, 40));
+			resetPenStateText();
+			resetDragonStateText();
+			_dragonNameLabel.setVisible(false);
 			
+			// Show the pen state images as needed.
+			_farm.stateForPen(_penIdX, _penIdY).connectNotify(new Listener<PenState>() {
+				@Override
+				public void onChange(PenState value, PenState oldValue) {
+					resetPenStateText();
+					switch(value) {
+					case Empty:
+						_penEmptyText.setVisible(true);
+						break;
+					case Full:
+						_penDragonText.setVisible(true);
+						break;
+					case Locked:
+						_penLockedText.setVisible(true);
+						break;
+					default:
+						break;
+					}
+				}
+			});
+			
+			// Show the dragon state images as needed.
+			final Listener<DragonState> dragonStateListener = new Listener<DragonState>() {
+				@Override
+				public void onChange(DragonState value, DragonState oldValue) {
+					resetDragonStateText();
+					switch (value) {
+					case Available:
+						_penDragonStateAvailableText.setVisible(true);
+						break;
+					case Breeding:
+						_penDragonStateBreedingText.setVisible(true);
+						break;
+					case Racing:
+						_penDragonStateRacingText.setVisible(true);
+						break;
+					case Training:
+						_penDragonStateTrainingText.setVisible(true);
+						break;
+					default:
+						break;
+					}
+				}
+			};
+			
+			// Show the dragon name label as needed.
+			// Make sure the dragon state listener is always listeneing to the corrent dragon.
+			_farm.dragonForPen(_penIdX, _penIdY).connectNotify(new Listener<Dragon>() {
+				@Override
+				public void onChange(Dragon value, Dragon oldValue) {
+					_dragonNameLabel.setVisible(false);
+					if (oldValue != null) {
+						oldValue.state().disconnect(dragonStateListener);
+					}
+					if (value != null) {
+						value.state().connectNotify(dragonStateListener);
+						_dragonNameLabel.setVisible(true);
+						value.name().connectNotify(_dragonNameLabel.text.slot());
+					}
+				}
+			});
+
 			return group;
 		}
 		
-		/**
-		 * Get the label that displays the state of the pen.
-		 * @return The label.
-		 */
-		public Label penStateLabel() {
-			return _penStateLabel;
+		/** Make all pen state labels invisible. */
+		private void resetPenStateText() {
+			_penLockedText.setVisible(false);
+			_penEmptyText.setVisible(false);
+			_penDragonText.setVisible(false);
+		}
+		
+		/** Make all dragon state labels invisible. */
+		private void resetDragonStateText() {
+			_penDragonStateAvailableText.setVisible(false);
+			_penDragonStateBreedingText.setVisible(false);
+			_penDragonStateRacingText.setVisible(false);
+			_penDragonStateTrainingText.setVisible(false);
 		}
 		
 		/**
@@ -75,45 +182,22 @@ public class FarmViewController extends ContainerViewController {
 		public Label dragonNameLabel() {
 			return _dragonNameLabel;
 		}
-		
-		/**
-		 * Get the label that displays the dragon's state.
-		 * @return The label.
-		 */
-		public Label dragonStateLabel() {
-			return _dragonStateLabel;
-		}
-		
-		/**
-		 * Set whether the dragon related labels should be visible.
-		 * @param visible Whether the labels should be visible.
-		 */
-		public void setDragonLabelsVisible(boolean visible) {
-			_dragonNameLabel.setVisible(visible);
-			_dragonStateLabel.setVisible(visible);
-		}
-		
-		/**
-		 * Set whether the pen state label should be visible.
-		 * @param visible Whether the label should be visible.
-		 */
-		public void setPenStateLabelVisible(boolean visible) {
-			_penStateLabel.setVisible(visible);
-		}
+
 	}
-	
+
+	// Size of the grid representing the farm.
 	private int NUM_COLUMNS = 4;
 	private int NUM_ROWS = 2;
-	
-	private int ROW_GAP = 5;
-	private int COL_GAP = 5;
-	
+
+	private int ROW_GAP = 0;
+	private int COL_GAP = 0;
+
 	// The farm that is backing this view.
 	private Farm _farm;
-	
+
 	// The wallet that is backing the view.
 	private Wallet _wallet;
-	
+
 	/**
 	 * Create a new FarmViewController.
 	 * @param farm The farm that backs this view.
@@ -128,59 +212,23 @@ public class FarmViewController extends ContainerViewController {
 	public String title() {
 		return "Farm";
 	}
-	
+
 	@Override
 	protected  Group createInterface() {
 		SizableGroup _pens = new SizableGroup(new ExpandingRowsTableLayout(TableLayout.COL.stretch().free(1).copy(NUM_COLUMNS)).gaps(ROW_GAP, COL_GAP).fillHeight());
 		_pens.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFF000000))));
-		
+
 		// Create a controller for every pen and add it to this view as a sub view controller.
 		for (int i = 0; i < NUM_ROWS; i++) {
 			for (int j = 0; j < NUM_COLUMNS; j++) {
-				
+
 				final int currentRow = i;
 				final int currentColumn = j;
-				
-				final PenViewController child = new PenViewController();
+
+				final PenViewController child = new PenViewController(_farm, i, j);
 				addSubViewController(child);
 				child.view().setConstraint(AxisLayout.stretched());
-				
-				// The pen label should always read the current state of that pen.
-				_farm.stateForPen(i, j).map(new Function<PenState, String>() {
-					@Override
-					public String apply(PenState input) {
-						return input.toString();
-					}
-				}).connectNotify(child.penStateLabel().text.slot());
-				
-				final Listener<DragonState> dragonStateChangeListener = new Listener<DragonState>() {
-					@Override
-					public void onChange(DragonState value, DragonState oldValue) {
-						child.dragonStateLabel().text.update(value.toString());
-					}
-				};
 
-				// The dragons name should be updated if either the dragon, or it's name changes.
-				ValueView<Dragon> dragon = _farm.dragonForPen(i, j); 
-				dragon.connectNotify(new Listener<Dragon>() {
-					@Override
-					public void onChange(Dragon value, Dragon oldValue) {
-						if (oldValue != null) {
-							oldValue.name().disconnect(child.dragonNameLabel().text.slot());
-							oldValue.state().disconnect(dragonStateChangeListener);
-						}
-						
-						if (value != null) {
-							value.name().connectNotify(child.dragonNameLabel().text.slot());
-							value.state().connectNotify(dragonStateChangeListener);
-						}
-						
-						// If the dragon is there, show it's labels and hide the pen label.
-						child.setDragonLabelsVisible(value != null);
-						child.setPenStateLabelVisible(value == null);
-					}
-				});
-				
 				// Add a listener for click events on the pen to allow purchasing.
 				new ClickableGroup(child.view()).clicked().connect(new UnitSlot() {
 					@Override
@@ -202,8 +250,6 @@ public class FarmViewController extends ContainerViewController {
 				_pens.add(child.view());
 			}
 		}
-		
 		return _pens;
 	}
-
 }
