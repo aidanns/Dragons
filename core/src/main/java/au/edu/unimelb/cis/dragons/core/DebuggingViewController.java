@@ -64,7 +64,7 @@ public class DebuggingViewController extends ViewController {
 			}
 		}));
 		
-		final Dragon flameyTheDragon = Dragon.create(_gameState, Integer.valueOf(0), "Flamey");
+		final Dragon flameyTheDragon = Dragon.create(_gameState, "Flamey");
 		
 		// Button to add a dragon to pen two and make it full.
 		group.add(new Button("Add Flamey to the Farm").onClick(new UnitSlot() {

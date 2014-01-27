@@ -26,7 +26,7 @@ public class User {
 	 * @return The name of this user.
 	 */
 	public ValueView<String> name() {
-		return _gameState.valueForKey(GameState.Key.Username);
+		return _gameState.valueForKey(GameState.Key.usernameKey());
 	}
 
 }

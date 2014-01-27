@@ -28,7 +28,7 @@ public class Wallet {
 	 * @return The current ammount of gold in the wallet.
 	 */
 	public ValueView<Integer> gold() {
-		return _gameState.valueForKey(GameState.Key.CurrentGold).map(new Function<String, Integer>() {
+		return _gameState.valueForKey(GameState.Key.currentGoldKey()).map(new Function<String, Integer>() {
 			@Override
 			public Integer apply(String input) {
 				return Integer.parseInt(input);
@@ -41,7 +41,7 @@ public class Wallet {
 	 * @param amount The amount to add.
 	 */
 	public void addGold(Integer amount) {
-		Value<String> goldValue = _gameState.valueForKey(GameState.Key.CurrentGold);
+		Value<String> goldValue = _gameState.valueForKey(GameState.Key.currentGoldKey());
 		int currentGold = Integer.parseInt(goldValue.get());
 		goldValue.update(new String("" + (currentGold + amount)));
 	}

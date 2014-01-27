@@ -130,7 +130,7 @@ public class Farm {
 			@Override
 			public Dragon apply(String input) {
 				if (input.equals("")) { return null; }
-				else { return new Dragon(_gameState, Integer.valueOf(input)); }
+				else { return Dragon.retrieveWithId(_gameState, Integer.valueOf(input)); }
 			}
 		});
 	}

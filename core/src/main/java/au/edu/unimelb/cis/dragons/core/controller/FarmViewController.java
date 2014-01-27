@@ -1,26 +1,20 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
-import static playn.core.PlayN.assets;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
+import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
-import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
-import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
-import au.edu.unimelb.cis.dragons.core.view.View;
+import au.edu.unimelb.cis.dragons.core.view.PenView;
 import react.Function;
 import react.SignalView;
 import react.UnitSlot;
-import react.Value;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
 import tripleplay.ui.Group;
-import tripleplay.ui.Icons;
-import tripleplay.ui.Label;
 import tripleplay.ui.SizableGroup;
 import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
-import tripleplay.ui.layout.AbsoluteLayout;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.TableLayout;
 
@@ -29,139 +23,6 @@ import tripleplay.ui.layout.TableLayout;
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class FarmViewController extends ContainerViewController {
-
-	private class FarmPenView extends View {
-
-		// Absolute positioning data for the pen view.
-		private int PEN_X_OFFSET = 30;
-		private int PEN_Y_OFFSET = 30;
-		private int PEN_WIDTH = 100;
-		private int PEN_HEIGHT = 100;
-
-		// Label displaying the name of the dragon in the pen.
-		private Label _dragonNameLabel = new Label();
-
-		// Labels that hold images used to display the state of the pen and it's current contents.
-		private Label _penBorder;
-		private Label _penLockedText;
-		private Label _penEmptyText;
-		private Label _penDragonText;
-		private Label _penDragonStateAvailableText;
-		private Label _penDragonStateBreedingText;
-		private Label _penDragonStateRacingText;
-		private Label _penDragonStateTrainingText;
-
-		private Value<DragonState> _dragonState = Value.create(DragonState.Available);;
-		private Value<PenState> _penState = Value.create(PenState.Empty);
-
-		public Value<String> dragonName() {
-			return _dragonNameLabel.text;
-		}
-
-		public Value<DragonState> dragonState() {
-			return _dragonState;
-		}
-
-		public Value<PenState> penState() {
-			return _penState;
-		}
-
-		@Override
-		protected Group createInterface() {
-			// Load up all the images for the pen.
-			_penBorder = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen.png")));
-			_penLockedText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_locked.png")));
-			_penEmptyText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_empty.png")));
-			_penDragonText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon.png")));
-			_penDragonStateAvailableText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_available.png")));
-			_penDragonStateBreedingText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_breeding.png")));
-			_penDragonStateRacingText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_racing.png")));
-			_penDragonStateTrainingText = new Label(Icons.image(assets().getImage("images/farm_placeholder_pen_dragon_status_training.png")));
-
-			Group group = new Group(new AbsoluteLayout());
-			group.setStyles(Styles.make(Style.BACKGROUND.is(Background.solid(0xFFFFFFFF))));
-
-			// Add all the labels in their final position and initially hide them.
-			group.add(AbsoluteLayout.at(_penBorder, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penLockedText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penEmptyText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penDragonText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penDragonStateAvailableText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penDragonStateBreedingText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penDragonStateRacingText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_penDragonStateTrainingText, PEN_X_OFFSET, PEN_Y_OFFSET, PEN_WIDTH, PEN_HEIGHT));
-			group.add(AbsoluteLayout.at(_dragonNameLabel, PEN_X_OFFSET, PEN_Y_OFFSET + 5, PEN_WIDTH, 40));
-
-			resetPenStateText();
-			resetDragonStateText();
-
-			// Hook up listeners from the state of the view to the view itself.
-			_dragonState.connectNotify(new Listener<DragonState>() {
-				@Override
-				public void onChange(DragonState value, DragonState oldValue) {
-					switch (value) {
-					case Available:
-						resetDragonStateText();
-						_penDragonStateAvailableText.setVisible(true);
-						break;
-					case Breeding:
-						resetDragonStateText();
-						_penDragonStateBreedingText.setVisible(true);
-						break;
-					case Racing:
-						_penDragonStateRacingText.setVisible(true);
-						resetDragonStateText();
-						break;
-					case Training:
-						resetDragonStateText();
-						_penDragonStateTrainingText.setVisible(true);
-						break;
-					default:
-						break;
-					}
-				}
-			});
-
-			_penState.connectNotify(new Listener<PenState>() {
-				@Override
-				public void onChange(PenState value, PenState oldValue) {
-					switch(value) {
-					case Empty:
-						resetPenStateText();
-						_penEmptyText.setVisible(true);
-						break;
-					case Full:
-						resetPenStateText();
-						_penDragonText.setVisible(true);
-						break;
-					case Locked:
-						resetPenStateText();
-						_penLockedText.setVisible(true);
-						break;
-					default:
-						break;
-					}
-				}
-			});
-
-			return group;
-		}
-
-		/** Make all pen state labels invisible. */
-		private void resetPenStateText() {
-			_penLockedText.setVisible(false);
-			_penEmptyText.setVisible(false);
-			_penDragonText.setVisible(false);
-		}
-
-		/** Make all dragon state labels invisible. */
-		private void resetDragonStateText() {
-			_penDragonStateAvailableText.setVisible(false);
-			_penDragonStateBreedingText.setVisible(false);
-			_penDragonStateRacingText.setVisible(false);
-			_penDragonStateTrainingText.setVisible(false);
-		}
-	}
 
 	/**
 	 * Represents an individual pen within the farm view.
@@ -176,7 +37,7 @@ public class FarmViewController extends ContainerViewController {
 		private int _penIdX;
 		private int _penIdY;
 
-		private FarmPenView _view;
+		private PenView _view;
 
 		/**
 		 * Create a new PenViewController
@@ -188,7 +49,7 @@ public class FarmViewController extends ContainerViewController {
 			_farm = farm;
 			_penIdX = penIdX;
 			_penIdY = penIdY;
-			_view = new FarmPenView();
+			_view = new PenView();
 		}
 
 		@Override
@@ -238,14 +99,18 @@ public class FarmViewController extends ContainerViewController {
 	// The wallet that is backing the view.
 	private Wallet _wallet;
 
+	// The GameState that's used to create new dragons in the buy view.
+	private GameState _gameState;
+	
 	/**
 	 * Create a new FarmViewController.
 	 * @param farm The farm that backs this view.
 	 * @param wallet The wallet that backs this view.
 	 */
-	public FarmViewController(Farm farm, Wallet wallet) {
+	public FarmViewController(Farm farm, Wallet wallet, GameState gameState) {
 		_farm = farm;
 		_wallet = wallet;
+		_gameState = gameState;
 	}
 
 	@Override
@@ -283,7 +148,7 @@ public class FarmViewController extends ContainerViewController {
 							parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(_farm.dragonForPen(currentRow, currentColumn).get())));
 							break;
 						case Empty:
-							parentScreen().presentViewController(new ClosableModalViewController(new BuyDragonViewController()));
+							parentScreen().presentViewController(new ClosableModalViewController(new BuyDragonViewController(_gameState, _farm, _wallet)));
 							break;
 						}
 					}

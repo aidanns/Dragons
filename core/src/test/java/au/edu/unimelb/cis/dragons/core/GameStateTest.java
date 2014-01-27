@@ -26,7 +26,7 @@ public class GameStateTest {
 	@Test
 	public void storageWorks() {
 		Value<String> myValue = Value.create("value");
-		Key key = GameState.Key.CurrentGold;
+		Key key = GameState.Key.currentGoldKey();
 		
 		_gameState.addValueForKey(myValue, key);
 		

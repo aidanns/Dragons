@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import playn.core.Log;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import react.Function;
 import react.Value;
 import react.ValueView;
+import tripleplay.util.Logger;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.MultipleSourceValueViewBuilder;
 import au.edu.unimelb.cis.dragons.core.genetics.Allele;
@@ -86,22 +89,42 @@ public class Dragon {
     private Integer _id;
 
     /**
-     * Create a new dragon with a given name in the GameState with a state of available.
-     * WARNING: This will clobber any previous dragon with the same id in the GameState.
+     * Create a new dragon in the specified GameState.
      * @param gameState The GameState to create the dragon in.
-     * @param id The id of the dragon.
      * @param name The name of the dragon to create.
      * @return
      */
-    public static Dragon create(GameState gameState, Integer id, String name) {
-    	return create(gameState, id, name, Allele.ShortLegs, Allele.LongLegs,
+    public static Dragon create(GameState gameState, String name) {
+    	return create(gameState, name, Allele.ShortLegs, Allele.LongLegs,
     			Allele.ClawedFeet, Allele.WebbedFeet, Allele.FurryCoat, Allele.ScaledCoat,
     			Allele.SmallWings, Allele.LargeWings, Allele.LongTail, Allele.ShortTail,
     			Allele.MuscularPhysique, Allele.LeanPhysique, Allele.AdditiveLungs, Allele.PlainLungs,
     			Allele.AdditiveHeart, Allele.PlainHeart);
     }
 
-    public static Dragon create(GameState gameState, Integer id, String name,
+    /**
+     * Create a dragon with a specific genetic makeup in the specified GameState.
+     * @param gameState
+     * @param name
+     * @param legLengthAlleleOne
+     * @param legLengthAlleleTwo
+     * @param feetTypeAlleleOne
+     * @param feetTypeAlleleTwo
+     * @param coatTypeAlleleOne
+     * @param coatTypeAlleleTwo
+     * @param wingSizeAlleleOne
+     * @param wingSizeAlleleTwo
+     * @param tailLengthAlleleOne
+     * @param tailLengthAlleleTwo
+     * @param physiqueAlleleOne
+     * @param physiqueAlleleTwo
+     * @param lungSizeAlleleOne
+     * @param lungSizeAlleleTwo
+     * @param heartSizeAlleleOne
+     * @param heartSizeAlleleTwo
+     * @return
+     */
+    public static Dragon create(GameState gameState, String name,
     		Allele legLengthAlleleOne, Allele legLengthAlleleTwo,
     		Allele feetTypeAlleleOne, Allele feetTypeAlleleTwo,
             Allele coatTypeAlleleOne, Allele coatTypeAlleleTwo,
@@ -110,10 +133,13 @@ public class Dragon {
             Allele physiqueAlleleOne, Allele physiqueAlleleTwo,
             Allele lungSizeAlleleOne, Allele lungSizeAlleleTwo,
             Allele heartSizeAlleleOne, Allele heartSizeAlleleTwo) {
-        gameState.valueForKey(GameState.Key.dragonNameKeyForId(id)).update(name);
-        gameState.valueForKey(GameState.Key.dragonScoreKeyForId(id)).update("0");
+    	int id = gameState.nextDragonId();
         Dragon dragon = new Dragon(gameState, id);
         dragon.makeAvailable();
+        
+        gameState.valueForKey(GameState.Key.dragonNameKeyForId(id)).update(name);
+        gameState.valueForKey(GameState.Key.dragonScoreKeyForId(id)).update("0");
+
 
         gameState.valueForKey(GameState.Key.dragonLegLengthAlleleOneKeyForId(id)).update(legLengthAlleleOne.toString());
         gameState.valueForKey(GameState.Key.dragonLegLengthAlleleTwoKeyForId(id)).update(legLengthAlleleTwo.toString());
@@ -137,15 +163,29 @@ public class Dragon {
         gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(id)).update("0");
         gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(id)).update("0");
 
+        Logger log = new Logger("Draogn");
+        log.debug("Creating dragon with id " + Integer.toString(id));
+        
         return dragon;
+    }
+    
+    /**
+     * Retrieve a specific dragon already present in the GameState and create 
+     * an instance of it.
+     * @param gameState
+     * @param id
+     * @return
+     */
+    public static Dragon retrieveWithId(GameState gameState, Integer id) {
+    	return new Dragon(gameState, id);
     }
 
     /**
-     * Create a new dragon, backed by a particular GameState.
+     * Create a new instance of a dragon, backed by a particular GameState.
      * @param gameState The game state to store this dragon in.
      * @param id The id to store this dragon at.
      */
-    public Dragon(GameState gameState, Integer id) {
+    private Dragon(GameState gameState, Integer id) {
         this(gameState, id, new LegLength(), new FeetType(), new CoatType(),
                 new WingSize(), new TailLength(), new Physique(),
                 new LungSize(), new HeartSize());

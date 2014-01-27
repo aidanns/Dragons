@@ -13,8 +13,8 @@ public class StubGameStatePopulator {
 	 * @param gameState The GameState to be populated.
 	 */
 	public static void populateGameState(GameState state) {
-		state.addValueForKey(Value.create("0"), GameState.Key.CurrentGold);
-		state.addValueForKey(Value.create(""), GameState.Key.Username);
+		state.addValueForKey(Value.create("0"), GameState.Key.currentGoldKey());
+		state.addValueForKey(Value.create(""), GameState.Key.usernameKey());
 
 		// Pen states
 		for (int i = 0; i < 4; i++) {
@@ -30,34 +30,8 @@ public class StubGameStatePopulator {
 			}
 		}
 
-		// Dragons
-		for (int i = 0; i < 8; i++) {
-			state.addValueForKey(Value.create(""), GameState.Key.dragonStateKeyForId(i));
-			state.addValueForKey(Value.create(""), GameState.Key.dragonNameKeyForId(i));
-			state.addValueForKey(Value.create(""), GameState.Key.dragonScoreKeyForId(i));
-
-			state.addValueForKey(Value.create(""), GameState.Key.dragonLegLengthAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonLegLengthAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonFeetTypeAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonFeetTypeAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonCoatTypeAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonCoatTypeAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonWingSizeAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonWingSizeAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonTailLengthAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonTailLengthAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonPhysiqueAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonPhysiqueAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonLungSizeAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonLungSizeAlleleTwoKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonHeartSizeAlleleOneKeyForId(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonHeartSizeAlleleTwoKeyForId(i));
-
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(i));
-        	state.addValueForKey(Value.create(""), GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(i));
-		}
+		// Dragon id generator
+		state.addValueForKey(Value.create("0"), GameState.Key.nextDragonIdKey());
 
 		state.markPopulated();
 		return;

@@ -114,7 +114,7 @@ public class DragonsGame extends Game.Default {
 				@Override
 				public void onSuccess(String result) {
 					if (result != null) {
-						_gameState.valueForKey(GameState.Key.Username).update(result);
+						_gameState.valueForKey(GameState.Key.usernameKey()).update(result);
 					}
 				}
 				@Override
@@ -159,7 +159,7 @@ public class DragonsGame extends Game.Default {
 						} else {
 							List<ViewController> controllers = new ArrayList<ViewController>();
 							controllers.add(new LoreViewController());
-							controllers.add(new FarmViewController(new Farm(_gameState), new Wallet(_gameState)));
+							controllers.add(new FarmViewController(new Farm(_gameState), new Wallet(_gameState), _gameState));
 							controllers.add(new LeaderboardViewController());
 							controllers.add(new DebuggingViewController(_gameState));
 
