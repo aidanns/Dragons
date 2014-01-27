@@ -4,15 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import playn.core.Log;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import react.Function;
 import react.Value;
 import react.ValueView;
-import tripleplay.util.Logger;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.MultipleSourceValueViewBuilder;
 import au.edu.unimelb.cis.dragons.core.genetics.Allele;
@@ -163,9 +160,6 @@ public class Dragon {
         gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(id)).update("0");
         gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(id)).update("0");
 
-        Logger log = new Logger("Draogn");
-        log.debug("Creating dragon with id " + Integer.toString(id));
-        
         return dragon;
     }
     

@@ -17,7 +17,6 @@ import tripleplay.ui.Style;
 import tripleplay.ui.Styles;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.TableLayout;
-import tripleplay.util.Logger;
 
 /**
  * ViewController to allow the player to purchase a new dragon for an empty pen.
@@ -73,8 +72,6 @@ public class BuyDragonViewController extends ViewController {
 				PenView penView = new PenView();
 				
 				Dragon dragon = _dragonGenerator.createRandomDragon(10);
-				Logger log = new Logger("Generator");
-				log.debug(dragon.name().get());
 				dragon.state().connectNotify(penView.dragonState().slot());
 				dragon.name().connectNotify(penView.dragonName().slot());
 				
