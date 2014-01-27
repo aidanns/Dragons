@@ -78,6 +78,13 @@ public class BuyDragonViewController extends ViewController {
 				dragon.state().connectNotify(penView.dragonState().slot());
 				dragon.name().connectNotify(penView.dragonName().slot());
 				
+				penView.clicked().connect(new UnitSlot() {
+					@Override
+					public void onEmit() {
+						parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(dragon)));
+					}
+				});
+				
 				penGroup.add(penView.view());
 				
 				Button buyButton = new Button("Buy " + j);
