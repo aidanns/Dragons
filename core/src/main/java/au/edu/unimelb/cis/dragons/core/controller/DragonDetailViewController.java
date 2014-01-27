@@ -273,7 +273,7 @@ public class DragonDetailViewController extends ViewController {
 			sendDragonToTrainButton.clicked().connect(new UnitSlot() {
 				@Override
 				public void onEmit() {
-					_dragon.sendToTrain();
+					parentScreen().presentViewController(new ClosableModalViewController(new DragonTrainingViewController(_wallet, _dragon)));
 				}
 			});
 			actionPane.add(sendDragonToTrainButton);

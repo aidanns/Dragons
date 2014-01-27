@@ -617,6 +617,14 @@ public class Dragon {
     private ValueView<Integer> speedBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
+    
+    /**
+     * Train a dragon to have increased speed for the specified number of races.
+     * @param races Number of races to be trained for.
+     */
+    public void trainSpeedForRaces(Integer races) {
+    	_gameState.valueForKey(GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id)).update(Integer.toString(races));
+    }
 
     /**
      * @return The dragon's computed speed attribute.
@@ -655,6 +663,14 @@ public class Dragon {
     private ValueView<Integer> enduranceBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
+    
+    /**
+     * Train a dragon to have increased endurance for the specified number of races.
+     * @param races Number of races to be trained for.
+     */
+    public void trainEnduranceForRaces(Integer races) {
+    	_gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id)).update(Integer.toString(races));
+    }
 
     /** @return The dragon's computed endurance attribute. */
     @SuppressWarnings("unchecked")
@@ -691,6 +707,14 @@ public class Dragon {
     private ValueView<Integer> balanceBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
+    
+    /**
+     * Train a dragon to have increased balance for the specified number of races.
+     * @param races Number of races to be trained for.
+     */
+    public void trainBalanceForRaces(Integer races) {
+    	_gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).update(Integer.toString(races));
+    }
 
     /** @return The dragon's computed balance. */
     @SuppressWarnings("unchecked")
@@ -726,6 +750,14 @@ public class Dragon {
     /** @return Bonus weight from training. */
     private ValueView<Integer> weightBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
+    }
+    
+    /**
+     * Train a dragon to have increased weight for the specified number of races.
+     * @param races Number of races to be trained for.
+     */
+    public void trainWeightForRaces(Integer races) {
+    	_gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id)).update(Integer.toString(races));
     }
 
     /** @return The dragon's computed weight. */
