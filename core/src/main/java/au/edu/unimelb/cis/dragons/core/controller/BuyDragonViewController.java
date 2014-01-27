@@ -1,5 +1,6 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
+import au.edu.unimelb.cis.dragons.core.Alert;
 import au.edu.unimelb.cis.dragons.core.DragonGenerator;
 import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
 import au.edu.unimelb.cis.dragons.core.GameState;
@@ -38,16 +39,18 @@ public class BuyDragonViewController extends ViewController {
 	private Wallet _wallet;
 	
 	// Id of the pen that we're buying for.
-	private int _penIdX;
-	private int _penIdY;
+	private int _penColumn;
+	private int _penRow;
 	
 	// The generator for random dragons that can be sold.
 	private DragonGenerator _dragonGenerator;
 
-	public BuyDragonViewController(GameState gameState, Farm farm, Wallet wallet) {
+	public BuyDragonViewController(GameState gameState, Farm farm, Wallet wallet, Integer penColumn, Integer penRow) {
 		_dragonGenerator = new DragonGenerator(gameState);
 		_farm = farm;
 		_wallet = wallet;
+		_penColumn = penColumn;
+		_penRow = penRow;
 	}
 	
 	@Override
@@ -71,22 +74,31 @@ public class BuyDragonViewController extends ViewController {
 				
 				PenView penView = new PenView();
 				
-				Dragon dragon = _dragonGenerator.createRandomDragon(10);
+				final Dragon dragon = _dragonGenerator.createRandomDragon(10);
 				dragon.state().connectNotify(penView.dragonState().slot());
 				dragon.name().connectNotify(penView.dragonName().slot());
 				
 				penGroup.add(penView.view());
 				
 				Button buyButton = new Button("Buy " + j);
+				
+				final Integer goldToBuyDragon = 100;
+				
 				buyButton.clicked().connect(new UnitSlot() {
 					@Override
 					public void onEmit() {
-						// Buy dragon logic.
+						if (_wallet.gold().get() >= goldToBuyDragon) {
+							_wallet.subtractGold(goldToBuyDragon);
+							_farm.setDragonForPen(dragon, _penRow, _penColumn);
+							parentScreen().dismissViewController(BuyDragonViewController.this);
+						} else {
+							new Alert("Buying the dragon costs " + goldToBuyDragon + " gold. You do not have enough.").displayOnScreen(parentScreen());
+						}
 					}
 				});
 				penGroup.add(buyButton);
 				
-				pensView.add(penView.view());
+				pensView.add(penGroup);
 			}
 		}
 		group.add(pensView);
