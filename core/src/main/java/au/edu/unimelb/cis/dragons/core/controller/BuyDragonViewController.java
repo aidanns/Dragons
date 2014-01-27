@@ -6,6 +6,7 @@ import au.edu.unimelb.cis.dragons.core.ExpandingRowsTableLayout;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import au.edu.unimelb.cis.dragons.core.view.PenView;
 import react.UnitSlot;
@@ -75,6 +76,7 @@ public class BuyDragonViewController extends ViewController {
 
 				PenView penView = new PenView();
 				final Dragon dragon = _dragonGenerator.createRandomDragon(10);
+				penView.penState().update(PenState.Full);
 				dragon.state().connectNotify(penView.dragonState().slot());
 				dragon.name().connectNotify(penView.dragonName().slot());
 				penView.clicked().connect(new UnitSlot() {

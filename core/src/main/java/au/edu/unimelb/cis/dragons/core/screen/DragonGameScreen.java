@@ -85,8 +85,8 @@ public class DragonGameScreen extends UIAnimScreen {
 	 */
 	public void presentViewController(ViewController modal) {
 		_modalChildren.add(modal);
-		_root.add(AbsoluteLayout.at(modal.view(), MODAL_INSET_DISTANCE, MODAL_INSET_DISTANCE, width() - 2 * MODAL_INSET_DISTANCE, height() - 2 * MODAL_INSET_DISTANCE));
 		modal.setParentScreen(this);
+		_root.add(AbsoluteLayout.at(modal.view(), MODAL_INSET_DISTANCE, MODAL_INSET_DISTANCE, width() - 2 * MODAL_INSET_DISTANCE, height() - 2 * MODAL_INSET_DISTANCE));
 		modal.wasShown();
 	}
 	

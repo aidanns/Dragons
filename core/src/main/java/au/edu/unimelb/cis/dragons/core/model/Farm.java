@@ -119,6 +119,9 @@ public class Farm {
 		_gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).update("");
 	}
 
+	// Cache is used to ensure that clients always get the same instance of ValueView back so they are able to disconnect when needed.
+	private Map<GameState.Key, ValueView<Dragon>> _dragonCache = new HashMap<GameState.Key, ValueView<Dragon>>();
+	
 	/**
 	 * Get the Dragon for the pen at a certain index.
 	 * @param row The row index.
@@ -126,13 +129,17 @@ public class Farm {
 	 * @return The Dragon.
 	 */
 	public ValueView<Dragon> dragonForPen(Integer row, Integer column) {
-		return _gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).map(new Function<String, Dragon>() {
-			@Override
-			public Dragon apply(String input) {
-				if (input.equals("")) { return null; }
-				else { return Dragon.retrieveWithId(_gameState, Integer.valueOf(input)); }
-			}
-		});
+		GameState.Key dragonKey = GameState.Key.penDragonIdKeyAtIndex(row, column);
+		if (!_dragonCache.containsKey(dragonKey)) {
+			_dragonCache.put(dragonKey, _gameState.valueForKey(GameState.Key.penDragonIdKeyAtIndex(row, column)).map(new Function<String, Dragon>() {
+				@Override
+				public Dragon apply(String input) {
+					if (input.equals("")) { return null; }
+					else { return Dragon.retrieveWithId(_gameState, Integer.valueOf(input)); }
+				}
+			}));
+		}
+		return _dragonCache.get(dragonKey);
 	}
 
 	/**

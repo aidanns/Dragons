@@ -6,6 +6,8 @@ import au.edu.unimelb.cis.dragons.core.genetics.Allele;
 import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
+import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import react.Function;
 import react.UnitSlot;
 import react.ValueView.Listener;
@@ -29,13 +31,34 @@ public class DragonDetailViewController extends ViewController {
 
 	// The dragon that this screen is displaying.
 	private Dragon _dragon;
+	
+	private Farm _farm;
+	private Wallet _wallet;
+	private Integer _penColumn;
+	private Integer _penRow;
 
 	/**
-	 * Create a new DragonDetailView.
+	 * Create a new DragonDetailView that displays the information about a dragon.
 	 * @param dragon The dragon that we're displaying information for.
 	 */
 	public DragonDetailViewController(Dragon dragon) {
 		_dragon = dragon;
+	}
+	
+	/**
+	 * Create a new DragonDetailViewController that includes the action bar at
+	 * the bottom of the screen.
+	 * @param farm The farm backing the dragon.
+	 * @param wallet The user's wallet.
+	 * @param penColumn The column of the pen that the dragon is in.
+	 * @param penRow The row of the pen that the dragon is in.
+	 */
+	public DragonDetailViewController(Farm farm, Wallet wallet, Integer penColumn, Integer penRow) {
+		_farm = farm;
+		_wallet = wallet;
+		_penColumn = penColumn;
+		_penRow = penRow;
+		_dragon = _farm.dragonForPen(_penRow, _penColumn).get();
 	}
 
 	@Override
@@ -46,7 +69,7 @@ public class DragonDetailViewController extends ViewController {
 	@Override
 	protected Group createInterface() {
 		MigGroup group = new MigGroup(new MigLayout(
-				"insets 0, gap 0, fill", "[40%, fill][60%, fill]", "[100%, fill]"));
+				"insets 0, gap 0, fill", "[40%, fill][60%, fill]", "[][]"));
 		group.setStyles(Style.BACKGROUND.is(Background.solid(0xFFFFFFFF)));
 
 		// Add a left pane that displays an image of the dragon.
@@ -76,16 +99,16 @@ public class DragonDetailViewController extends ViewController {
 		}).connectNotify(dragonStateLabel.text.slot());
 		rightPane.add(dragonStateLabel, "cell 1 1");
 
-		// Add a label that displays the dragon's score.
-		rightPane.add(makeBoldLabel("Score:"), "cell 0 2");
-		Label dragonScoreLabel = makePlainLabel();
-		_dragon.score().map(new Function<Integer, String>() {
-			@Override
-			public String apply(Integer input) {
-				return input.toString();
-			}
-		}).connectNotify(dragonScoreLabel.text.slot());
-		rightPane.add(dragonScoreLabel, "cell 1 2");
+//		// Add a label that displays the dragon's score.
+//		rightPane.add(makeBoldLabel("Score:"), "cell 0 2");
+//		Label dragonScoreLabel = makePlainLabel();
+//		_dragon.score().map(new Function<Integer, String>() {
+//			@Override
+//			public String apply(Integer input) {
+//				return input.toString();
+//			}
+//		}).connectNotify(dragonScoreLabel.text.slot());
+//		rightPane.add(dragonScoreLabel, "cell 1 2");
 
 		Function<Integer, String> integerToStringMapper = new Function<Integer, String>() {
 			@Override
@@ -223,78 +246,105 @@ public class DragonDetailViewController extends ViewController {
 		_dragon.weight().map(integerToStringMapper).connectNotify(dragonWeightLabel.text.slot());
 		rightPane.add(dragonWeightLabel, "cell 1 7");
 
-		// Add a pane that shows buttons allowing the player to complete
-		// actions using the dragon.
-		Group actionPane = new Group(AxisLayout.horizontal());
+		if (actionBarShouldBeDisplayed()) {
+			// Add a pane that shows buttons allowing the player to complete
+			// actions using the dragon.
+			Group actionPane = new Group(AxisLayout.horizontal());
 
-		final Button sendDragonToBreedButton = new Button("Send to Breed");
-		sendDragonToBreedButton.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				_dragon.sendToBreed();
-			}
-		});
-		actionPane.add(sendDragonToBreedButton);
-
-		final Button sendDragonToRaceButton = new Button("Send to Race");
-		sendDragonToRaceButton.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				_dragon.sendToRace();
-			}
-		});
-		actionPane.add(sendDragonToRaceButton);
-
-		final Button sendDragonToTrainButton = new Button("Send to Train");
-		sendDragonToTrainButton.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				_dragon.sendToTrain();
-			}
-		});
-		actionPane.add(sendDragonToTrainButton);
-
-		final Button returnDragonToFarmButton = new Button("Return to Farm");
-		returnDragonToFarmButton.clicked().connect(new UnitSlot() {
-			@Override
-			public void onEmit() {
-				_dragon.makeAvailable();
-			}
-		});
-		actionPane.add(returnDragonToFarmButton);
-
-		// Grey out the buttons that send the dragon to do what it's doing right
-		// now
-		_dragon.state().connectNotify(new Listener<DragonState>() {
-			@Override
-			public void onChange(DragonState value, DragonState oldValue) {
-				sendDragonToBreedButton.setEnabled(true);
-				sendDragonToRaceButton.setEnabled(true);
-				sendDragonToTrainButton.setEnabled(true);
-				returnDragonToFarmButton.setEnabled(true);
-
-				switch(value) {
-				case Available:
-					returnDragonToFarmButton.setEnabled(false);
-					break;
-				case Training:
-					sendDragonToTrainButton.setEnabled(false);
-					break;
-				case Racing:
-					sendDragonToRaceButton.setEnabled(false);
-					break;
-				case Breeding:
-					sendDragonToBreedButton.setEnabled(false);
-					break;
+			final Button sendDragonToBreedButton = new Button("Send to Breed");
+			sendDragonToBreedButton.clicked().connect(new UnitSlot() {
+				@Override
+				public void onEmit() {
+					_dragon.sendToBreed();
 				}
-			}
-		});
+			});
+			actionPane.add(sendDragonToBreedButton);
 
-		rightPane.add(actionPane, "cell 0 8, span 2 1");
+			final Button sendDragonToRaceButton = new Button("Send to Race");
+			sendDragonToRaceButton.clicked().connect(new UnitSlot() {
+				@Override
+				public void onEmit() {
+					_dragon.sendToRace();
+				}
+			});
+			actionPane.add(sendDragonToRaceButton);
+
+			final Button sendDragonToTrainButton = new Button("Send to Train");
+			sendDragonToTrainButton.clicked().connect(new UnitSlot() {
+				@Override
+				public void onEmit() {
+					_dragon.sendToTrain();
+				}
+			});
+			actionPane.add(sendDragonToTrainButton);
+
+			final Button returnDragonToFarmButton = new Button("Return to Farm");
+			returnDragonToFarmButton.clicked().connect(new UnitSlot() {
+				@Override
+				public void onEmit() {
+					_dragon.makeAvailable();
+				}
+			});
+			actionPane.add(returnDragonToFarmButton);
+			
+			final Button sellDragonButton = new Button("Sell dragon");
+			sellDragonButton.clicked().connect(new UnitSlot() {
+				@Override
+				public void onEmit() {
+					parentScreen().presentViewController(new ClosableModalViewController(new SellDragonViewController(_farm, _wallet, _penColumn, _penRow)));
+				}
+			});
+			actionPane.add(sellDragonButton);
+			
+			// If we sell the dragon out of the farm, dismiss this view so we
+			// go back to the farm after closing the sell view.
+			_farm.dragonForPen(_penRow, _penColumn).connect(new Listener<Dragon>() {
+				@Override
+				public void onChange(Dragon value, Dragon oldValue) {
+					if (value == null) {
+						parentScreen().dismissViewController(DragonDetailViewController.this);
+						_farm.dragonForPen(_penRow, _penColumn).disconnect(this);
+					}
+				}
+			});
+			
+			// Grey out the buttons that send the dragon to do what it's doing right
+			// now
+			_dragon.state().connectNotify(new Listener<DragonState>() {
+				@Override
+				public void onChange(DragonState value, DragonState oldValue) {
+					sendDragonToBreedButton.setEnabled(true);
+					sendDragonToRaceButton.setEnabled(true);
+					sendDragonToTrainButton.setEnabled(true);
+					returnDragonToFarmButton.setEnabled(true);
+
+					switch(value) {
+					case Available:
+						returnDragonToFarmButton.setEnabled(false);
+						break;
+					case Training:
+						sendDragonToTrainButton.setEnabled(false);
+						break;
+					case Racing:
+						sendDragonToRaceButton.setEnabled(false);
+						break;
+					case Breeding:
+						sendDragonToBreedButton.setEnabled(false);
+						break;
+					}
+				}
+			});
+
+			group.add(actionPane, "cell 0 1, span 2 1");
+		}
 
 		group.add(rightPane, "cell 1 0");
 
 		new ClickableGroup(group); // Make the root group absorb all click events.
 		return group;
+	}
+	
+	private boolean actionBarShouldBeDisplayed() {
+		return (_farm != null && _wallet != null && _penColumn != null && _penRow != null);
 	}
 }

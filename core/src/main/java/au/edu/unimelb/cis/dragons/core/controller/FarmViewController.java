@@ -145,7 +145,7 @@ public class FarmViewController extends ContainerViewController {
 							parentScreen().presentViewController(new ClosableModalViewController(new BuyPenViewController(_farm, currentColumn, currentRow, _wallet)));
 							break;
 						case Full:
-							parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(_farm.dragonForPen(currentRow, currentColumn).get())));
+							parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(_farm, _wallet, currentColumn, currentRow)));
 							break;
 						case Empty:
 							parentScreen().presentViewController(new ClosableModalViewController(new BuyDragonViewController(_gameState, _farm, _wallet, currentColumn, currentRow)));

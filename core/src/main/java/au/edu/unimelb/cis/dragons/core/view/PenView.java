@@ -111,12 +111,17 @@ public class PenView extends View {
 				if (value != null) {
 					switch(value) {
 					case Empty:
+						resetDragonStateText();
+						dragonName().update("");
 						_penEmptyText.setVisible(true);
 						break;
 					case Full:
 						_penDragonText.setVisible(true);
+						_dragonState.updateForce(_dragonState.get());
 						break;
 					case Locked:
+						resetDragonStateText();
+						dragonName().update("");
 						_penLockedText.setVisible(true);
 						break;
 					default:
