@@ -69,28 +69,24 @@ public class BuyDragonViewController extends ViewController {
 		// Create a controller for every pen and add it to this view as a sub view controller.
 		for (int i = 0; i < NUM_ROWS; i++) {
 			for (int j = 0; j < NUM_COLUMNS; j++) {
+				// Group to contain both the pen view and the button to buy the dragon.
 				Group penGroup = new Group(AxisLayout.vertical());
 				penGroup.setStyles(Style.BACKGROUND.is(Background.solid(0xFFFFFFFF)));
-				
+
 				PenView penView = new PenView();
-				
 				final Dragon dragon = _dragonGenerator.createRandomDragon(10);
 				dragon.state().connectNotify(penView.dragonState().slot());
 				dragon.name().connectNotify(penView.dragonName().slot());
-				
 				penView.clicked().connect(new UnitSlot() {
 					@Override
 					public void onEmit() {
 						parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(dragon)));
 					}
 				});
-				
 				penGroup.add(penView.view());
 				
-				Button buyButton = new Button("Buy " + j);
-				
+				Button buyButton = new Button("Buy " + dragon.name().get());
 				final Integer goldToBuyDragon = 100;
-				
 				buyButton.clicked().connect(new UnitSlot() {
 					@Override
 					public void onEmit() {
