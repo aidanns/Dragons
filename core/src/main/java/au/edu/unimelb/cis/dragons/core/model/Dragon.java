@@ -595,6 +595,16 @@ public class Dragon {
     		}
     	}
     };
+    
+    /**
+     * Maps between strings and the integer that they represent.
+     */
+    private Function<String, Integer> _stringToIntegerMapper = new Function<String, Integer>() {
+    	@Override
+    	public Integer apply(String input) {
+    		return Integer.parseInt(input);
+    	}
+    };
 
     /**
      * @return The base speed for a dragon.
@@ -611,6 +621,11 @@ public class Dragon {
     /** @return Speed bonus from having a lean physique */
     private ValueView<Integer> speedBonusPhysique() {
     	return physique().map(new AttributeBonusMapper().add(Phenotype.LeanPhysique, 2));
+    }
+    
+    /** @return Number of races of speed training that remain. */
+    public ValueView<Integer> speedTrainingRacesRemaining() {
+    	return _gameState.valueForKey(GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
     }
 
     /** @return Speed bonus from training */
@@ -657,6 +672,11 @@ public class Dragon {
     /** @return Endurance bonuses from lung size */
     private ValueView<Integer> enduranceBonusLungs() {
     	return lungSize().map(new AttributeBonusMapper().add(Phenotype.LargeLungs, 2).add(Phenotype.MediumLungs, 1));
+    }
+    
+    /** @return Number of races of endurance training that remain. */
+    public ValueView<Integer> enduranceTrainingRacesRemaining() {
+    	return _gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
     }
 
     /** @return Endurance bonuses from training */
@@ -708,6 +728,11 @@ public class Dragon {
     	return _gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
     
+    /** @return Number of races of balance training that remain. */
+    public ValueView<Integer> balanceTrainingRacesRemaining() {
+    	return _gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
+    }
+    
     /**
      * Train a dragon to have increased balance for the specified number of races.
      * @param races Number of races to be trained for.
@@ -750,6 +775,11 @@ public class Dragon {
     /** @return Bonus weight from training. */
     private ValueView<Integer> weightBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
+    }
+    
+    /** @return Number of races of weight training that remain. */
+    public ValueView<Integer> weightTrainingRacesRemaining() {
+    	return _gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
     }
     
     /**

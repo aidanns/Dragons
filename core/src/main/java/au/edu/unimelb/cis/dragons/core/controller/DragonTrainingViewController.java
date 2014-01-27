@@ -1,5 +1,6 @@
 package au.edu.unimelb.cis.dragons.core.controller;
 
+import react.Function;
 import react.UnitSlot;
 import tripleplay.ui.Button;
 import tripleplay.ui.Group;
@@ -34,6 +35,17 @@ public class DragonTrainingViewController extends ViewController {
 	protected Group createInterface() {
 		Group group = new Group(AxisLayout.vertical());
 
+		Function<Integer, String> integerToStringMapper = new Function<Integer, String>() {
+			@Override
+			public String apply(Integer input) {
+				return input.toString();
+			}
+		};
+
+		TopBarEntryViewController goldView = new TopBarEntryViewController("$");
+		_wallet.gold().map(integerToStringMapper).connectNotify(goldView.valueLabel().text.slot());
+		group.add(goldView.view());
+
 		PenView penView = new PenView();
 		penView.penState().update(PenState.Full);
 		_dragon.name().connectNotify(penView.dragonName().slot());
@@ -45,6 +57,7 @@ public class DragonTrainingViewController extends ViewController {
 
 		Group buttonGroup = new Group(AxisLayout.horizontal());
 
+		Group speedGroup = new Group(AxisLayout.vertical());
 		Button trainSpeedButton = new Button("Train Speed");
 		trainSpeedButton.clicked().connect(new UnitSlot() {
 			@Override
@@ -57,8 +70,13 @@ public class DragonTrainingViewController extends ViewController {
 				}
 			}
 		});
-		buttonGroup.add(trainSpeedButton);
+		speedGroup.add(trainSpeedButton);
+		TopBarEntryViewController speedRemainingView = new TopBarEntryViewController("Remaining");
+		_dragon.speedTrainingRacesRemaining().map(integerToStringMapper).connectNotify(speedRemainingView.valueLabel().text.slot());
+		speedGroup.add(speedRemainingView.view());
+		buttonGroup.add(speedGroup);
 
+		Group enduranceGroup = new Group(AxisLayout.vertical());
 		Button trainEnduranceButton = new Button("Train Endurance");
 		trainEnduranceButton.clicked().connect(new UnitSlot() {
 			@Override
@@ -71,8 +89,13 @@ public class DragonTrainingViewController extends ViewController {
 				}
 			}
 		});
-		buttonGroup.add(trainEnduranceButton);
+		enduranceGroup.add(trainEnduranceButton);
+		TopBarEntryViewController enduranceRemainingView = new TopBarEntryViewController("Remaining");
+		_dragon.enduranceTrainingRacesRemaining().map(integerToStringMapper).connectNotify(enduranceRemainingView.valueLabel().text.slot());
+		enduranceGroup.add(enduranceRemainingView.view());
+		buttonGroup.add(enduranceGroup);
 
+		Group balanceGroup = new Group(AxisLayout.vertical());
 		Button trainBalanceButton = new Button("Train Balance");
 		trainBalanceButton.clicked().connect(new UnitSlot() {
 			@Override
@@ -85,8 +108,13 @@ public class DragonTrainingViewController extends ViewController {
 				}
 			}
 		});
-		buttonGroup.add(trainBalanceButton);
+		balanceGroup.add(trainBalanceButton);
+		TopBarEntryViewController balanceRemainingView = new TopBarEntryViewController("Remaining");
+		_dragon.balanceTrainingRacesRemaining().map(integerToStringMapper).connectNotify(balanceRemainingView.valueLabel().text.slot());
+		balanceGroup.add(balanceRemainingView.view());
+		buttonGroup.add(balanceGroup);
 
+		Group weightGroup = new Group(AxisLayout.vertical());
 		Button trainWeightButton = new Button("Train Weight");
 		trainWeightButton.clicked().connect(new UnitSlot() {
 			@Override
@@ -99,7 +127,11 @@ public class DragonTrainingViewController extends ViewController {
 				}
 			}
 		});
-		buttonGroup.add(trainWeightButton);
+		weightGroup.add(trainWeightButton);
+		TopBarEntryViewController weightRemainingView = new TopBarEntryViewController("Remaining");
+		_dragon.weightTrainingRacesRemaining().map(integerToStringMapper).connectNotify(weightRemainingView.valueLabel().text.slot());
+		weightGroup.add(weightRemainingView.view());
+		buttonGroup.add(weightGroup);
 
 		group.add(buttonGroup);
 
