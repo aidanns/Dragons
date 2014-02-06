@@ -54,7 +54,7 @@ public class BuyPenViewController extends ViewController {
 					_wallet.subtractGold(goldToUnlockNextPen);
 					parentScreen().dismissViewController(BuyPenViewController.this);
 				} else {
-					new Alert("Unlocking the next pen costs " + goldToUnlockNextPen + " gold. You do not have enough.").displayOnScreen(parentScreen());;
+					new Alert("Unlocking the next pen costs " + goldToUnlockNextPen + " gold. You do not have enough.").displayOnScreen(parentScreen());
 				}
 			}
 		});	

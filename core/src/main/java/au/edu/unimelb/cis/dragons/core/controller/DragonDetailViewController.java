@@ -2,6 +2,7 @@ package au.edu.unimelb.cis.dragons.core.controller;
 
 import static au.edu.unimelb.cis.dragons.core.GlobalConfig.*;
 import static playn.core.PlayN.assets;
+import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.genetics.Allele;
 import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
@@ -32,6 +33,7 @@ public class DragonDetailViewController extends ViewController {
 	// The dragon that this screen is displaying.
 	private Dragon _dragon;
 	
+	private GameState _gameState;
 	private Farm _farm;
 	private Wallet _wallet;
 	private Integer _penColumn;
@@ -53,7 +55,8 @@ public class DragonDetailViewController extends ViewController {
 	 * @param penColumn The column of the pen that the dragon is in.
 	 * @param penRow The row of the pen that the dragon is in.
 	 */
-	public DragonDetailViewController(Farm farm, Wallet wallet, Integer penColumn, Integer penRow) {
+	public DragonDetailViewController(GameState gameState, Farm farm, Wallet wallet, Integer penColumn, Integer penRow) {
+		_gameState = gameState;
 		_farm = farm;
 		_wallet = wallet;
 		_penColumn = penColumn;
@@ -264,7 +267,7 @@ public class DragonDetailViewController extends ViewController {
 			sendDragonToRaceButton.clicked().connect(new UnitSlot() {
 				@Override
 				public void onEmit() {
-					_dragon.sendToRace();
+					parentScreen().presentViewController(new ClosableModalViewController(new RaceSelectionViewController(_gameState, _dragon, _wallet)));
 				}
 			});
 			actionPane.add(sendDragonToRaceButton);
