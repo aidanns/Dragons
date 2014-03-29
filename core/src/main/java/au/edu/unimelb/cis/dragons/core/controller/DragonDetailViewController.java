@@ -258,7 +258,7 @@ public class DragonDetailViewController extends ViewController {
 			sendDragonToBreedButton.clicked().connect(new UnitSlot() {
 				@Override
 				public void onEmit() {
-					_dragon.sendToBreed();
+					parentScreen().presentViewController(new ClosableModalViewController(new BreedingViewController(_gameState, _dragon)));
 				}
 			});
 			actionPane.add(sendDragonToBreedButton);
