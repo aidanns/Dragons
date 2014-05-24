@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.Physique;
-
+/**
+ * Tests for {@link Gene.Physique}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class PhysiqueTest {
     
-    private Physique _physique = null;
+    private Gene _physique = null;
 
     @Before
     public void setUp() throws Exception {
-        _physique = new Physique();
+        _physique = Gene.Physique;
     }
 
     @After

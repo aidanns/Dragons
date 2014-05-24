@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.FeetType;
-
+/**
+ * Tests for {@link Gene.FeetType}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class FeetTypeTest {
 
-    private FeetType _feetType = null;
+    private Gene _feetType = null;
 
     @Before
     public void setUp() throws Exception {
-        _feetType = new FeetType();
+        _feetType = Gene.FeetType;
     }
 
     @After

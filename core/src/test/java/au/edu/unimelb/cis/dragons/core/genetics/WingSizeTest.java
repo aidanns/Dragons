@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.WingSize;
-
+/**
+ * Tests for {@link Gene.WingSize}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class WingSizeTest {
     
-    private WingSize _wingSize = null;
+    private Gene _wingSize = null;
 
     @Before
     public void setUp() throws Exception {
-        _wingSize = new WingSize();
+        _wingSize = Gene.WingSize;
     }
 
     @After

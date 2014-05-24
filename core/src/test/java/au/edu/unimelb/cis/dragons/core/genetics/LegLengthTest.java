@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.LegLength;
-
+/**
+ * Tests for {@link Gene.LegLength}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class LegLengthTest {
     
-    private LegLength _legLength = null;
+    private Gene _legLength = null;
 
     @Before
     public void setUp() throws Exception {
-        _legLength = new LegLength();
+        _legLength = Gene.LegLength;
     }
 
     @After

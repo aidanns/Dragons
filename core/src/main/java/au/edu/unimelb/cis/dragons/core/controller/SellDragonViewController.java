@@ -11,8 +11,11 @@ import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import au.edu.unimelb.cis.dragons.core.view.PenView;
 
+// TODO (aidanns): Fix NPE when selling flamey.
+
 /**
  * View Controller to allow the player to sell a dragon to the dragon guilde.
+ * 
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class SellDragonViewController extends ViewController {

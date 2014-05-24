@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.CoatType;
-
+/**
+ * Tests for {@link Gene.CoatType}
+ * 
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class CoatTypeTest {
     
-    private CoatType _coatType = null;
+    private Gene _coatType = null;
 
     @Before
     public void setUp() throws Exception {
-        _coatType = new CoatType();
+        _coatType = Gene.CoatType;
     }
 
     @After

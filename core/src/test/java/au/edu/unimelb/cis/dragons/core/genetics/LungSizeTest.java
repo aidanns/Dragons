@@ -6,15 +6,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.LungSize;
-
 public class LungSizeTest {
 
-    private LungSize _lungSize = null;
+    private Gene _lungSize = null;
 
     @Before
     public void setUp() throws Exception {
-        _lungSize = new LungSize();
+        _lungSize = Gene.LungSize;
     }
 
     @After

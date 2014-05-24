@@ -13,19 +13,13 @@ import react.ValueView;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.MultipleSourceValueViewBuilder;
 import au.edu.unimelb.cis.dragons.core.genetics.Allele;
+import au.edu.unimelb.cis.dragons.core.genetics.Gene;
 import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.CoatType;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.FeetType;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.HeartSize;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.LegLength;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.LungSize;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.Physique;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.TailLength;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.WingSize;
 
 /**
- * Represents an individual dragon within the game.
- * Wraps the GameState to provide mediated access to it from the controllers.
+ * Represents an individual dragon within the game. Wraps the GameState to provide mediated access 
+ * to it from the controllers.
+ * 
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class Dragon {
@@ -180,26 +174,26 @@ public class Dragon {
      * @param id The id to store this dragon at.
      */
     private Dragon(GameState gameState, Integer id) {
-        this(gameState, id, new LegLength(), new FeetType(), new CoatType(),
-                new WingSize(), new TailLength(), new Physique(),
-                new LungSize(), new HeartSize());
+        this(gameState, id, Gene.LegLength, Gene.FeetType, Gene.CoatType,
+                Gene.WingSize, Gene.TailLength, Gene.Physique,
+                Gene.LungSize, Gene.HeartSize);
     }
 
     // These are used to convert between allele and phenotype for each gene.
-    private final LegLength _legLength;
-    private final FeetType _feetType;
-    private final CoatType _coatType;
-    private final WingSize _wingSize;
-    private final TailLength _tailLength;
-    private final Physique _physique;
-    private final LungSize _lungSize;
-    private final HeartSize _heartSize;
+    private final Gene _legLength;
+    private final Gene _feetType;
+    private final Gene _coatType;
+    private final Gene _wingSize;
+    private final Gene _tailLength;
+    private final Gene _physique;
+    private final Gene _lungSize;
+    private final Gene _heartSize;
 
     // Designated constructor.
-    /* package */ Dragon(GameState gameState, Integer id, LegLength legLength,
-            FeetType feetType, CoatType coatType, WingSize wingSize,
-            TailLength tailLength, Physique physique, LungSize lungSize,
-            HeartSize heartSize) {
+    /* package */ Dragon(GameState gameState, Integer id, Gene legLength,
+    		Gene feetType, Gene coatType, Gene wingSize,
+    		Gene tailLength, Gene physique, Gene lungSize,
+    		Gene heartSize) {
         _gameState = gameState;
         _id = id;
         _legLength = legLength;

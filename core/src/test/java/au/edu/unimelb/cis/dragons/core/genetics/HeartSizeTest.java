@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.HeartSize;
-
+/**
+ * Tests for {@link Gene.HeartSize}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class HeartSizeTest {
 
-    private HeartSize _heartSize = null;
+    private Gene _heartSize = null;
 
     @Before
     public void setUp() throws Exception {
-        _heartSize = new HeartSize();
+        _heartSize = Gene.HeartSize;
     }
 
     @After

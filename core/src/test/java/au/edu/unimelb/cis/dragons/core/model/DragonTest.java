@@ -6,61 +6,64 @@ import static org.mockito.Mockito.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import react.Value;
 import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.genetics.Allele;
+import au.edu.unimelb.cis.dragons.core.genetics.Gene;
 import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.CoatType;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.FeetType;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.HeartSize;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.LegLength;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.LungSize;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.Physique;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.TailLength;
-import au.edu.unimelb.cis.dragons.core.genetics.genes.WingSize;
 
+/**
+ * Tests for {@link Dragon}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class DragonTest {
-    
+
     private static Integer _id = 0;
-    private GameState _gameStateMock = null;
-    private LegLength _legLengthMock = null;
-    private FeetType _feetTypeMock = null;
-    private CoatType _coatTypeMock = null;
-    private WingSize _wingSizeMock = null;
-    private TailLength _tailLengthMock = null;
-    private Physique _physiqueMock = null;
-    private LungSize _lungSizeMock = null;
-    private HeartSize _heartSizeMock = null;
-    private Dragon _dragon = null;
+
+    @Mock
+    private GameState _gameStateMock;
+
+    @Mock
+    private Gene _legLengthMock;
+
+    @Mock
+    private Gene _feetTypeMock;
+
+    @Mock
+    private Gene _coatTypeMock;
+
+    @Mock
+    private Gene _wingSizeMock;
+
+    @Mock
+    private Gene _tailLengthMock;
+
+    @Mock
+    private Gene _physiqueMock;
+
+    @Mock
+    private Gene _lungSizeMock;
+
+    @Mock
+    private Gene _heartSizeMock;
+
+    @Mock
+    private Dragon _dragon;
 
     @Before
     public void setUp() throws Exception {
-        _gameStateMock = mock(GameState.class);
-        _legLengthMock = mock(LegLength.class);
-        _feetTypeMock = mock(FeetType.class);
-        _coatTypeMock = mock(CoatType.class);
-        _wingSizeMock = mock(WingSize.class);
-        _tailLengthMock = mock(TailLength.class);
-        _physiqueMock = mock(Physique.class);
-        _lungSizeMock = mock(LungSize.class);
-        _heartSizeMock = mock(HeartSize.class);
-        _dragon = new Dragon(_gameStateMock, _id, _legLengthMock, _feetTypeMock, 
-                _coatTypeMock, _wingSizeMock, _tailLengthMock, _physiqueMock, 
+    	MockitoAnnotations.initMocks(this);
+        _dragon = new Dragon(_gameStateMock, _id, _legLengthMock, _feetTypeMock,
+                _coatTypeMock, _wingSizeMock, _tailLengthMock, _physiqueMock,
                 _lungSizeMock, _heartSizeMock);
     }
 
     @After
     public void tearDown() throws Exception {
-        _gameStateMock = null;
-        _legLengthMock = null;
-        _feetTypeMock = null;
-        _coatTypeMock = null;
-        _wingSizeMock = null;
-        _tailLengthMock = null;
-        _physiqueMock = null;
-        _lungSizeMock = null;
-        _heartSizeMock = null;
         _dragon = null;
     }
 
@@ -68,7 +71,7 @@ public class DragonTest {
     public void returnsId() {
         assertEquals(_dragon.id(), _id);
     }
-    
+
     @Test
     public void legLengthAlleleOne() {
         when(_gameStateMock.valueForKey(
@@ -76,7 +79,7 @@ public class DragonTest {
                         Value.create(Allele.ShortLegs.toString()));
         assertEquals(Allele.ShortLegs, _dragon.legLengthAlleleOne().get());
     }
-    
+
     @Test
     public void legLengthAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -92,7 +95,7 @@ public class DragonTest {
                         Value.create(Allele.ClawedFeet.toString()));
         assertEquals(Allele.ClawedFeet, _dragon.feetTypeAlleleOne().get());
     }
-    
+
     @Test
     public void feetTypeAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -108,7 +111,7 @@ public class DragonTest {
                         Value.create(Allele.ScaledCoat.toString()));
         assertEquals(Allele.ScaledCoat, _dragon.coatTypeAlleleOne().get());
     }
-    
+
     @Test
     public void coatTypeAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -124,7 +127,7 @@ public class DragonTest {
                         Value.create(Allele.SmallWings.toString()));
         assertEquals(Allele.SmallWings, _dragon.wingSizeAlleleOne().get());
     }
-    
+
     @Test
     public void wingSizeAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -140,7 +143,7 @@ public class DragonTest {
                         Value.create(Allele.MuscularPhysique.toString()));
         assertEquals(Allele.MuscularPhysique, _dragon.physiqueAlleleOne().get());
     }
-    
+
     @Test
     public void physiqueAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -156,7 +159,7 @@ public class DragonTest {
                         Value.create(Allele.AdditiveLungs.toString()));
         assertEquals(Allele.AdditiveLungs, _dragon.lungSizeAlleleOne().get());
     }
-    
+
     @Test
     public void lungSizeAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -172,7 +175,7 @@ public class DragonTest {
                         Value.create(Allele.AdditiveHeart.toString()));
         assertEquals(Allele.AdditiveHeart, _dragon.heartSizeAlleleOne().get());
     }
-    
+
     @Test
     public void heartSizeAlleleTwo() {
         when(_gameStateMock.valueForKey(
@@ -180,7 +183,7 @@ public class DragonTest {
                         Value.create(Allele.PlainHeart.toString()));
         assertEquals(Allele.PlainHeart, _dragon.heartSizeAlleleTwo().get());
     }
-    
+
     @Test
     public void legLengthPhenotype() {
         when(_gameStateMock.valueForKey(
@@ -191,7 +194,7 @@ public class DragonTest {
                         Value.create(Allele.LongLegs.toString()));
         when(_legLengthMock.getPhenotypeForGenotype(
                 Allele.ShortLegs, Allele.LongLegs)).thenReturn(Phenotype.ShortLegs);
-        
+
         assertEquals(Phenotype.ShortLegs, _dragon.legLength().get());
     }
 
@@ -205,7 +208,7 @@ public class DragonTest {
                         Value.create(Allele.WebbedFeet.toString()));
         when(_feetTypeMock.getPhenotypeForGenotype(
                 Allele.ClawedFeet, Allele.WebbedFeet)).thenReturn(Phenotype.ClawedFeet);
-        
+
         assertEquals(Phenotype.ClawedFeet, _dragon.feetType().get());
     }
 
@@ -219,7 +222,7 @@ public class DragonTest {
                         Value.create(Allele.FurryCoat.toString()));
         when(_coatTypeMock.getPhenotypeForGenotype(
                 Allele.ScaledCoat, Allele.FurryCoat)).thenReturn(Phenotype.ScaledCoat);
-        
+
         assertEquals(Phenotype.ScaledCoat, _dragon.coatType().get());
     }
 
@@ -233,7 +236,7 @@ public class DragonTest {
                         Value.create(Allele.LargeWings.toString()));
         when(_wingSizeMock.getPhenotypeForGenotype(
                 Allele.SmallWings, Allele.LargeWings)).thenReturn(Phenotype.SmallWings);
-        
+
         assertEquals(Phenotype.SmallWings, _dragon.wingSize().get());
     }
 
@@ -247,7 +250,7 @@ public class DragonTest {
                         Value.create(Allele.LongTail.toString()));
         when(_tailLengthMock.getPhenotypeForGenotype(
                 Allele.ShortTail, Allele.LongTail)).thenReturn(Phenotype.ShortTail);
-        
+
         assertEquals(Phenotype.ShortTail, _dragon.tailLength().get());
     }
 
@@ -261,7 +264,7 @@ public class DragonTest {
                         Value.create(Allele.LeanPhysique.toString()));
         when(_physiqueMock.getPhenotypeForGenotype(
                 Allele.MuscularPhysique, Allele.LeanPhysique)).thenReturn(Phenotype.MuscularPhysique);
-        
+
         assertEquals(Phenotype.MuscularPhysique, _dragon.physique().get());
     }
 
@@ -275,7 +278,7 @@ public class DragonTest {
                         Value.create(Allele.PlainLungs.toString()));
         when(_lungSizeMock.getPhenotypeForGenotype(
                 Allele.AdditiveLungs, Allele.PlainLungs)).thenReturn(Phenotype.MediumLungs);
-        
+
         assertEquals(Phenotype.MediumLungs, _dragon.lungSize().get());
     }
 
@@ -289,10 +292,10 @@ public class DragonTest {
                         Value.create(Allele.PlainHeart.toString()));
         when(_heartSizeMock.getPhenotypeForGenotype(
                 Allele.AdditiveHeart, Allele.PlainHeart)).thenReturn(Phenotype.MediumHeart);
-        
+
         assertEquals(Phenotype.MediumHeart, _dragon.heartSize().get());
     }
-    
+
     @Test
     public void speedAttributeBase() {
         when(_gameStateMock.valueForKey(
@@ -314,10 +317,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(4), _dragon.speed().get());
     }
-    
+
     @Test
     public void speedAttributeTrainingBonus() {
         when(_gameStateMock.valueForKey(
@@ -339,10 +342,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("1"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.speed().get());
     }
-    
+
     @Test
     public void speedAttributeLongLegsBonus() {
         when(_gameStateMock.valueForKey(
@@ -364,10 +367,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.speed().get());
     }
-    
+
     @Test
     public void speedAttributeLeanPhysiqueBonus() {
         when(_gameStateMock.valueForKey(
@@ -389,10 +392,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.speed().get());
     }
-    
+
     @Test
     public void enduranceAttributeBase() {
         when(_gameStateMock.valueForKey(
@@ -414,10 +417,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(4), _dragon.endurance().get());
     }
-    
+
     @Test
     public void enduranceAttributeTrainingBonus() {
         when(_gameStateMock.valueForKey(
@@ -439,10 +442,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("1"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.endurance().get());
     }
-    
+
     @Test
     public void enduranceAttributeMediumHeartBonus() {
         when(_gameStateMock.valueForKey(
@@ -464,10 +467,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(5), _dragon.endurance().get());
     }
-    
+
     @Test
     public void enduranceAttributeLargeHeartBonus() {
         when(_gameStateMock.valueForKey(
@@ -489,10 +492,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.endurance().get());
     }
-    
+
     @Test
     public void enduranceAttributeMediumLungsBonus() {
         when(_gameStateMock.valueForKey(
@@ -514,10 +517,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(5), _dragon.endurance().get());
     }
-    
+
     @Test
     public void enduranceAttributeLargeLungsBonus() {
         when(_gameStateMock.valueForKey(
@@ -539,10 +542,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.endurance().get());
     }
-    
+
     @Test
     public void balanceAttributeBase() {
         when(_gameStateMock.valueForKey(
@@ -564,10 +567,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(4), _dragon.balance().get());
     }
-    
+
     @Test
     public void balanceTrainingBonus() {
         when(_gameStateMock.valueForKey(
@@ -589,10 +592,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("1"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.balance().get());
     }
-    
+
     public void balanceAttributeLargeWingsBonus() {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
@@ -613,10 +616,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.balance().get());
     }
-    
+
     public void balanceAttributeLongTailBonus() {
         when(_gameStateMock.valueForKey(
                 GameState.Key.dragonWingSizeAlleleOneKeyForId(_id))).thenReturn(
@@ -637,10 +640,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.balance().get());
     }
-    
+
     @Test
     public void weightAttributeBase() {
         when(_gameStateMock.valueForKey(
@@ -662,10 +665,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(4), _dragon.weight().get());
     }
-    
+
     @Test
     public void weightAttributeTrainingBonus() {
         when(_gameStateMock.valueForKey(
@@ -687,10 +690,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("1"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.weight().get());
     }
-    
+
     @Test
     public void weightAttributeFurryCoatBonus() {
         when(_gameStateMock.valueForKey(
@@ -712,10 +715,10 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.weight().get());
     }
-    
+
     @Test
     public void weightAttributeMuscularPhysiqueBonus() {
         when(_gameStateMock.valueForKey(
@@ -737,7 +740,7 @@ public class DragonTest {
         when(_gameStateMock.valueForKey(
         		GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id))).thenReturn(
         				Value.create("0"));
-        
+
         assertEquals(Integer.valueOf(6), _dragon.weight().get());
     }
 }

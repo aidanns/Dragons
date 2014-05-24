@@ -6,15 +6,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import au.edu.unimelb.cis.dragons.core.genetics.genes.TailLength;
-
+/**
+ * Tests for {@link Gene.TailLength}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class TailLengthTest {
     
-    private TailLength _tailLength = null;
+    private Gene _tailLength = null;
 
     @Before
     public void setUp() throws Exception {
-        _tailLength = new TailLength();
+        _tailLength = Gene.TailLength;
     }
 
     @After
