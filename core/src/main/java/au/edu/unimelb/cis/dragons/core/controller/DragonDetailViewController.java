@@ -8,9 +8,11 @@ import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import react.Function;
 import react.UnitSlot;
+import react.Value;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
@@ -261,6 +263,31 @@ public class DragonDetailViewController extends ViewController {
 					parentScreen().presentViewController(new ClosableModalViewController(new BreedingViewController(_gameState, _dragon)));
 				}
 			});
+			
+			// Create a value to show whether there is at least one pen free in the farm.
+			final Value<Boolean> pensAreAvailable = Value.create(Boolean.FALSE);
+			UnitSlot updatePensAvailable = new UnitSlot() {
+				@Override
+				public void onEmit() {
+					boolean foundAvailablePen = false;
+					for (int row = 0; row < Farm.NUM_ROWS; ++row) {
+						for (int column = 0; column < Farm.NUM_COLUMNS; ++column) {
+							if (_farm.stateForPen(row, column).get().equals(PenState.Empty)) {
+								foundAvailablePen = true;
+							}
+						}
+					}
+					pensAreAvailable.update(foundAvailablePen);
+				}
+			};
+			for (int row = 0; row < Farm.NUM_ROWS; ++row) {
+				for (int column = 0; column < Farm.NUM_COLUMNS; ++column) {
+					_farm.stateForPen(row, column).connectNotify(updatePensAvailable);
+				}
+			}
+			
+			// Only allow clicking the breed button if there is a free spot on the farm.
+			sendDragonToBreedButton.bindEnabled(pensAreAvailable);
 			actionPane.add(sendDragonToBreedButton);
 
 			final Button sendDragonToRaceButton = new Button("Send to Race");

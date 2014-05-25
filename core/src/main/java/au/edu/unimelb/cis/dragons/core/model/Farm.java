@@ -18,10 +18,14 @@ import au.edu.unimelb.cis.dragons.core.model.Dragon.DragonState;
 /**
  * Representation of the farm. Wraps the GameState to give simplified access to
  * state related to the farm.
+ * 
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class Farm {
 
+	public static int NUM_COLUMNS = 4;
+	public static int NUM_ROWS = 2;
+	
 	/**
 	 * Represents the different possible states for a pen within the farm.
 	 */
@@ -144,6 +148,7 @@ public class Farm {
 
 	/**
 	 * Set the Dragon that inhabits a certain pen, opening it if needed.
+	 * 
 	 * @param dragon The dragon that should be in the pen.
 	 * @param row The row of the pen.
 	 * @param column The column of the pen.

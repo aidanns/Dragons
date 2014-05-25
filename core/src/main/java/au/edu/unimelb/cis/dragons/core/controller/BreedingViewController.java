@@ -5,6 +5,8 @@ import au.edu.unimelb.cis.dragons.core.GameState;
 import au.edu.unimelb.cis.dragons.core.genetics.Gene;
 import au.edu.unimelb.cis.dragons.core.model.BreedingMinigameState;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
+import au.edu.unimelb.cis.dragons.core.model.Farm;
+import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
 import au.edu.unimelb.cis.dragons.core.view.DragonBreedingInfoView;
 import react.Function;
 import react.UnitSlot;
@@ -20,17 +22,21 @@ import tripleplay.ui.layout.AxisLayout;
  */
 public class BreedingViewController extends ViewController {
 
-	private GameState _gameState;
+	// Farm to insert newly bred dragons in to.
+	private Farm _farm;
+	
 	// The two dragons that are being bred.
 	private Dragon _dragon;
 	private Dragon _otherDragon;
 	// The current state of the minigame.
 	private BreedingMinigameState _breedingMinigameState;
+	private GameState _gameState;
 
 	public BreedingViewController(GameState gameState, Dragon dragon) {
 		_gameState = gameState;
+		_farm = new Farm(_gameState);
 		_dragon = dragon;
-		DragonGenerator generator = new DragonGenerator(_gameState);
+		DragonGenerator generator = new DragonGenerator(gameState);
 		_otherDragon = generator.createRandomDragon(2);
 		_breedingMinigameState =
 				new BreedingMinigameState(dragon, _otherDragon);
@@ -177,10 +183,22 @@ public class BreedingViewController extends ViewController {
 		breedBabyDragonButton.clicked().connect(new UnitSlot() {
 			@Override
 			public void onEmit() {
-				// TODO(aidanns): Breed the baby dragon and give the player a choice about where to put it.
+				// Breed a baby dragon and put it in the farm.
+				Dragon babyDragon = Dragon.breedDragons(_gameState, "Bobby", _dragon, _otherDragon);
+				for (int column = 0; column < Farm.NUM_COLUMNS; ++column) {
+					for (int row = 0; row < Farm.NUM_ROWS; ++row) {
+						if (_farm.stateForPen(row, column).get().equals(PenState.Empty)) {
+							// Put the dragon in that pen.
+							_farm.setDragonForPen(babyDragon, row, column);
+							return;
+						}
+					}
+				}
+				
+				// this case before we allow the breeding minigame to start.
 			}
 		});
-		breedBabyDragonButton.bindEnabled(_breedingMinigameState.allStatePairsAreCorrect());
+//		breedBabyDragonButton.bindEnabled(_breedingMinigameState.allStatePairsAreCorrect());
 		middlePane.add(breedBabyDragonButton);
 		
 		group.add(middlePane);

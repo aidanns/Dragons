@@ -6,6 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests for {@link Gene.LungSize}.
+ *  
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
+ */
 public class LungSizeTest {
 
     private Gene _lungSize = null;

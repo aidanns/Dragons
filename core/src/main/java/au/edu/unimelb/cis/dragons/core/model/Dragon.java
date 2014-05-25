@@ -3,6 +3,7 @@ package au.edu.unimelb.cis.dragons.core.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,9 +18,9 @@ import au.edu.unimelb.cis.dragons.core.genetics.Gene;
 import au.edu.unimelb.cis.dragons.core.genetics.Phenotype;
 
 /**
- * Represents an individual dragon within the game. Wraps the GameState to provide mediated access 
+ * Represents an individual dragon within the game. Wraps the GameState to provide mediated access
  * to it from the controllers.
- * 
+ *
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class Dragon {
@@ -127,7 +128,7 @@ public class Dragon {
     	int id = gameState.nextDragonId();
         Dragon dragon = new Dragon(gameState, id);
         dragon.makeAvailable();
-        
+
         gameState.valueForKey(GameState.Key.dragonNameKeyForId(id)).update(name);
         gameState.valueForKey(GameState.Key.dragonScoreKeyForId(id)).update("0");
 
@@ -156,16 +157,51 @@ public class Dragon {
 
         return dragon;
     }
-    
+
     /**
-     * Retrieve a specific dragon already present in the GameState and create 
+     * Retrieve a specific dragon already present in the GameState and create
      * an instance of it.
+     * 
      * @param gameState
      * @param id
      * @return
      */
     public static Dragon retrieveWithId(GameState gameState, Integer id) {
     	return new Dragon(gameState, id);
+    }
+
+    /**
+     * Create a new dragon by breeding two existing dragons.
+     * 
+     * @param gameState
+     * @param name Name for the new dragon.
+     * @param left First dragon to breed.
+     * @param right Second dragon to breed.
+     * @return
+     */
+    public static Dragon breedDragons(GameState gameState, String name, Dragon left, Dragon right) {
+    	Random random = new Random();
+    	Allele legLengthAlleleOne = random.nextDouble() > 0.5 ? left.legLengthAlleleOne().get() : left.legLengthAlleleTwo().get();
+    	Allele legLengthAlleleTwo = random.nextDouble() > 0.5 ? right.legLengthAlleleOne().get() : right.legLengthAlleleTwo().get();
+        Allele feetTypeAlleleOne = random.nextDouble() > 0.5 ? left.feetTypeAlleleOne().get() : left.feetTypeAlleleTwo().get();
+        Allele feetTypeAlleleTwo = random.nextDouble() > 0.5 ? right.feetTypeAlleleOne().get() : right.feetTypeAlleleTwo().get();
+        Allele coatTypeAlleleOne = random.nextDouble() > 0.5 ? left.coatTypeAlleleOne().get() : left.coatTypeAlleleTwo().get();
+        Allele coatTypeAlleleTwo = random.nextDouble() > 0.5 ? right.coatTypeAlleleOne().get() : right.coatTypeAlleleTwo().get();
+        Allele wingSizeAlleleOne = random.nextDouble() > 0.5 ? left.wingSizeAlleleOne().get() : left.wingSizeAlleleTwo().get();
+        Allele wingSizeAlleleTwo = random.nextDouble() > 0.5 ? right.wingSizeAlleleOne().get() : right.wingSizeAlleleTwo().get();
+        Allele tailLengthAlleleOne = random.nextDouble() > 0.5 ? left.tailLengthAlleleOne().get() : left.tailLengthAlleleTwo().get();
+        Allele tailLengthAlleleTwo = random.nextDouble() > 0.5 ? right.tailLengthAlleleOne().get() : right.tailLengthAlleleTwo().get();
+        Allele physiqueAlleleOne = random.nextDouble() > 0.5 ? left.physiqueAlleleOne().get() : left.physiqueAlleleTwo().get();
+        Allele physiqueAlleleTwo = random.nextDouble() > 0.5 ? right.physiqueAlleleOne().get() : right.physiqueAlleleTwo().get();
+        Allele lungSizeAlleleOne = random.nextDouble() > 0.5 ? left.lungSizeAlleleOne().get() : left.lungSizeAlleleTwo().get();
+        Allele lungSizeAlleleTwo = random.nextDouble() > 0.5 ? right.lungSizeAlleleOne().get() : right.lungSizeAlleleTwo().get();
+        Allele heartSizeAlleleOne = random.nextDouble() > 0.5 ? left.heartSizeAlleleOne().get() : left.heartSizeAlleleTwo().get();
+        Allele heartSizeAlleleTwo = random.nextDouble() > 0.5 ? right.heartSizeAlleleOne().get() : right.heartSizeAlleleTwo().get();
+        return Dragon.create(gameState, name, legLengthAlleleOne, legLengthAlleleTwo, 
+        		feetTypeAlleleOne, feetTypeAlleleTwo, coatTypeAlleleOne, coatTypeAlleleTwo, 
+        		wingSizeAlleleOne, wingSizeAlleleTwo, tailLengthAlleleOne, tailLengthAlleleTwo, 
+        		physiqueAlleleOne, physiqueAlleleTwo, lungSizeAlleleOne, lungSizeAlleleTwo, 
+        		heartSizeAlleleOne, heartSizeAlleleTwo);
     }
 
     /**
@@ -589,7 +625,7 @@ public class Dragon {
     		}
     	}
     };
-    
+
     /**
      * Maps between strings and the integer that they represent.
      */
@@ -616,7 +652,7 @@ public class Dragon {
     private ValueView<Integer> speedBonusPhysique() {
     	return physique().map(new AttributeBonusMapper().add(Phenotype.LeanPhysique, 2));
     }
-    
+
     /** @return Number of races of speed training that remain. */
     public ValueView<Integer> speedTrainingRacesRemaining() {
     	return _gameState.valueForKey(GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
@@ -626,7 +662,7 @@ public class Dragon {
     private ValueView<Integer> speedBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonSpeedAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
-    
+
     /**
      * Train a dragon to have increased speed for the specified number of races.
      * @param races Number of races to be trained for.
@@ -667,7 +703,7 @@ public class Dragon {
     private ValueView<Integer> enduranceBonusLungs() {
     	return lungSize().map(new AttributeBonusMapper().add(Phenotype.LargeLungs, 2).add(Phenotype.MediumLungs, 1));
     }
-    
+
     /** @return Number of races of endurance training that remain. */
     public ValueView<Integer> enduranceTrainingRacesRemaining() {
     	return _gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
@@ -677,7 +713,7 @@ public class Dragon {
     private ValueView<Integer> enduranceBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonEnduranceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
-    
+
     /**
      * Train a dragon to have increased endurance for the specified number of races.
      * @param races Number of races to be trained for.
@@ -721,12 +757,12 @@ public class Dragon {
     private ValueView<Integer> balanceBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
-    
+
     /** @return Number of races of balance training that remain. */
     public ValueView<Integer> balanceTrainingRacesRemaining() {
     	return _gameState.valueForKey(GameState.Key.dragonBalanceAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
     }
-    
+
     /**
      * Train a dragon to have increased balance for the specified number of races.
      * @param races Number of races to be trained for.
@@ -770,12 +806,12 @@ public class Dragon {
     private ValueView<Integer> weightBonusTraining() {
     	return _gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id)).map(_trainingRacesRemainingToBonusMapper);
     }
-    
+
     /** @return Number of races of weight training that remain. */
     public ValueView<Integer> weightTrainingRacesRemaining() {
     	return _gameState.valueForKey(GameState.Key.dragonWeightAttributeTrainingRemainingRacesKey(_id)).map(_stringToIntegerMapper);
     }
-    
+
     /**
      * Train a dragon to have increased weight for the specified number of races.
      * @param races Number of races to be trained for.
@@ -799,7 +835,7 @@ public class Dragon {
     				}
     			}, Lists.newArrayList(weightBase(), weightBonusCoat(), weightBonusPhysique(), weightBonusTraining())).valueView();
     }
-    
+
     /**
      * Increment the score of this dragon.
      * @param value The value to increase by.
