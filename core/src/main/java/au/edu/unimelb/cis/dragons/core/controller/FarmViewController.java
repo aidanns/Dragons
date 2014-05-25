@@ -87,8 +87,8 @@ public class FarmViewController extends ContainerViewController {
 	}
 
 	// Size of the grid representing the farm.
-	private int NUM_COLUMNS = 4;
-	private int NUM_ROWS = 2;
+	private int NUM_COLUMNS = Farm.NUM_COLUMNS;
+	private int NUM_ROWS = Farm.NUM_ROWS;
 
 	private int ROW_GAP = 0;
 	private int COL_GAP = 0;
