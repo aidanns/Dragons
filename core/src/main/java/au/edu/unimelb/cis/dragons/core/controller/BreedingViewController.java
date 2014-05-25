@@ -198,7 +198,7 @@ public class BreedingViewController extends ViewController {
 				// this case before we allow the breeding minigame to start.
 			}
 		});
-//		breedBabyDragonButton.bindEnabled(_breedingMinigameState.allStatePairsAreCorrect());
+		breedBabyDragonButton.bindEnabled(_breedingMinigameState.allStatePairsAreCorrect());
 		middlePane.add(breedBabyDragonButton);
 		
 		group.add(middlePane);
