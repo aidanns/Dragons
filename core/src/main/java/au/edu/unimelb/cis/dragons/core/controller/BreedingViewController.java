@@ -178,7 +178,8 @@ public class BreedingViewController extends ViewController {
 										_breedingMinigameState)));
 			}
 		});
-		heartSize.bindEnabled(_breedingMinigameState.heartSizeStatePairsAreCorrect().map(negateFunction));
+		heartSize.bindEnabled(
+				_breedingMinigameState.heartSizeStatePairsAreCorrect().map(negateFunction));
 		middlePane.add(heartSize);
 		
 		Button breedBabyDragonButton = new Button("Breed Baby Dragon");
@@ -186,8 +187,11 @@ public class BreedingViewController extends ViewController {
 			@Override
 			public void onEmit() {
 				// Breed a baby dragon and put it in the farm.
-				final Dragon babyDragon = Dragon.breedDragons(_gameState, "Bobby", _dragon, _otherDragon);
-				final FarmViewController selectBabyDragonPenFarmView = new FarmViewController(_farm, new Wallet(_gameState), _gameState, new FarmViewEmptyPenSelectedDelegate() {
+				final Dragon babyDragon = Dragon.breedDragons(_gameState, "Bobby", _dragon, 
+						_otherDragon);
+				final FarmViewController selectBabyDragonPenFarmView = 
+						new FarmViewController(_farm, new Wallet(_gameState), _gameState, 
+								new FarmViewEmptyPenSelectedDelegate() {
 
 					@Override
 					public void emptyPenWasSelectedAtPosition(PenPosition penPosition) {
@@ -201,7 +205,8 @@ public class BreedingViewController extends ViewController {
 						return true;
 					}
 				});
-				parentScreen().presentViewController(new ClosableModalViewController(selectBabyDragonPenFarmView));
+				parentScreen().presentViewController(
+						new ClosableModalViewController(selectBabyDragonPenFarmView));
 			}
 		});
 		breedBabyDragonButton.bindEnabled(_breedingMinigameState.allStatePairsAreCorrect());
