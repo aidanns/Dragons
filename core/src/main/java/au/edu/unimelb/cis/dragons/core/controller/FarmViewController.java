@@ -8,7 +8,6 @@ import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import au.edu.unimelb.cis.dragons.core.view.PenView;
 import react.Function;
 import react.SignalView;
-import react.Slot;
 import react.UnitSlot;
 import react.ValueView.Listener;
 import tripleplay.ui.Background;
@@ -25,7 +24,31 @@ import tripleplay.ui.layout.TableLayout;
  */
 public class FarmViewController extends ContainerViewController {
 	
-	private static class PenPosition {
+	/**
+	 * Delegate used to decide what to do when an empty pen is clicked on in the farm view.
+	 */
+	public static abstract class FarmViewEmptyPenSelectedDelegate {
+		
+		/**
+		 * Action to take when an empty pen is clicked on.
+		 * 
+		 * @param penPosition The position of the pen.
+		 */
+		public abstract void emptyPenWasSelectedAtPosition(final PenPosition penPosition);
+		
+		/**
+		 * @return Whether the farm view should dismiss itself from the parent screen when after
+		 * completing the action specified by the delegate.
+		 */
+		public boolean farmViewShouldDismissAfterClick() {
+			return false;
+		}
+	}
+	
+	/**
+	 * Represents the position of a pen within the farm.
+	 */
+	public static class PenPosition {
 
 		private final int _column;
 		private final int _row;
@@ -61,6 +84,7 @@ public class FarmViewController extends ContainerViewController {
 
 		/**
 		 * Create a new PenViewController
+		 * 
 		 * @param farm The farm that backs this PenViewController
 		 * @param penIdX Column location of this pen within the farm.
 		 * @param penIdY Row location of this pen within the farm.
@@ -122,9 +146,9 @@ public class FarmViewController extends ContainerViewController {
 	// The GameState that's used to create new dragons in the buy view.
 	private GameState _gameState;
 	
-	// The listener that is called when a dragon is selected by the user.
-	// If null, a default of opening the dragon detail view is used.
-	private Listener<PenPosition> _dragonSelectionListener;
+	// Delegate that is called when an empty pen is selected. If null, a default is selected that
+	// opens the buy dragon view.
+	private FarmViewEmptyPenSelectedDelegate _emptyPenSelectedDelegate;
 	
 	/**
 	 * Create a new FarmViewController.
@@ -135,10 +159,24 @@ public class FarmViewController extends ContainerViewController {
 	 * @param farm The farm that backs this view.
 	 * @param wallet The wallet that backs this view.
 	 * @param gameState
-	 * @param dragonSelectionListener The listener that is called when a dragon is selected.
+	 * @param emptyPenSelectionListener Delegate that implements an action to be carried out when
+	 *     the user clicks on an empty pen.
 	 */
-	public FarmViewController(Farm farm, Wallet wallet, GameState gameState, Slot<PenPosition> dragonSelectionListener) {
-		_dragonSelectionListener = dragonSelectionListener;
+	public FarmViewController(Farm farm, Wallet wallet, GameState gameState, 
+			FarmViewEmptyPenSelectedDelegate emptyPenSelectionListener) {
+		if (emptyPenSelectionListener == null) {
+			_emptyPenSelectedDelegate = new FarmViewEmptyPenSelectedDelegate() {
+				@Override
+				public void emptyPenWasSelectedAtPosition(PenPosition penPosition) {
+					parentScreen().presentViewController(
+							new ClosableModalViewController(
+									new BuyDragonViewController(_gameState, _farm, _wallet, 
+											penPosition.getColumn(), penPosition.getRow())));
+				}
+			};
+		} else {
+			_emptyPenSelectedDelegate = emptyPenSelectionListener;
+		}
 		_farm = farm;
 		_wallet = wallet;
 		_gameState = gameState;
@@ -151,7 +189,7 @@ public class FarmViewController extends ContainerViewController {
 	 * @param wallet
 	 * @param gameState
 	 */
-	public FarmViewController(Farm farm, Wallet wallet, GameState gameState) {
+	public FarmViewController(final Farm farm, Wallet wallet, GameState gameState) {
 		this(farm, wallet, gameState, null);
 	}
 
@@ -184,17 +222,23 @@ public class FarmViewController extends ContainerViewController {
 					public void onEmit() {
 						switch(_farm.stateForPen(currentRow, currentColumn).get()) {
 						case Locked:
-							parentScreen().presentViewController(new ClosableModalViewController(new BuyPenViewController(_farm, currentColumn, currentRow, _wallet)));
+							parentScreen().presentViewController(
+									new ClosableModalViewController(new BuyPenViewController(
+											_farm, currentColumn, currentRow, _wallet)));
 							break;
 						case Full:
-							if (_dragonSelectionListener == null) {
-								parentScreen().presentViewController(new ClosableModalViewController(new DragonDetailViewController(_gameState, _farm, _wallet, currentColumn, currentRow)));
-							} else {
-								_dragonSelectionListener.onChange(new PenPosition(currentColumn, currentRow), null);
-							}
+							parentScreen().presentViewController(
+									new ClosableModalViewController(
+											new DragonDetailViewController(
+													_gameState, _farm, _wallet, currentColumn, 
+													currentRow)));
 							break;
 						case Empty:
-							parentScreen().presentViewController(new ClosableModalViewController(new BuyDragonViewController(_gameState, _farm, _wallet, currentColumn, currentRow)));
+							_emptyPenSelectedDelegate.emptyPenWasSelectedAtPosition(
+									new PenPosition(currentColumn, currentRow));
+							if (_emptyPenSelectedDelegate.farmViewShouldDismissAfterClick()) {
+								parentScreen().dismissViewController(FarmViewController.this);
+							}
 							break;
 						}
 					}

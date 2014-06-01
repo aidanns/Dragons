@@ -2,11 +2,13 @@ package au.edu.unimelb.cis.dragons.core.controller;
 
 import au.edu.unimelb.cis.dragons.core.DragonGenerator;
 import au.edu.unimelb.cis.dragons.core.GameState;
+import au.edu.unimelb.cis.dragons.core.controller.FarmViewController.FarmViewEmptyPenSelectedDelegate;
+import au.edu.unimelb.cis.dragons.core.controller.FarmViewController.PenPosition;
 import au.edu.unimelb.cis.dragons.core.genetics.Gene;
 import au.edu.unimelb.cis.dragons.core.model.BreedingMinigameState;
 import au.edu.unimelb.cis.dragons.core.model.Dragon;
 import au.edu.unimelb.cis.dragons.core.model.Farm;
-import au.edu.unimelb.cis.dragons.core.model.Farm.PenState;
+import au.edu.unimelb.cis.dragons.core.model.Wallet;
 import au.edu.unimelb.cis.dragons.core.view.DragonBreedingInfoView;
 import react.Function;
 import react.UnitSlot;
@@ -184,18 +186,22 @@ public class BreedingViewController extends ViewController {
 			@Override
 			public void onEmit() {
 				// Breed a baby dragon and put it in the farm.
-				Dragon babyDragon = Dragon.breedDragons(_gameState, "Bobby", _dragon, _otherDragon);
-				for (int column = 0; column < Farm.NUM_COLUMNS; ++column) {
-					for (int row = 0; row < Farm.NUM_ROWS; ++row) {
-						if (_farm.stateForPen(row, column).get().equals(PenState.Empty)) {
-							// Put the dragon in that pen.
-							_farm.setDragonForPen(babyDragon, row, column);
-							return;
-						}
+				final Dragon babyDragon = Dragon.breedDragons(_gameState, "Bobby", _dragon, _otherDragon);
+				final FarmViewController selectBabyDragonPenFarmView = new FarmViewController(_farm, new Wallet(_gameState), _gameState, new FarmViewEmptyPenSelectedDelegate() {
+
+					@Override
+					public void emptyPenWasSelectedAtPosition(PenPosition penPosition) {
+						_farm.setDragonForPen(babyDragon, penPosition.getRow(), 
+								penPosition.getColumn());
+						parentScreen().dismissViewController(BreedingViewController.this);
 					}
-				}
-				
-				// this case before we allow the breeding minigame to start.
+
+					@Override
+					public boolean farmViewShouldDismissAfterClick() {
+						return true;
+					}
+				});
+				parentScreen().presentViewController(new ClosableModalViewController(selectBabyDragonPenFarmView));
 			}
 		});
 		breedBabyDragonButton.bindEnabled(_breedingMinigameState.allStatePairsAreCorrect());
